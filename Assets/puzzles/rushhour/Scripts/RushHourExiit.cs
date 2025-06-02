@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class RushHourExit : MonoBehaviour
 {
     [Header("연동")]
@@ -18,22 +18,9 @@ public class RushHourExit : MonoBehaviour
 
     /* --- X 버튼에서 호출 --- */
     public void ExitPuzzle()
-{
-    if (rushHourPuzzle != null)
     {
-        rushHourPuzzle.RestoreMainScene(false); // 오브젝트 삭제 안 함
-    }
-    else
-    {
-        canvasRoot.SetActive(false);
-            Debug.Log("1");
-        }
-}
+        string originalScene = GameManager.Instance.GetOriginalSceneName();
+        SceneManager.LoadScene(originalScene);
 
-    /* === 어디서든 퍼즐 닫기 === */
-    public static void ClosePuzzleIfOpen()
-    {
-        if (Instance != null && Instance.canvasRoot.activeSelf)
-            Instance.ExitPuzzle();
     }
 }

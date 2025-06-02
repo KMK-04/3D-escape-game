@@ -79,33 +79,31 @@ public class RealRushHour : MonoBehaviour
 
     // 블록 이동
     public bool MoveBlock(Block block, int delta)
-    {
-        if (!CanMove(block, delta))
-            return false;
+{
+    if (!CanMove(block, delta))
+        return false;
 
-        // 이전 위치에서 블록 제거
-        RemoveBlock(block);
+    // ① 이전 위치에서 블록 제거
+    RemoveBlock(block);
 
-        // 새 위치로 블록 이동
-        if (block.isHorizontal)
-            block.col += delta;
-        else
-            block.row += delta;
+    // ② 블록 row/col 값 갱신
+    if (block.isHorizontal)
+        block.col += delta;
+    else
+        block.row += delta;
 
-        // 새 위치에 블록 배치
-        PlaceBlock(block, block.row, block.col);
+    // ③ 갱신된 위치로 다시 등록
+    PlaceBlock(block, block.row, block.col);
 
-        // 블록 시각적 위치 업데이트
-        block.UpdatePosition();
+    // ④ 화면상의 Transform 갱신
+    block.UpdatePosition();
 
-        // 목표 블록이 출구에 도달했는지 확인
-        if (block.isGoal)
-        {
-            CheckGameClear(block);
-        }
+    // ⑤ 목표 블록 클리어 체크 (생략)
+    if (block.isGoal)
+        CheckGameClear(block);
 
-        return true;
-    }
+    return true;
+}
 
     // 목표 블록이 출구에 도달했는지 확인하는 메서드
     void CheckGameClear(Block goalBlock)
@@ -203,7 +201,7 @@ public class RealRushHour : MonoBehaviour
             int r = row + (block.isHorizontal ? 0 : i);
             int c = col + (block.isHorizontal ? i : 0);
 
-            if (r >= 0 && r < boardSize && c >= 0 && c >= boardSize)
+            if (r >= 0 && r < boardSize && c >= 0 && c < boardSize)
             {
                 grid[r, c] = block;
             }
