@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/puzzles/TileScene/Scenes/TileScene.unity
     guid: 0aeba08b6c9053f4a89c5a5702f677cd
+  - enabled: 1
+    path: Assets/puzzles/pingpong/Scenes/Pong.unity
+    guid: 227ceccbd83884749a918e2f1fe7fb82
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

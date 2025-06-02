@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 6c5c0455f06c6d940bbc33930d90035c
+timeCreated: 1728533272
+AssetOrigin:
+  serializedVersion: 1
+  productId: 299587
+  packageName: Interactive Justice Scale
+  packageVersion: 1.0
+  assetPath: Assets/JusticeScale/Scripts/Scales/TriggerScale.cs
+  uploadId: 708259

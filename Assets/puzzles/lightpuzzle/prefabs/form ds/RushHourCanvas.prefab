@@ -363,6 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chest: {fileID: 0}
   canvasRoot: {fileID: 0}
+  targetSceneName: TargetScene
 --- !u!1 &8734787774511781092
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,6 +630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chest: {fileID: 0}
   canvasRoot: {fileID: 0}
+  targetSceneName: TargetScene
 --- !u!1001 &22018237784600766
 PrefabInstance:
   m_ObjectHideFlags: 0

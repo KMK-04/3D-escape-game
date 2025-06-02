@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 36164b58f5970fd4888311767a9d485b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 299587
+  packageName: Interactive Justice Scale
+  packageVersion: 1.0
+  assetPath: Assets/JusticeScale/Demo/Scripts/DragAndDrop.cs
+  uploadId: 708259
