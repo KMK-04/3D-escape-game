@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public Vector3 playerPosition; // 플레이어 위치 저장
+    public Vector3 cameraRotation; // 카메라 회전값 저장 (Euler Angles)
     public string originalSceneName; // 원래 씬 이름 저장
     public Transform playerTransform; // 플레이어 오브젝트의 Transform (Inspector에서 할당 또는 자동 설정)
     public List<bool> booleanList; // 정보를 저장하기 위한 boolean 리스트
@@ -45,20 +46,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 플레이어 위치 저장
+    // 플레이어 위치 및 카메라 회전값 저장
     public void SavePlayerPosition(string sceneName)
     {
         GameObject cameraObject = GameObject.FindWithTag("MainCamera");
-        playerTransform = cameraObject.transform;
-        if (playerTransform != null)
+        if (cameraObject != null)
         {
+            playerTransform = cameraObject.transform;
             playerPosition = playerTransform.position; // 플레이어 오브젝트의 현재 위치 저장
+            cameraRotation = playerTransform.eulerAngles; // 카메라의 회전값 저장
             originalSceneName = sceneName;
-            Debug.Log($"플레이어 위치 저장: {playerPosition}, 원래 씬: {sceneName}");
+            Debug.Log($"플레이어 위치 저장: {playerPosition}, 카메라 회전값 저장: {cameraRotation}, 원래 씬: {sceneName}");
         }
         else
         {
-            Debug.LogWarning("플레이어 Transform이 할당되지 않았습니다. 위치를 저장할 수 없습니다.");
+            Debug.LogWarning("MainCamera 태그를 가진 오브젝트를 찾을 수 없습니다. 위치 및 회전값을 저장할 수 없습니다.");
         }
     }
 
@@ -66,6 +68,12 @@ public class GameManager : MonoBehaviour
     public Vector3 GetPlayerPosition()
     {
         return playerPosition;
+    }
+
+    // 카메라 회전값 가져오기
+    public Vector3 GetCameraRotation()
+    {
+        return cameraRotation;
     }
 
     // 원래 씬 이름 가져오기

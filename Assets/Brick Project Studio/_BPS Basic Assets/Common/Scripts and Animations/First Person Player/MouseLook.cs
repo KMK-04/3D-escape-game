@@ -16,6 +16,27 @@ namespace SojaExiles
         {
             // 초기 상태: 마우스 커서를 잠그고 숨김
             SetCursorLock(true);
+
+            // GameManager에서 저장된 카메라 회전값 가져오기
+            Vector3 savedRotation = GameManager.Instance.GetCameraRotation();
+            Debug.Log($"저장된 카메라 회전값 로드: {savedRotation}");
+
+            // 카메라의 X축 회전값 설정 (상하 회전)
+            xRotation = savedRotation.x;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f); // 회전값 제한 적용
+
+            // 카메라의 로컬 회전 설정 (상하 회전)
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+            // 플레이어 본체의 Y축 회전 설정 (좌우 회전)
+            if (playerBody != null)
+            {
+                playerBody.rotation = Quaternion.Euler(0f, savedRotation.y, 0f);
+            }
+            else
+            {
+                Debug.LogWarning("playerBody가 할당되지 않았습니다. Y축 회전값을 적용할 수 없습니다.");
+            }
         }
 
         // Update is called once per frame
