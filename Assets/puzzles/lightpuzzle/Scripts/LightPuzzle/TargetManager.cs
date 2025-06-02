@@ -1,14 +1,15 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TargetManager : MonoBehaviour
 {
     public static TargetManager Instance;
-    public Camera mainCam;
     public Camera puzzleCam;
     public GameObject PuzzleUI;
     public int totalTargets = 4;
     private int currentHits = 0;
     private bool isCleared = false;
+
 
     void Awake()
     {
@@ -31,6 +32,7 @@ public class TargetManager : MonoBehaviour
     private void PuzzleClear()
     {
         Debug.Log("Puzzle Cleared!");
+        SceneManager.LoadScene("Scene_01");
         // UI 처리 등
     }
 
@@ -51,13 +53,6 @@ public class TargetManager : MonoBehaviour
         {
             Vector3 dir = laser.GetDirectionVector(laser.initialDirection);
             laser.CastLaser(laser.startPoint.position, dir);
-        }
-
-        if (isTake && PuzzleUI != null)
-        {
-            puzzleCam.gameObject.SetActive(false);
-            PuzzleUI.SetActive(false);
-            mainCam.gameObject.SetActive(true);     // 메인 카메라 켜기
         }
     }
 
