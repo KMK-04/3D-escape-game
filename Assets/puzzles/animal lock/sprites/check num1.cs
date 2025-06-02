@@ -34,9 +34,9 @@ public class check_num1 : MonoBehaviour
             }
 
             // 조건 확인 (11, 3, 2)
-            if (number1 == 11 && number2 == 3 && number3 == 2)
+            if (number1 == 11 && number2 == 6 && number3 == 2)
             {
-                Debug.Log("조건 충족! 숫자 조합: 11, 3, 2");
+                Debug.Log("조건 충족! 숫자 조합: 11, 6, 2");
                 GameManager.Instance.SetBoolean(2, false);
                 string originalScene = GameManager.Instance.GetOriginalSceneName();
                 if (!string.IsNullOrEmpty(originalScene))
