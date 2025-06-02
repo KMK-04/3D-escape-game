@@ -19,7 +19,7 @@ namespace SojaExiles
             {
                 Debug.Log("show");
                 float dist = Vector3.Distance(Player.position, transform.position);
-                if (dist < 15)
+                if (dist < 30)
                 {
                     Debug.Log("show");
                     if (Input.GetMouseButtonDown(0))
