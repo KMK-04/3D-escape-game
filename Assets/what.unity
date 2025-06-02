@@ -665,7 +665,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7526f5a604e8244ba5730bf428a97a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCam: {fileID: 0}
   puzzleCam: {fileID: 189686849}
   PuzzleUI: {fileID: 569624505}
   totalTargets: 4
