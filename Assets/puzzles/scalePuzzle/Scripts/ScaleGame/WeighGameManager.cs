@@ -1,79 +1,186 @@
 using UnityEngine;
 using UnityEngine.UI;
 using JusticeScale.Scripts;
+using TMPro;
+using System.Collections;
 
-public class WeighGameManager : MonoBehaviour
+/// <summary>
+/// Manages the 9-ball weight puzzle: 2 weighs, then submit guess.
+/// Subclasses implement AddInventory to handle successful pickup.
+/// </summary>
+public class WeighManager : MonoBehaviour
 {
-    public static WeighGameManager Instance { get; private set; }
+    [Header("Puzzle Objects")]
+    [Tooltip("Scene's 9 ball objects (BallWeight components)")]
+    public BallWeight[] balls;
 
-    [Header("퍼즐 오브젝트들")]
-    public BallWeight[] balls;                   // 씬에 배치된 9구슬
-    public ScaleBeamRotation beamRot;            // 기존 ScaleBeamRotation
-    public Button weighButton;                   // 저울질 버튼
-    public Text weighCountText;                  // 횟수 UI
-    public Text resultText;                      // 결과 피드백
+    [Tooltip("ScaleBeamRotation controlling the beam")]
+    public ScaleBeamRotation beamRot;
 
-    [Header("매개변수")]
+    [Header("UI (TMP)")]
+    [Tooltip("Button to perform weighing")]
+    public Button weighButton;
+
+    [Tooltip("TextMeshPro text for remaining weighs")]
+    public TMP_Text weighCountText;
+
+    [Tooltip("Button to submit guess (initially inactive)")]
+    public Button submitButton;
+
+    [Header("Settings")]
+    [Tooltip("Allowed number of weighs")]
     public int maxWeighs = 2;
+
+    [Tooltip("Normal ball mass")]
     public float normalMass = 1f;
+
+    [Tooltip("Heavy ball mass")]
     public float heavyMass = 2f;
 
     int usedWeighs;
     int heavyIndex;
+    BallWeight selectedBall;
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        // Weigh button setup
+        if (weighButton != null)
+        {
+            weighButton.onClick.RemoveAllListeners();
+            weighButton.onClick.AddListener(OnWeighButtonClicked);
+            weighButton.gameObject.SetActive(true);
+        }
+
+        // Submit button setup
+        if (submitButton != null)
+        {
+            submitButton.onClick.RemoveAllListeners();
+            submitButton.onClick.AddListener(OnSubmitButtonClicked);
+            submitButton.gameObject.SetActive(false);  // hide initially
+        }
     }
 
-    // RushHourActivator에서 퍼즐 시작 시 호출
+    /// <summary>
+    /// Call when entering puzzle
+    /// </summary>
     public void SetupPuzzle()
     {
-        // 1) 횟수 리셋
-        usedWeighs = 0;
-        weighButton.interactable = true;
-        resultText.text = "";
-        UpdateWeighUI();
+        Debug.Log("[콘솔] 퍼즐 초기화");
 
-        // 2) 무거운 구슬 랜덤 지정
+        // Reset state
+        usedWeighs = 0;
+        if (weighButton != null) { weighButton.interactable = true; }
+        if (submitButton != null) { submitButton.gameObject.SetActive(false); }
+        UpdateWeighUI();
+        selectedBall = null;
+
+        // Random heavy ball
         heavyIndex = Random.Range(0, balls.Length);
         for (int i = 0; i < balls.Length; i++)
         {
+            if (balls[i] == null) continue;
             balls[i].id = i;
             if (i == heavyIndex) balls[i].SetAsHeavy(heavyMass);
-            else               balls[i].SetAsNormal(normalMass);
+            else balls[i].SetAsNormal(normalMass);
+
+            Debug.Log($"[콘솔] Ball {i}: isHeavy={balls[i].isHeavy}, mass={balls[i].GetMass()}");
         }
     }
 
     void UpdateWeighUI()
     {
-        weighCountText.text = $"남은 저울질: {maxWeighs - usedWeighs}회";
+        int left = maxWeighs - usedWeighs;
+        if (weighCountText != null)
+            weighCountText.text = $"Weighs left: {left}";
+        Debug.Log($"[콘솔] 남은 저울질: {left}회");
     }
 
-    // 버튼 클릭으로 호출
-    public void OnWeighButtonClicked()
+    void OnWeighButtonClicked()
     {
         if (usedWeighs >= maxWeighs) return;
-        beamRot.Weigh();
+
+        beamRot?.Weigh();
         usedWeighs++;
         UpdateWeighUI();
-        if (usedWeighs >= maxWeighs)
-            weighButton.interactable = false;
+
+        if (usedWeighs >= maxWeighs && submitButton != null)
+        {
+            if (weighButton != null) weighButton.interactable = false;
+            submitButton.gameObject.SetActive(true);
+        }
     }
 
-    // 구슬 클릭 시 호출
-    public void SubmitGuess(int id)
+    /// <summary>
+    /// Called by BallWeight on click
+    /// </summary>
+    public void SelectBall(BallWeight ball)
     {
-        if (usedWeighs == 0)
+        if (usedWeighs < maxWeighs)
         {
-            resultText.text = "먼저 저울질하세요!";
+            Debug.Log("[콘솔] 먼저 to Weigh!");
+            return;
+        }
+        selectedBall = ball;
+        Debug.Log($"[콘솔] Ball {ball.id} selected");
+    }
+
+    void OnSubmitButtonClicked()
+    {
+        if (selectedBall == null)
+        {
+            Debug.Log("[콘솔] Please select a ball to submit.");
             return;
         }
 
-        if (id == heavyIndex)
-            resultText.text = "정답! 🎉 방 탈출 완료!";
+        if (selectedBall.id == heavyIndex)
+        {
+            Debug.Log("[콘솔] 정답입니다! 🎉");
+            StartCoroutine(HandleCorrect(selectedBall));
+        }
         else
-            resultText.text = "땡! 다시 시도해보세요.";
+        {
+            Debug.Log("[콘솔] 틀렸습니다. 퍼즐을 다시 초기화합니다.");
+            SetupPuzzle();
+        }
     }
+
+    IEnumerator HandleCorrect(BallWeight ball)
+    {
+        if (ball == null) yield break;
+
+        // Move to viewport center at fixed distance
+        var cam = Camera.main;
+        if (cam != null)
+        {
+            float distance = Vector3.Distance(cam.transform.position, ball.transform.position);
+            Vector3 center = cam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, distance));
+            ball.transform.position = center;
+        }
+
+        // Highlight effect
+        ball.Highlight();
+
+        // Enlarge
+        ball.transform.localScale *= 1.5f;
+
+        // Show answer text
+        ball.ShowAnswerText("329", Color.red);
+
+        yield return new WaitForSeconds(1f);
+
+        // Inventory hook
+        try { AddInventory(ball); }
+        catch { Debug.LogWarning("AddInventory not implemented."); }
+
+        // Destroy activator object
+        var activator = Object.FindFirstObjectByType<ScaleActivator>();
+        if (activator != null)
+            activator.ExitPuzzle();        // 카메라 & UI 상태 복귀
+        Destroy(activator.gameObject);
+    }
+
+    /// <summary>
+    /// Override to add item to inventory
+    /// </summary>
+    protected void AddInventory(BallWeight ball) { }
 }
