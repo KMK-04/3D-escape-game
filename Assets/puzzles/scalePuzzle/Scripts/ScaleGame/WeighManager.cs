@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using JusticeScale.Scripts;
 using TMPro;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 /// <summary>
 /// Manages the 9-ball weight puzzle: 2 weighs, then submit guess.
 /// Subclasses implement AddInventory to handle successful pickup.
@@ -58,6 +58,10 @@ public class WeighManager : MonoBehaviour
             submitButton.onClick.AddListener(OnSubmitButtonClicked);
             submitButton.gameObject.SetActive(false);  // hide initially
         }
+    }
+    void Start()
+    {
+        SetupPuzzle();
     }
 
     /// <summary>
@@ -135,6 +139,8 @@ public class WeighManager : MonoBehaviour
         if (selectedBall.id == heavyIndex)
         {
             Debug.Log("[콘솔] 정답입니다! 🎉");
+            string originalScene = GameManager.Instance.GetOriginalSceneName();
+            SceneManager.LoadScene(originalScene);
             StartCoroutine(HandleCorrect(selectedBall));
         }
         else
