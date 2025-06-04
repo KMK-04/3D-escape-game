@@ -60,6 +60,15 @@
         "*.asset": "yaml",
         "*.meta": "yaml",
         "*.prefab": "yaml",
+<<<<<<< HEAD
+        "*.unity": "yaml"
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.sln": "*.csproj"
+    },
+    "dotnet.defaultSolution": "3D-escape-game-main.sln"
+=======
         "*.unity": "yaml",
     },
     "explorer.fileNesting.enabled": true,
@@ -67,4 +76,5 @@
         "*.sln": "*.csproj",
     },
     "dotnet.defaultSolution": "3D-escape-game_.sln"
+>>>>>>> 5165542ec07db7fe7dad5168abe7172f7fdea1c1
 }
