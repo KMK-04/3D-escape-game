@@ -8,7 +8,7 @@ public class shotgame : MonoBehaviour
     public TextMeshProUGUI timerText; // 타이머 표시용 텍스트
     public TextMeshProUGUI scoreText; // 점수 표시용 텍스트
     public TextMeshProUGUI gamestartt;
-    public float gameDuration = 30f; // 게임 지속 시간 (초)
+    public float gameDuration = 29f; // 게임 지속 시간 (초)
     public int score = 0; // 점수 저장 변수
 
     private float timeRemaining; // 남은 시간
