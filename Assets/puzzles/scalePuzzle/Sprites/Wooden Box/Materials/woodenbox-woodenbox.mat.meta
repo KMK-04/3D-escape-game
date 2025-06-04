@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7bdca3c2709c9cb47af3ec780f3f794c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 670
+  packageName: Wooden Box
+  packageVersion: 1.01
+  assetPath: Assets/Wooden Box/Materials/woodenbox-woodenbox.mat
+  uploadId: 24762

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 343acb19fb6b11b4b965b5afd3a7bced
+timeCreated: 1441012319
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 20179
+  packageName: Animated Old Chest
+  packageVersion: 1.1
+  assetPath: Assets/OldChest/ModelAndTexture/OldChest.mat
+  uploadId: 79327
