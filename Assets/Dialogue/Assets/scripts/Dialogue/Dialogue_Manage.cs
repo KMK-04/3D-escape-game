@@ -74,13 +74,13 @@ public class Dialogue_Manage : MonoBehaviour
     {
         if (dialogueIndex >= currentDialogue.Length)
         {
-            dialogueText.text = "[마지막 대화입니다. 메뉴창을 열거나 닫으실려면 ESC 키를 눌러주세요!]";
+            dialogueText.text = "[마지막 대화입니다. 메뉴창을 열거나 닫으실려면 Z 키를 눌러주세요!]";
             nameText.text = "System";
 
             //  ESC로 Canvas 열기 가능 설정
             if (CanvasController.Instance != null)
             {
-                CanvasController.Instance.canToggleByESC = true;
+                CanvasController.Instance.canToggleByZ = true;
             }
             
             return;
@@ -91,7 +91,7 @@ public class Dialogue_Manage : MonoBehaviour
         //  대화 진행중에는 ESC안되게 설정
         if (CanvasController.Instance != null)
         {
-            CanvasController.Instance.canToggleByESC = false;
+            CanvasController.Instance.canToggleByZ = false;
         }
 
         if (contextIndex >= dialogue.contexts.Length)

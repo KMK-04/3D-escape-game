@@ -5,7 +5,7 @@ public class CanvasController : MonoBehaviour
 {
     public static CanvasController Instance;
     public GameObject canvasUI;  // Canvas 내부 UI 루트 패널 (예: Panel, 또는 전체 UI 묶음)
-    public bool canToggleByESC = false;
+    public bool canToggleByZ = false;
 
     private void Awake()
     {
@@ -74,11 +74,11 @@ public class CanvasController : MonoBehaviour
     }
     private void Update()
     {
-        if (!canToggleByESC) return;
+        if (!canToggleByZ) return;
 
         if (SceneManager.GetActiveScene().name != "Scene_01") return;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             bool currentState = canvasUI.activeSelf;
             canvasUI.SetActive(!currentState);
