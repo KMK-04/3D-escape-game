@@ -1,3 +1,3 @@
 # 3D-escape-game
 
-Good Luck
+Good-Luck

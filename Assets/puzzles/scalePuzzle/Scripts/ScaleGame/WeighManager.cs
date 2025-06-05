@@ -114,20 +114,26 @@ public class WeighManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Called by BallWeight on click
-    /// </summary>
     public void SelectBall(BallWeight ball)
+{
+    if (usedWeighs < maxWeighs)
     {
-        if (usedWeighs < maxWeighs)
-        {
-            Debug.Log("[콘솔] 먼저 to Weigh!");
-            return;
-        }
-        selectedBall = ball;
-        Debug.Log($"[콘솔] Ball {ball.id} selected");
+        Debug.Log("[콘솔] 먼저 to Weigh!");
+        return;
     }
 
+    // 기존에 선택된 구슬이 있으면 색상/Outline 복원
+    if (selectedBall != null)
+    {
+        selectedBall.Unhighlight();
+    }
+
+    // 새로 클릭된 구슬을 선택
+    selectedBall = ball;
+    selectedBall.Highlight();  // 머티리얼 색 변경 + Outline 켜기
+
+    Debug.Log($"[콘솔] Ball {ball.id} selected");
+}
     void OnSubmitButtonClicked()
     {
         if (selectedBall == null)
