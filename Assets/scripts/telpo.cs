@@ -8,7 +8,7 @@ public class telpo : MonoBehaviour
     public GameObject destination2;  // 두 번째 목적지
     public GameObject targetObject;  // 활성/비활성화할 오브젝트
     public int moveState = 0;        // 상태 변수
-
+    public GameObject hint;
     private Coroutine moveRoutine;
 
     // 버튼에 이 메서드를 연결하세요
@@ -43,10 +43,11 @@ public class telpo : MonoBehaviour
         if (targetObject != null)
             targetObject.SetActive(true);
 
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(5f);
 
         if (moveState == 1)
         {
+            GameManager.Instance.SetBoolean(5, true);
             // 두 번째 목적지로 이동
             if (cc != null)
             {
@@ -58,6 +59,7 @@ public class telpo : MonoBehaviour
             {
                 player.transform.position = firstPos;
             }
+            hint.SetActive(true);
         }
         // 두 번째 이동 후 오브젝트 비활성화
         if (targetObject != null)
