@@ -469,6 +469,7 @@ MonoBehaviour:
   isHeavy: 0
   label: {fileID: 1658871589}
   outline: {fileID: 0}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &173889315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5827,6 +5828,7 @@ MonoBehaviour:
   isHeavy: 0
   label: {fileID: 685641832}
   outline: {fileID: 0}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &445898052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6134,6 +6136,7 @@ MonoBehaviour:
   isHeavy: 0
   label: {fileID: 1892819113}
   outline: {fileID: 0}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &546611465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11527,6 +11530,7 @@ MonoBehaviour:
   isHeavy: 0
   label: {fileID: 1585512546}
   outline: {fileID: 0}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &824313087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11729,6 +11733,7 @@ MonoBehaviour:
   isHeavy: 0
   label: {fileID: 268374814}
   outline: {fileID: 0}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &880806162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17066,6 +17071,7 @@ MonoBehaviour:
   isHeavy: 0
   label: {fileID: 1239992038}
   outline: {fileID: 0}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &1001876266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22159,6 +22165,7 @@ MonoBehaviour:
   isHeavy: 0
   label: {fileID: 1056458198}
   outline: {fileID: 0}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &1050783600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32473,6 +32480,7 @@ MonoBehaviour:
   isHeavy: 0
   label: {fileID: 35699711}
   outline: {fileID: 0}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &1233120863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47995,6 +48003,7 @@ MonoBehaviour:
   isHeavy: 0
   label: {fileID: 2123011871}
   outline: {fileID: 0}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &2056699119
 MonoBehaviour:
   m_ObjectHideFlags: 0
