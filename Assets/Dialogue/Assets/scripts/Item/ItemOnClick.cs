@@ -4,18 +4,26 @@ public class ItemOnClick : MonoBehaviour
 {
     public bool isClicked = false;
 
+    private void Start()
+    {
+        Item item = GetComponent<Item>();
+    }
+
     private void OnMouseDown()
     {
-        Debug.Log($"Clicked: {gameObject.name}");
         if (!isClicked)
         {
+            Debug.Log($"Clicked: {gameObject.name}");
             Item item = GetComponent<Item>();
             if (item != null && ItemController.Instance != null)
             {
                 ItemController.Instance.AddItemToInventory(item);
                 isClicked = true;
 
-                Destroy(gameObject); // ≈¨∏Øµ» æ∆¿Ã≈€ ¡¶∞≈ (∂«¥¬ ∫Ò»∞º∫»≠ √≥∏Æ ∞°¥…)
+                // ‚úÖ ÌÅ¥Î¶≠Îêú Ïù¥Î¶Ñ Ï†ÄÏû•
+                InventorySaveManager.clickedItemNames.Add(item.ITEM_Name);
+
+                Destroy(gameObject); // ÌÅ¥Î¶≠ ÌõÑ Ï†úÍ±∞
             }
         }
     }

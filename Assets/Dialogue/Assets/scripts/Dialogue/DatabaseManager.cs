@@ -39,6 +39,11 @@ public class DatabaseManager : MonoBehaviour
             }
 
             isFinish = true;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 

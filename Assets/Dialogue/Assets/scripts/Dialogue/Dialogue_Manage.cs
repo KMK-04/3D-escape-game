@@ -18,10 +18,20 @@ public class Dialogue_Manage : MonoBehaviour
     private bool isTyping = false;
     private string fullText = "";
 
+    public DialogueProgress currentProgress = new DialogueProgress();
+
+
     void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        } 
     }
 
     void Start()
@@ -31,10 +41,15 @@ public class Dialogue_Manage : MonoBehaviour
 
     public void StartDialogue(string csvFileName)
     {
+        currentProgress.csvFileName = csvFileName;
+
         DatabaseManager.instance.LoadDialogueFromCSV(csvFileName);
         int count = DatabaseManager.instance.dialogueCount;
         currentDialogue = DatabaseManager.instance.GetDialogue(1, count);
-        dialogueIndex = 0;
+
+        dialogueIndex = currentProgress.dialogueIndex;
+        contextIndex = currentProgress.contextIndex;
+
         logManager.Init_Log();
         ShowNextLine();
     }
@@ -59,19 +74,31 @@ public class Dialogue_Manage : MonoBehaviour
     {
         if (dialogueIndex >= currentDialogue.Length)
         {
-            dialogueText.text = "[대화 종료]";
-            nameText.text = "";
+            dialogueText.text = "[마지막 대화입니다. 메뉴창을 열거나 닫으실려면 ESC 키를 눌러주세요!]";
+            nameText.text = "System";
+
+            //  ESC로 Canvas 열기 가능 설정
+            if (CanvasController.Instance != null)
+            {
+                CanvasController.Instance.canToggleByESC = true;
+            }
+            
             return;
         }
 
         var dialogue = currentDialogue[dialogueIndex];
 
+        //  대화 진행중에는 ESC안되게 설정
+        if (CanvasController.Instance != null)
+        {
+            CanvasController.Instance.canToggleByESC = false;
+        }
+
         if (contextIndex >= dialogue.contexts.Length)
         {
-            // 다음 NPC로 이동
             dialogueIndex++;
             contextIndex = 0;
-            ShowNextLine(); // 재귀 호출로 다음 NPC 처리
+            ShowNextLine(); // 다음 NPC 처리
             return;
         }
 
@@ -85,8 +112,14 @@ public class Dialogue_Manage : MonoBehaviour
             StopCoroutine(typingCoroutine);
 
         typingCoroutine = StartCoroutine(TypeText(fullText));
+
+        // 🔥 현재 대화 진행 상태 저장
+        currentProgress.dialogueIndex = dialogueIndex;
+        currentProgress.contextIndex = contextIndex;
+
         contextIndex++;
     }
+
 
 
 
