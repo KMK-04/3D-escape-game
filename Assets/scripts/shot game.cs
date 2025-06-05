@@ -10,7 +10,7 @@ public class shotgame : MonoBehaviour
     public TextMeshProUGUI gamestartt;
     public float gameDuration = 29f; // 게임 지속 시간 (초)
     public int score = 0; // 점수 저장 변수
-
+    public GameObject hint;
     private float timeRemaining; // 남은 시간
     private bool isGameRunning = false; // 게임 진행 여부
     private GameObject currentActiveChild; // 현재 활성화된 자식 오브젝트
@@ -72,6 +72,11 @@ public class shotgame : MonoBehaviour
             currentActiveChild.SetActive(false);
         }
         Debug.Log($"게임 종료! 최종 점수: {score}");
+        if (score > 10)
+        {
+            hint.SetActive(true);
+            GameManager.Instance.SetBoolean(4, true);
+        }
         gamestartt.text = "Game End!";
     }
 
