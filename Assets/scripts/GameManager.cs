@@ -4,130 +4,131 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
-    public Vector3 playerPosition; // ÇÃ·¹ÀÌ¾î À§Ä¡ ÀúÀå
-    public Vector3 cameraRotation; // Ä«¸Þ¶ó È¸Àü°ª ÀúÀå (Euler Angles)
-    public string originalSceneName; // ¿ø·¡ ¾À ÀÌ¸§ ÀúÀå
-    public Transform playerTransform; // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®ÀÇ Transform (Inspector¿¡¼­ ÇÒ´ç ¶Ç´Â ÀÚµ¿ ¼³Á¤)
-    public List<bool> booleanList; // Á¤º¸¸¦ ÀúÀåÇÏ±â À§ÇÑ boolean ¸®½ºÆ®
-
+    public Vector3 playerPosition; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
+    public Vector3 cameraRotation; // Ä«ï¿½Þ¶ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (Euler Angles)
+    public string originalSceneName; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public Transform playerTransform; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Transform (Inspectorï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½ ï¿½Ç´ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½)
+    public List<bool> booleanList; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ boolean ï¿½ï¿½ï¿½ï¿½Æ®
+    public GameObject phone;
     void Awake()
     {
-        // ½Ì±ÛÅæ ÆÐÅÏ ±¸Çö: ÀÌ¹Ì ÀÎ½ºÅÏ½º°¡ ÀÖÀ¸¸é ÇöÀç ¿ÀºêÁ§Æ®¸¦ ÆÄ±«
+        // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½Ì¹ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ä±ï¿½
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // ¾À ÀüÈ¯ ½Ã ÆÄ±«µÇÁö ¾ÊÀ½
+            DontDestroyOnLoad(gameObject); // ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
             Destroy(gameObject);
         }
 
-        // booleanList ÃÊ±âÈ­
+        // booleanList ï¿½Ê±ï¿½È­
         if (booleanList == null)
         {
             booleanList = new List<bool>();
-            Debug.Log("Boolean ¸®½ºÆ® ÃÊ±âÈ­µÊ");
+            Debug.Log("Boolean ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­ï¿½ï¿½");
         }
 
-        // playerTransformÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò´Ù¸é "MainCamera" ÅÂ±×¸¦ °¡Áø ¿ÀºêÁ§Æ®¸¦ ÀÚµ¿À¸·Î Ã£À½
+        // playerTransformï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Ù¸ï¿½ "MainCamera" ï¿½Â±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
         if (playerTransform == null)
         {
             GameObject cameraObject = GameObject.FindWithTag("MainCamera");
             if (cameraObject != null)
             {
                 playerTransform = cameraObject.transform;
-                Debug.Log("MainCamera ÅÂ±×¸¦ °¡Áø ¿ÀºêÁ§Æ®¸¦ playerTransform¿¡ ÀÚµ¿ ÇÒ´ç: " + cameraObject.name);
+                Debug.Log("MainCamera ï¿½Â±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ playerTransformï¿½ï¿½ ï¿½Úµï¿½ ï¿½Ò´ï¿½: " + cameraObject.name);
             }
             else
             {
-                Debug.LogWarning("MainCamera ÅÂ±×¸¦ °¡Áø ¿ÀºêÁ§Æ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù. playerTransformÀÌ ÇÒ´çµÇÁö ¾ÊÀ½.");
+                Debug.LogWarning("MainCamera ï¿½Â±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. playerTransformï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.");
             }
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î À§Ä¡ ¹× Ä«¸Þ¶ó È¸Àü°ª ÀúÀå
+
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void SavePlayerPosition(string sceneName)
     {
         GameObject cameraObject = GameObject.FindWithTag("MainCamera");
         if (cameraObject != null)
         {
             playerTransform = cameraObject.transform;
-            playerPosition = playerTransform.position; // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®ÀÇ ÇöÀç À§Ä¡ ÀúÀå
-            cameraRotation = playerTransform.eulerAngles; // Ä«¸Þ¶óÀÇ È¸Àü°ª ÀúÀå
+            playerPosition = playerTransform.position; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
+            cameraRotation = playerTransform.eulerAngles; // Ä«ï¿½Þ¶ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             originalSceneName = sceneName;
-            Debug.Log($"ÇÃ·¹ÀÌ¾î À§Ä¡ ÀúÀå: {playerPosition}, Ä«¸Þ¶ó È¸Àü°ª ÀúÀå: {cameraRotation}, ¿ø·¡ ¾À: {sceneName}");
+            Debug.Log($"ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½: {playerPosition}, Ä«ï¿½Þ¶ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {cameraRotation}, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½: {sceneName}");
         }
         else
         {
-            Debug.LogWarning("MainCamera ÅÂ±×¸¦ °¡Áø ¿ÀºêÁ§Æ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù. À§Ä¡ ¹× È¸Àü°ªÀ» ÀúÀåÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("MainCamera ï¿½Â±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½Ä¡ ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î À§Ä¡ °¡Á®¿À±â
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public Vector3 GetPlayerPosition()
     {
         return playerPosition;
     }
 
-    // Ä«¸Þ¶ó È¸Àü°ª °¡Á®¿À±â
+    // Ä«ï¿½Þ¶ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public Vector3 GetCameraRotation()
     {
         return cameraRotation;
     }
 
-    // ¿ø·¡ ¾À ÀÌ¸§ °¡Á®¿À±â
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public string GetOriginalSceneName()
     {
         return originalSceneName;
     }
 
-    // Boolean ¸®½ºÆ®¿¡ °ª Ãß°¡
+    // Boolean ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ ï¿½ß°ï¿½
     public void AddBoolean(bool value)
     {
         booleanList.Add(value);
-        Debug.Log($"Boolean °ª Ãß°¡: {value}, ¸®½ºÆ® Å©±â: {booleanList.Count}");
+        Debug.Log($"Boolean ï¿½ï¿½ ï¿½ß°ï¿½: {value}, ï¿½ï¿½ï¿½ï¿½Æ® Å©ï¿½ï¿½: {booleanList.Count}");
     }
 
-    // Boolean ¸®½ºÆ®¿¡¼­ Æ¯Á¤ ÀÎµ¦½ºÀÇ °ª °¡Á®¿À±â
+    // Boolean ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public bool GetBoolean(int index)
     {
         if (index >= 0 && index < booleanList.Count)
         {
             return booleanList[index];
         }
-        Debug.LogWarning($"Àß¸øµÈ ÀÎµ¦½º: {index}, ¸®½ºÆ® Å©±â: {booleanList.Count}");
-        return false; // ±âº»°ª ¹ÝÈ¯
+        Debug.LogWarning($"ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½: {index}, ï¿½ï¿½ï¿½ï¿½Æ® Å©ï¿½ï¿½: {booleanList.Count}");
+        return false; // ï¿½âº»ï¿½ï¿½ ï¿½ï¿½È¯
     }
 
-    // Boolean ¸®½ºÆ®¿¡¼­ Æ¯Á¤ ÀÎµ¦½ºÀÇ °ª ¼³Á¤
+    // Boolean ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void SetBoolean(int index, bool value)
     {
         if (index >= 0 && index < booleanList.Count)
         {
             booleanList[index] = value;
-            Debug.Log($"Boolean °ª ¼³Á¤: ÀÎµ¦½º {index} = {value}");
+            Debug.Log($"Boolean ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½Îµï¿½ï¿½ï¿½ {index} = {value}");
         }
         else
         {
-            Debug.LogWarning($"Àß¸øµÈ ÀÎµ¦½º: {index}, ¸®½ºÆ® Å©±â: {booleanList.Count}");
+            Debug.LogWarning($"ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½: {index}, ï¿½ï¿½ï¿½ï¿½Æ® Å©ï¿½ï¿½: {booleanList.Count}");
         }
     }
 
-    // Boolean ¸®½ºÆ® ÃÊ±âÈ­ (¸ðµç °ª Á¦°Å)
+    // Boolean ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­ (ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
     public void ClearBooleanList()
     {
         booleanList.Clear();
-        Debug.Log("Boolean ¸®½ºÆ® ÃÊ±âÈ­µÊ");
+        Debug.Log("Boolean ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­ï¿½ï¿½");
     }
 
-    // Boolean ¸®½ºÆ® Å©±â ¹ÝÈ¯
+    // Boolean ï¿½ï¿½ï¿½ï¿½Æ® Å©ï¿½ï¿½ ï¿½ï¿½È¯
     public int GetBooleanListSize()
     {
         return booleanList.Count;
     }
 
-    // ½Ì±ÛÅæ ÀÎ½ºÅÏ½º¿¡ Á¢±ÙÇÏ´Â ÇÁ·ÎÆÛÆ¼
+    // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼
     public static GameManager Instance
     {
         get { return instance; }

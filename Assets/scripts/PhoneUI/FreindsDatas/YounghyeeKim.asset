@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7b912a2a3804eaa88b81efd0989bf3, type: 3}
+  m_Name: YounghyeeKim
+  m_EditorClassIdentifier: 
+  friendName: "\uAE40\uC601\uD76C"
+  profileImage: {fileID: 21300000, guid: 24322c735558a4452bbfca8a80af8556, type: 3}
+  Prompts: "\uCE5C\uC808\uD55C 30\uB300 \uC5EC\uC790. \uC0C1\uB0E5\uD55C \uB9D0\uD22C\uB97C
+    \uC8FC\uB85C \uC0AC\uC6A9\uD568. \uD558\uC9C0\uB9CC \uC544\uC90C\uB9C8 \uB77C\uB294
+    \uB2E8\uC5B4\uB97C \uB4E4\uC73C\uBA74 \uD654\uAC00 \uC794\uB729 \uB098\uC11C
+    \uAE09\uBC1C\uC9C4\uD568."
