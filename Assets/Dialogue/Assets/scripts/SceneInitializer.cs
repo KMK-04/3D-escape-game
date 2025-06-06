@@ -74,14 +74,22 @@ public class CanvasController : MonoBehaviour
     }
     private void Update()
     {
-        if (!canToggleByZ) return;
-
-        if (SceneManager.GetActiveScene().name != "Scene_01") return;
-
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (!canToggleByZ)
         {
-            bool currentState = canvasUI.activeSelf;
-            canvasUI.SetActive(!currentState);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Dialogue_Manage.Instance.OnNextButtonClicked();
+            }
+        }
+        else
+        {
+            if (SceneManager.GetActiveScene().name != "Scene_01") return;
+
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                bool currentState = canvasUI.activeSelf;
+                canvasUI.SetActive(!currentState);
+            }
         }
     }
 

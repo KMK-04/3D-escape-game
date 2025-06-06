@@ -6,16 +6,24 @@ namespace SojaExiles
 {
     public class MouseLook : MonoBehaviour
     {
+        public static MouseLook instance;
         public float mouseXSensitivity = 100f;
         public Transform playerBody;
         float xRotation = 0f;
-        private bool isCursorLocked = true; // 커서 잠금 상태를 추적
+        private bool isCursorLocked = false; // 커서 잠금 상태를 추적
 
+        private void Awake()
+        {
+            if(instance == null)
+                instance = this;
+            else
+               Destroy(instance);
+        }
         // Start is called before the first frame update
         void Start()
         {
-            // 초기 상태: 마우스 커서를 잠그고 숨김
-            SetCursorLock(true);
+            // 초기 상태: 마우스 커서를 킴
+            SetCursorLock(false);
 
             // GameManager에서 저장된 카메라 회전값 가져오기
             Vector3 savedRotation = GameManager.Instance.GetCameraRotation();
@@ -42,11 +50,15 @@ namespace SojaExiles
         // Update is called once per frame
         void Update()
         {
+            
             // Esc 키로 커서 잠금/해제 토글
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                isCursorLocked = !isCursorLocked;
-                SetCursorLock(isCursorLocked);
+                if (!Dialogue_Manage.Instance.isEndLine()) //대화끝날때까지 막기.
+                {
+                    return;
+                }
+                ToggleLock();
             }
 
             // 커서가 잠겨 있을 때만 카메라 회전 처리
@@ -77,7 +89,11 @@ namespace SojaExiles
                 Cursor.visible = true;
             }
         }
-
+        public void ToggleLock()
+        {
+            isCursorLocked = !isCursorLocked;
+            SetCursorLock(isCursorLocked);
+        }
         // 스크립트가 비활성화될 때 커서 잠금 해제
         void OnDisable()
         {

@@ -10,6 +10,7 @@ public class Dialogue_Manage : MonoBehaviour
     public Text dialogueText;      // 대사 출력용
     public Button nextButton;
     public LogManager logManager;
+    public GameObject dialoguePanel;
 
     private Dialgoue[] currentDialogue;
     private int dialogueIndex = 0;
@@ -72,18 +73,21 @@ public class Dialogue_Manage : MonoBehaviour
             ShowNextLine();
         }
     }
-    public void isEndLine()
+    public bool isEndLine()
     {
         if (dialogueIndex >= currentDialogue.Length)
-            player.SetMovement(true);
+            return true;
         else
-            player.SetMovement(false);
+            return false;
     }
     public void ShowNextLine()
     {
-        isEndLine();
-        if (dialogueIndex >= currentDialogue.Length)
+        if (isEndLine())
         {
+            player.SetMovement(true);
+            MouseLook.instance.ToggleLock();
+
+
             dialogueText.text = "[마지막 대화입니다. 메뉴창을 열거나 닫으실려면 Z 키를 눌러주세요!]";
             nameText.text = "System";
 
@@ -92,11 +96,12 @@ public class Dialogue_Manage : MonoBehaviour
             {
                 CanvasController.Instance.canToggleByZ = true;
             }
-            
+            dialoguePanel.SetActive(false);
             return;
         }
 
         var dialogue = currentDialogue[dialogueIndex];
+        player.SetMovement(false);
 
         //  대화 진행중에는 Z 안되게 설정
         if (CanvasController.Instance != null)
