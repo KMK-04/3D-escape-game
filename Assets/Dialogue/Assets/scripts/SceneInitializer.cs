@@ -74,17 +74,17 @@ public class CanvasController : MonoBehaviour
     }
     private void Update()
     {
-        if (!canToggleByZ)
+        if (SceneManager.GetActiveScene().name != "Scene_01") return;
+
+        if (!canToggleByZ) //대화중일때는
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Dialogue_Manage.Instance.OnNextButtonClicked();
             }
         }
-        else
+        else //대화가아닌상태
         {
-            if (SceneManager.GetActiveScene().name != "Scene_01") return;
-
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 bool currentState = canvasUI.activeSelf;
