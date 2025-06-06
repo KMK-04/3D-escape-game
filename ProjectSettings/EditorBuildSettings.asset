@@ -35,6 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/puzzles/flappy/Scenes/flappy.unity
     guid: 29d614a3dae66f24b9aaf26bbdfd19ea
+  - enabled: 1
+    path: Assets/puzzles/floor lock/Scenes/floor lock.unity
+    guid: 671022dd9131a6d4b95edc6905717825
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
