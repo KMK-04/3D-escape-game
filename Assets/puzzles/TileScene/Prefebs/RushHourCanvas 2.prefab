@@ -132,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chest: {fileID: 0}
   canvasRoot: {fileID: 0}
+  targetSceneName: TargetScene
 --- !u!1 &2222657962921061979
 GameObject:
   m_ObjectHideFlags: 0
