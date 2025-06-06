@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class cowmove : MonoBehaviour
 {
@@ -9,7 +10,6 @@ public class cowmove : MonoBehaviour
 
     void Start()
     {
-        // GameManager 싱글톤 인스턴스를 자동으로 받아옴
         gameManager = GameManager.Instance;
 
         if (gameManager == null)
@@ -37,24 +37,23 @@ public class cowmove : MonoBehaviour
 
         if (cond4 && cond5)
         {
-            // 둘 다 true면 번갈아가며 움직이기
             if (toggleState)
             {
-                MoveToPosition(new Vector3(3.453995f, 0.16998f, 52.62308f), Quaternion.identity);
+                StartCoroutine(MoveXThenY(new Vector3(3.453995f, 0.16998f, 52.62308f), new Vector3(3.453995f, 0.16998f, 55.50617f)));
             }
             else
             {
-                MoveToPosition(new Vector3(1.623995f, 0.16998f, 55.50617f), Quaternion.Euler(0, 0, 0));
+                StartCoroutine(MoveXThenY(new Vector3(1.623995f, 0.16998f, 55.50617f), new Vector3(1.623995f, 0.16998f, 52.62308f)));
             }
             toggleState = !toggleState;
         }
         else if (cond4)
         {
-            MoveToPosition(new Vector3(3.453995f, 0.16998f, 52.62308f), Quaternion.identity);
+            StartCoroutine(MoveXThenY(new Vector3(3.453995f, 0.16998f, 52.62308f), new Vector3(3.453995f, 0.16998f, 55.50617f)));
         }
         else if (cond5)
         {
-            MoveToPosition(new Vector3(1.623995f, 0.16998f, 55.50617f), Quaternion.Euler(0, 0, 0));
+            StartCoroutine(MoveXThenY(new Vector3(1.623995f, 0.16998f, 55.50617f), new Vector3(1.623995f, 0.16998f, 52.62308f)));
         }
         else
         {
@@ -62,9 +61,20 @@ public class cowmove : MonoBehaviour
         }
     }
 
-    private void MoveToPosition(Vector3 position, Quaternion rotation)
+    private IEnumerator MoveXThenY(Vector3 posX, Vector3 posY)
     {
-        target.position = position;
-        target.rotation = rotation;
+        // x축 이동
+        while (Mathf.Abs(target.position.x - posX.x) > 0.01f)
+        {
+            target.position = Vector3.MoveTowards(target.position, new Vector3(posX.x, target.position.y, target.position.z), Time.deltaTime * 2f);
+            yield return null;
+        }
+
+        // z축 이동
+        while (Mathf.Abs(target.position.z - posY.z) > 0.01f)
+        {
+            target.position = Vector3.MoveTowards(target.position, new Vector3(target.position.x, target.position.y, posY.z), Time.deltaTime * 2f);
+            yield return null;
+        }
     }
 }

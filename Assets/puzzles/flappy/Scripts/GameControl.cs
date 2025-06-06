@@ -39,8 +39,9 @@ public class GameControl : MonoBehaviour
         }
         score++;
         scoreText.text = "Score : " + score.ToString();
-        if (score >= 10)
+        if (score >= 3)
         {
+            GameManager.Instance.SetBoolean(6, false);
             string originalScene = GameManager.Instance.GetOriginalSceneName();
             SceneManager.LoadScene(originalScene);
         }
