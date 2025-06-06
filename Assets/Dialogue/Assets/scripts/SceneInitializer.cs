@@ -59,7 +59,7 @@ public class CanvasController : MonoBehaviour
     {
         if (sceneName == "Scene_01")
         {
-            canvasUI.SetActive(true); // UI 보이기
+            //canvasUI.SetActive(true); // UI 보이기
         }
         else
         {
