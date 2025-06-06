@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 public class RealRushHour : MonoBehaviour
 {
     public int boardSize = 6;
@@ -142,57 +142,25 @@ public class RealRushHour : MonoBehaviour
         RestoreMainScene(true);
         RestoreMainScene();
 
-        // 3. GameManager의 booleanList 0번째 값을 true로 설정
+
+        // 3. GameManager에 결과 보고
         if (GameManager.Instance != null)
         {
             if (GameManager.Instance.GetBooleanListSize() > 0)
-            {
                 GameManager.Instance.SetBoolean(0, true);
-            }
             else
-            {
-                GameManager.Instance.AddBoolean(true); // 리스트가 비어 있다면 첫 번째 값으로 true 추가
-            }
+                GameManager.Instance.AddBoolean(true);
+
             Debug.Log("GameManager booleanList[0]을 true로 설정 완료");
-        }
-        else
-        {
-            Debug.LogWarning("GameManager 인스턴스가 존재하지 않습니다. booleanList 값을 설정할 수 없습니다.");
-        }
 
-        // 원래 씬으로 돌아가기 (GameManager에서 저장된 씬 이름 사용)
-        string originalScene = GameManager.Instance.GetOriginalSceneName();
-        if (!string.IsNullOrEmpty(originalScene))
-        {
-            SceneManager.LoadScene(originalScene);
-            // 씬 로드 후 플레이어 위치 복원 (씬 로드 완료 후 실행되도록 별도 처리 필요)
-            StartCoroutine(RestorePlayerPositionAfterSceneLoad());
+            // 👉 씬 복귀 요청
+            GameManager.Instance.ReturnToOriginalScene();
         }
         else
         {
-            Debug.LogWarning("원래 씬 이름이 저장되지 않았습니다. 기본 씬으로 이동합니다.");
-            SceneManager.LoadScene("DefaultScene"); // 기본 씬 이름으로 대체
+            Debug.LogWarning("GameManager 인스턴스가 존재하지 않습니다. 씬 복귀 불가");
         }
     }
-
-    // 씬 로드 후 플레이어 위치 복원
-    IEnumerator RestorePlayerPositionAfterSceneLoad()
-    {
-        // 씬 로드가 완료될 때까지 대기
-        yield return new WaitForEndOfFrame();
-
-        if (playerTransform != null)
-        {
-            Vector3 savedPosition = GameManager.Instance.GetPlayerPosition();
-            playerTransform.position = savedPosition;
-            Debug.Log($"플레이어 위치 복원: {savedPosition}");
-        }
-        else
-        {
-            Debug.LogWarning("플레이어 Transform이 할당되지 않았습니다. 위치 복원 실패.");
-        }
-    }
-
     // 블록을 그리드에 배치
     void PlaceBlock(Block block, int row, int col)
     {

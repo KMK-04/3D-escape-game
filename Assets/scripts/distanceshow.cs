@@ -45,12 +45,12 @@ public class DistanceActivator : MonoBehaviour
         if (distance <= activationDistance)
         {
             targetObject.SetActive(true);
-            Debug.Log($"거리 {distance} <= {activationDistance}: targetObject 활성화됨");
+            //Debug.Log($"거리 {distance} <= {activationDistance}: targetObject 활성화됨");
         }
         else
         {
             targetObject.SetActive(false);
-            Debug.Log($"거리 {distance} > {activationDistance}: targetObject 비활성화됨");
+            //Debug.Log($"거리 {distance} > {activationDistance}: targetObject 비활성화됨");
         }
     }
 }

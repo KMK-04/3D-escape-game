@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -132,5 +134,41 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance
     {
         get { return instance; }
+    }
+
+    public void ReturnToOriginalScene()
+    {
+        if (!string.IsNullOrEmpty(originalSceneName))
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.LoadScene(originalSceneName);
+        }
+        else
+        {
+            Debug.LogWarning("originalSceneName이 비어있습니다. DefaultScene으로 이동합니다.");
+            SceneManager.LoadScene("DefaultScene");
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        Instance.StartCoroutine(RestorePlayerPosition());
+    }
+
+    private IEnumerator RestorePlayerPosition()
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (playerTransform != null)
+        {
+            playerTransform.position = playerPosition;
+            playerTransform.eulerAngles = cameraRotation;
+            Debug.Log($"플레이어 위치 복원 완료: {playerPosition}, 회전: {cameraRotation}");
+        }
+        else
+        {
+            Debug.LogWarning("playerTransform이 null입니다. 위치 복원 실패.");
+        }
     }
 }
