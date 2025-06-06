@@ -29,7 +29,7 @@ public class SequenceChecker1 : MonoBehaviour
         }
 
         Debug.Log("✅ 패턴 일치! (4, 2, 2, 3)");
-        GameManager.Instance.SetBoolean(8, false);
+        GameManager.Instance.SetBoolean(9, false);
         string originalScene = GameManager.Instance.GetOriginalSceneName();
         SceneManager.LoadScene(originalScene);
     }
