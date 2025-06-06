@@ -1,4 +1,5 @@
 using System.Collections;
+using SojaExiles;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ public class Dialogue_Manage : MonoBehaviour
     private string fullText = "";
 
     public DialogueProgress currentProgress = new DialogueProgress();
+    public PlayerMovement player;
 
 
     void Awake()
@@ -37,6 +39,7 @@ public class Dialogue_Manage : MonoBehaviour
     void Start()
     {
         StartDialogue("example"); // Resources 폴더 내 example.csv
+        player.SetMovement(false);
     }
 
     public void StartDialogue(string csvFileName)
@@ -69,15 +72,22 @@ public class Dialogue_Manage : MonoBehaviour
             ShowNextLine();
         }
     }
-
+    public void isEndLine()
+    {
+        if (dialogueIndex >= currentDialogue.Length)
+            player.SetMovement(true);
+        else
+            player.SetMovement(false);
+    }
     public void ShowNextLine()
     {
+        isEndLine();
         if (dialogueIndex >= currentDialogue.Length)
         {
             dialogueText.text = "[마지막 대화입니다. 메뉴창을 열거나 닫으실려면 Z 키를 눌러주세요!]";
             nameText.text = "System";
 
-            //  ESC로 Canvas 열기 가능 설정
+            //  Z로 Canvas 열기 가능 설정
             if (CanvasController.Instance != null)
             {
                 CanvasController.Instance.canToggleByZ = true;
@@ -88,7 +98,7 @@ public class Dialogue_Manage : MonoBehaviour
 
         var dialogue = currentDialogue[dialogueIndex];
 
-        //  대화 진행중에는 ESC안되게 설정
+        //  대화 진행중에는 Z 안되게 설정
         if (CanvasController.Instance != null)
         {
             CanvasController.Instance.canToggleByZ = false;
@@ -113,7 +123,7 @@ public class Dialogue_Manage : MonoBehaviour
 
         typingCoroutine = StartCoroutine(TypeText(fullText));
 
-        // 🔥 현재 대화 진행 상태 저장
+        //  현재 대화 진행 상태 저장
         currentProgress.dialogueIndex = dialogueIndex;
         currentProgress.contextIndex = contextIndex;
 
