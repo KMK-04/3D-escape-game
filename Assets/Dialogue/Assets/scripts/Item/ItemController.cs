@@ -33,7 +33,7 @@ public class ItemController : MonoBehaviour
         inventoryexplain.AddRange(explainGrid.GetComponentsInChildren<ItemSlot>());
     }
 
-    public void AddItemToInventory(Item item)
+    public void AddItemToInventory(Item item) //아이템을 클릭해서 받아오는 방식
     {
         if (currentSlotIndex >= inventorySlots.Count)
         {
@@ -53,6 +53,36 @@ public class ItemController : MonoBehaviour
 
         currentSlotIndex++;
     }
+    public void AddItemToInventory(string spritePath, string itemName, string description) //외부스크립트에서 아이템을 추가할때 사용하는방식
+    {
+        if (currentSlotIndex >= inventorySlots.Count)
+        {
+            Debug.Log("Inventory is full!");
+            return;
+        }
+
+        Sprite sprite = Resources.Load<Sprite>(spritePath);
+        if (sprite == null)
+        {
+            Debug.LogError($"Sprite not found at path: {spritePath}");
+            return;
+        }
+
+        ItemData data = new ItemData
+        {
+            spritePath = spritePath,
+            sprite = sprite,
+            ITEM_Name = itemName,
+            explain = description
+        };
+
+        inventorySlots[currentSlotIndex].SetAll(data);
+        inventoryexplain[currentSlotIndex].SetAll(data);
+
+        InventorySaveManager.savedItems.Add(data);
+
+        currentSlotIndex++;
+    }
 
     public void LoadInventory()
     {
@@ -60,6 +90,13 @@ public class ItemController : MonoBehaviour
         foreach (var savedItem in InventorySaveManager.savedItems)
         {
             if (index >= inventorySlots.Count) break;
+
+            // Resources에서 sprite 로드 sprite가 null이고 path가 존재한다면
+            if (savedItem.sprite == null && !string.IsNullOrEmpty(savedItem.spritePath))
+            {
+                savedItem.sprite = Resources.Load<Sprite>(savedItem.spritePath);
+            }
+
             inventorySlots[index].SetAll(savedItem);
             inventoryexplain[index].SetAll(savedItem);
             index++;
