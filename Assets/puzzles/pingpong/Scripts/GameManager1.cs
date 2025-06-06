@@ -18,7 +18,7 @@ public class GameManagerpingpong : MonoBehaviour
     private void Start()
     {
         NewGame();
-        goalScore = 6;
+        goalScore = 3;
     }
 
     private void Update()
@@ -92,12 +92,14 @@ public class GameManagerpingpong : MonoBehaviour
         if (playerScore >= goalScore)
         {
             gameOver = true;
+            GameManager.Instance.SetBoolean(7, false);
             string originalScene = GameManager.Instance.GetOriginalSceneName();
             SceneManager.LoadScene(originalScene);
         }
         else if (computerScore >= goalScore)
         {
             gameOver = true;
+            GameManager.Instance.SetBoolean(7, false);  // 일단 지든 이기든
             string originalScene = GameManager.Instance.GetOriginalSceneName();
             SceneManager.LoadScene(originalScene);
         }
