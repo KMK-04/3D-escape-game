@@ -35,25 +35,25 @@ public class cowmove : MonoBehaviour
         bool cond4 = gameManager.GetBoolean(4);
         bool cond5 = gameManager.GetBoolean(5);
 
-        if (cond4 && cond5)
+        if (cond4 && cond5) 
         {
             if (toggleState)
             {
-                StartCoroutine(MoveXThenY(new Vector3(3.453995f, 0.16998f, 52.62308f), new Vector3(3.453995f, 0.16998f, 55.50617f)));
+                StartCoroutine(MoveXThenY(new Vector3(1.99f, 0.16998f, 52.62308f), new Vector3(1.99f, 0.16998f, 55.50617f)));
             }
             else
             {
-                StartCoroutine(MoveXThenY(new Vector3(1.623995f, 0.16998f, 55.50617f), new Vector3(1.623995f, 0.16998f, 52.62308f)));
+                StartCoroutine(MoveXThenY(new Vector3(1.99f, 0.16998f, 55.50617f), new Vector3(1.99f, 0.16998f, 52.62308f)));
             }
             toggleState = !toggleState;
         }
         else if (cond4)
         {
-            StartCoroutine(MoveXThenY(new Vector3(3.453995f, 0.16998f, 52.62308f), new Vector3(3.453995f, 0.16998f, 55.50617f)));
+            StartCoroutine(MoveXThenY(new Vector3(1.99f, 0.16998f, 52.62308f), new Vector3(1.99f, 0.16998f, 55.50617f)));
         }
         else if (cond5)
         {
-            StartCoroutine(MoveXThenY(new Vector3(1.623995f, 0.16998f, 55.50617f), new Vector3(1.623995f, 0.16998f, 52.62308f)));
+            StartCoroutine(MoveXThenY(new Vector3(1.99f, 0.16998f, 55.50617f), new Vector3(1.99f, 0.16998f, 52.62308f)));
         }
         else
         {
