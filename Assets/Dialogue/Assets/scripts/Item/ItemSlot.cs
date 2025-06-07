@@ -1,32 +1,57 @@
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
-public class ItemSlot : MonoBehaviour {
-    public Image icon;
+public class ItemSlot : MonoBehaviour
+{
+    public Image icon;              // 기존 Image용
+    public RawImage rawIcon;        // 추가된 RawImage용
     public bool isFilled;
     public ItemData storedItem;
-    //public Text Name;
-    public ExplainUI explainUI; // 다른 스크립트 연결
-    public void storeItem(Item item) {
-        storedItem = new ItemData() {
+    public Text Name;
+    public ExplainUI explainUI;
+
+    public void storeItem(Item item)
+    {
+        storedItem = new ItemData()
+        {
             sprite = item.sprite,
             ITEM_Name = item.ITEM_Name,
             explain = item.explain
         };
     }
-    public void SetSlot() {
-        icon.sprite = storedItem.sprite;
-        icon.color = Color.white;
-        //Name.text = storedItem.ITEM_Name;
+
+    public void SetSlot()
+    {
+        if (icon != null)
+        {
+            icon.sprite = storedItem.sprite;
+            icon.color = Color.white;
+        }
+
+        if (rawIcon != null && storedItem.sprite != null)
+        {
+            rawIcon.texture = storedItem.sprite.texture;
+            rawIcon.color = Color.white;
+        }
+
+        if (Name != null)
+        {
+            Name.text = storedItem.ITEM_Name;
+        }
+
         isFilled = true;
     }
-    public void SetAll(Item item) {
+
+    public void SetAll(Item item)
+    {
         storeItem(item);
         SetSlot();
     }
-    public void SetAll(ItemData data) {
-        storedItem = new ItemData() {
+
+    public void SetAll(ItemData data)
+    {
+        storedItem = new ItemData()
+        {
             sprite = data.sprite,
             ITEM_Name = data.ITEM_Name,
             explain = data.explain
@@ -34,25 +59,48 @@ public class ItemSlot : MonoBehaviour {
         SetSlot();
     }
 
-    public void ShowExplainExternally() {
-        if (storedItem != null) {
-            icon.sprite = storedItem.sprite;
-            if (icon.sprite != null)
+    public void ShowExplainExternally()
+    {
+        if (storedItem != null)
+        {
+            if (icon != null)
+                icon.sprite = storedItem.sprite;
+
+            if (rawIcon != null && storedItem.sprite != null)
+                rawIcon.texture = storedItem.sprite.texture;
+
+            if (storedItem.sprite != null)
                 explainUI.ShowExplain(storedItem.explain);
             else
                 explainUI.ClearExplain();
         }
-
     }
 
-    public void ClearSlot() {
+    public void ClearSlot()
+    {
         storedItem = null;
-        icon.sprite = null;
-        icon.color = Color.white;
-        //Name.text = "";
+
+        if (icon != null)
+        {
+            icon.sprite = null;
+            icon.color = Color.white;
+        }
+
+        if (rawIcon != null)
+        {
+            rawIcon.texture = null;
+            rawIcon.color = Color.white;
+        }
+
+        if (Name != null)
+        {
+            Name.text = "";
+        }
+
         isFilled = false;
 
-        if (explainUI != null) {
+        if (explainUI != null)
+        {
             explainUI.ClearExplain();
         }
     }

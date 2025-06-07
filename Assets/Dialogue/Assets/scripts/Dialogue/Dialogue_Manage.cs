@@ -40,7 +40,10 @@ public class Dialogue_Manage : MonoBehaviour
     void Start()
     {
         StartDialogue("example"); // Resources 폴더 내 example.csv
-        player.SetMovement(false);
+        if(player!= null)
+        {
+            player.SetMovement(false);
+        }  
     }
 
     public void StartDialogue(string csvFileName)
@@ -84,7 +87,10 @@ public class Dialogue_Manage : MonoBehaviour
     {
         if (isEndLine())
         {
-            player.SetMovement(true);
+            if (player != null)
+            {
+                player.SetMovement(true);
+            }
             MouseLook.instance.ToggleLock();
 
 
@@ -101,7 +107,10 @@ public class Dialogue_Manage : MonoBehaviour
         }
 
         var dialogue = currentDialogue[dialogueIndex];
-        player.SetMovement(false);
+        if (player != null)
+        {
+            player.SetMovement(false);
+        }
 
         //  대화 진행중에는 Z 안되게 설정
         if (CanvasController.Instance != null)
