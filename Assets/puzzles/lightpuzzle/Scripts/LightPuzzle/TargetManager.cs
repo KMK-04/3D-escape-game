@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TargetManager : MonoBehaviour
@@ -32,22 +32,48 @@ public class TargetManager : MonoBehaviour
     private void PuzzleClear()
     {
         Debug.Log("Puzzle Cleared!");
-        SceneManager.LoadScene("Scene_01");
-        // UI ó�� ��
+        Debug.Log("탈출!");
+        // GameManager의 booleanList 1번째 값을 true로 설정 (예: 인덱스 1 사용)
+        if (GameManager.Instance != null)
+        {
+            if (GameManager.Instance.GetBooleanListSize() > 1)
+            {
+                GameManager.Instance.SetBoolean(2, true);
+            }
+            else
+            {
+                // 리스트 크기가 충분하지 않다면 필요한 만큼 추가
+                while (GameManager.Instance.GetBooleanListSize() <= 1)
+                {
+                    GameManager.Instance.AddBoolean(false);
+                }
+                GameManager.Instance.SetBoolean(2, true);
+            }
+            Debug.Log("GameManager booleanList[2]을 true로 설정 완료");
+        }
+        else
+        {
+            Debug.LogWarning("GameManager 인스턴스가 존재하지 않습니다. booleanList 값을 설정할 수 없습니다.");
+        }
+
+        // 원래 씬으로 돌아가기 (GameManager에서 저장된 씬 이름 사용)
+        // 👉 씬 복귀 요청
+        GameManager.Instance.ReturnToOriginalScene();
+        // UI 처리 등
     }
 
     public void ResetTargets(bool isTake)
     {
         currentHits = 0;
         isCleared = false;
-        // 1. ��� LaserTarget�� ���� �ʱ�ȭ
+        // 1. 모든 LaserTarget의 상태 초기화
         LaserTarget[] targets = FindObjectsOfType<LaserTarget>();
         foreach (var target in targets)
         {
             target.ResetTarget();
         }
 
-        // 2. ��� LineController���� ������ �ٽ� ���
+        // 2. 모든 LineController에게 레이저 다시 쏘기
         LineController[] lasers = FindObjectsOfType<LineController>();
         foreach (var laser in lasers)
         {
