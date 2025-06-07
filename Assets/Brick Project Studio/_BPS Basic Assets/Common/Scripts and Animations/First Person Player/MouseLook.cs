@@ -89,6 +89,13 @@ namespace SojaExiles
                 Cursor.visible = true;
             }
         }
+        public bool isLockOn()
+        {
+            if (isCursorLocked)
+                return true;
+            else
+                return false;
+        }
         public void ToggleLock()
         {
             isCursorLocked = !isCursorLocked;

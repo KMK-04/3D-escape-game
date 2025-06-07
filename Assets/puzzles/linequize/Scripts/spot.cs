@@ -1,21 +1,21 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class MatchstickLineDrawer : MonoBehaviour
 {
-    public Transform[] points; // 15°³ Á¡ÀÇ Transform ¹è¿­ (Inspector¿¡¼­ ¼ø¼­´ë·Î ÇÒ´ç)
-    public GameObject lineObjectPrefab; // SpriteRenderer°¡ ºÙÀº »ç°¢Çü ÇÁ¸®ÆÕ
+    public Transform[] points; // 15ê°œ ì ì˜ Transform ë°°ì—´ (Inspectorì—ì„œ ìˆœì„œëŒ€ë¡œ í• ë‹¹)
+    public GameObject lineObjectPrefab; // SpriteRendererê°€ ë¶™ì€ ì‚¬ê°í˜• í”„ë¦¬íŒ¹
 
     private int clickCount = 0;
     private Transform firstPoint, secondPoint;
-    private Queue<GameObject> drawnLines = new Queue<GameObject>(); // ÃÖ±Ù µÎ °³ÀÇ ¼±¸¸ ÀúÀå
-    private Queue<Vector2Int> linesDrawn = new Queue<Vector2Int>(); // ÃÖ±Ù µÎ °³ÀÇ ÀÎµ¦½º ÀúÀå
-    public string targetSceneName = "TargetScene"; // ÆÛÁñ ¾À ÀÌ¸§ (ÀÓ½Ã, ÇÊ¿ä ½Ã »ç¿ë)
+    private Queue<GameObject> drawnLines = new Queue<GameObject>(); // ìµœê·¼ ë‘ ê°œì˜ ì„ ë§Œ ì €ì¥
+    private Queue<Vector2Int> linesDrawn = new Queue<Vector2Int>(); // ìµœê·¼ ë‘ ê°œì˜ ì¸ë±ìŠ¤ ì €ì¥
+    public string targetSceneName = "TargetScene"; // í¼ì¦ ì”¬ ì´ë¦„ (ì„ì‹œ, í•„ìš” ì‹œ ì‚¬ìš©)
 
     void Start()
     {
-        // ¸ğµç Á¡¿¡ Collider2D Ãß°¡
+        // ëª¨ë“  ì ì— Collider2D ì¶”ê°€
         foreach (var point in points)
         {
             if (point.GetComponent<Collider2D>() == null)
@@ -46,7 +46,7 @@ public class MatchstickLineDrawer : MonoBehaviour
 
     public void OnPointClicked(Transform point)
     {
-        Debug.Log($"Æ÷ÀÎÆ® Å¬¸¯µÊ: {point.name} (À§Ä¡: {point.position})");
+        Debug.Log($"í¬ì¸íŠ¸ í´ë¦­ë¨: {point.name} (ìœ„ì¹˜: {point.position})");
 
         if (clickCount == 0)
         {
@@ -63,21 +63,21 @@ public class MatchstickLineDrawer : MonoBehaviour
 
     void DrawLine(Vector3 start, Vector3 end, Transform pointA, Transform pointB)
     {
-        // µÎ Á¡ÀÇ Áß°£ À§Ä¡ °è»ê
+        // ë‘ ì ì˜ ì¤‘ê°„ ìœ„ì¹˜ ê³„ì‚°
         Vector3 centerPos = (start + end) / 2f;
         float length = Vector3.Distance(start, end);
 
-        // ºÎ¸ğÀÇ scale º¸Á¤
+        // ë¶€ëª¨ì˜ scale ë³´ì •
         Vector3 parentScale = this.transform.lossyScale;
         float correctedLength = length / parentScale.x;
         float correctedThickness = lineObjectPrefab.transform.localScale.y / parentScale.y;
 
-        // ¼± ¿ÀºêÁ§Æ® »ı¼º (ºÎ¸ğ¸¦ ÇöÀç ¿ÀºêÁ§Æ®·Î)
+        // ì„  ì˜¤ë¸Œì íŠ¸ ìƒì„± (ë¶€ëª¨ë¥¼ í˜„ì¬ ì˜¤ë¸Œì íŠ¸ë¡œ)
         GameObject newLine = Instantiate(lineObjectPrefab, centerPos, Quaternion.identity, this.transform);
         newLine.transform.right = (end - start).normalized;
         newLine.transform.localScale = new Vector3(correctedLength, correctedThickness, 1);
 
-        // ¼± Å¥¿¡ Ãß°¡, 2°³ ÃÊ°ú½Ã °¡Àå ¿À·¡µÈ ¼± »èÁ¦
+        // ì„  íì— ì¶”ê°€, 2ê°œ ì´ˆê³¼ì‹œ ê°€ì¥ ì˜¤ë˜ëœ ì„  ì‚­ì œ
         drawnLines.Enqueue(newLine);
         if (drawnLines.Count > 2)
         {
@@ -85,7 +85,7 @@ public class MatchstickLineDrawer : MonoBehaviour
             Destroy(oldLine);
         }
 
-        // ¼± ÀÎµ¦½º Å¥¿¡ Ãß°¡, 2°³ ÃÊ°ú½Ã °¡Àå ¿À·¡µÈ ÀÎµ¦½º »èÁ¦
+        // ì„  ì¸ë±ìŠ¤ íì— ì¶”ê°€, 2ê°œ ì´ˆê³¼ì‹œ ê°€ì¥ ì˜¤ë˜ëœ ì¸ë±ìŠ¤ ì‚­ì œ
         int index1 = System.Array.IndexOf(points, pointA);
         int index2 = System.Array.IndexOf(points, pointB);
         Vector2Int lineIndices = new Vector2Int(Mathf.Min(index1, index2), Mathf.Max(index1, index2));
@@ -95,7 +95,7 @@ public class MatchstickLineDrawer : MonoBehaviour
             linesDrawn.Dequeue();
         }
 
-        // Å»Ãâ Á¶°Ç Ã¼Å© (ÃÖ±Ù µÎ °³ÀÇ ¼±ÀÌ 0-1 & 6-7 ÀÎÁö)
+        // íƒˆì¶œ ì¡°ê±´ ì²´í¬ (ìµœê·¼ ë‘ ê°œì˜ ì„ ì´ 0-1 & 6-7 ì¸ì§€)
         bool hasLine1 = false, hasLine2 = false;
         foreach (var line in linesDrawn)
         {
@@ -104,8 +104,8 @@ public class MatchstickLineDrawer : MonoBehaviour
         }
         if (hasLine1 && hasLine2)
         {
-            Debug.Log("Å»Ãâ!");
-            // GameManagerÀÇ booleanList 1¹øÂ° °ªÀ» true·Î ¼³Á¤ (¿¹: ÀÎµ¦½º 1 »ç¿ë)
+            Debug.Log("íƒˆì¶œ!");
+            // GameManagerì˜ booleanList 1ë²ˆì§¸ ê°’ì„ trueë¡œ ì„¤ì • (ì˜ˆ: ì¸ë±ìŠ¤ 1 ì‚¬ìš©)
             if (GameManager.Instance != null)
             {
                 if (GameManager.Instance.GetBooleanListSize() > 1)
@@ -114,31 +114,23 @@ public class MatchstickLineDrawer : MonoBehaviour
                 }
                 else
                 {
-                    // ¸®½ºÆ® Å©±â°¡ ÃæºĞÇÏÁö ¾Ê´Ù¸é ÇÊ¿äÇÑ ¸¸Å­ Ãß°¡
+                    // ë¦¬ìŠ¤íŠ¸ í¬ê¸°ê°€ ì¶©ë¶„í•˜ì§€ ì•Šë‹¤ë©´ í•„ìš”í•œ ë§Œí¼ ì¶”ê°€
                     while (GameManager.Instance.GetBooleanListSize() <= 1)
                     {
                         GameManager.Instance.AddBoolean(false);
                     }
                     GameManager.Instance.SetBoolean(1, true);
                 }
-                Debug.Log("GameManager booleanList[1]À» true·Î ¼³Á¤ ¿Ï·á");
+                Debug.Log("GameManager booleanList[1]ì„ trueë¡œ ì„¤ì • ì™„ë£Œ");
             }
             else
             {
-                Debug.LogWarning("GameManager ÀÎ½ºÅÏ½º°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. booleanList °ªÀ» ¼³Á¤ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+                Debug.LogWarning("GameManager ì¸ìŠ¤í„´ìŠ¤ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. booleanList ê°’ì„ ì„¤ì •í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             }
 
-            // ¿ø·¡ ¾ÀÀ¸·Î µ¹¾Æ°¡±â (GameManager¿¡¼­ ÀúÀåµÈ ¾À ÀÌ¸§ »ç¿ë)
-            string originalScene = GameManager.Instance.GetOriginalSceneName();
-            if (!string.IsNullOrEmpty(originalScene))
-            {
-                SceneManager.LoadScene(originalScene);
-            }
-            else
-            {
-                Debug.LogWarning("¿ø·¡ ¾À ÀÌ¸§ÀÌ ÀúÀåµÇÁö ¾Ê¾Ò½À´Ï´Ù. ±âº» ¾ÀÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.");
-                SceneManager.LoadScene("DefaultScene"); // ±âº» ¾À ÀÌ¸§À¸·Î ´ëÃ¼
-            }
+            // ì›ë˜ ì”¬ìœ¼ë¡œ ëŒì•„ê°€ê¸° (GameManagerì—ì„œ ì €ì¥ëœ ì”¬ ì´ë¦„ ì‚¬ìš©)
+            // ğŸ‘‰ ì”¬ ë³µê·€ ìš”ì²­
+            GameManager.Instance.ReturnToOriginalScene();
         }
     }
 }

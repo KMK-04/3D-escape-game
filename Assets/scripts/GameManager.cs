@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using SojaExiles;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,11 +37,11 @@ public class GameManager : MonoBehaviour
         // playerTransform�� �Ҵ���� �ʾҴٸ� "MainCamera" �±׸� ���� ������Ʈ�� �ڵ����� ã��
         if (playerTransform == null)
         {
-            GameObject cameraObject = GameObject.FindWithTag("MainCamera");
-            if (cameraObject != null)
+            GameObject playerObject = GameObject.FindWithTag("Player");
+            if (playerObject != null)
             {
-                playerTransform = cameraObject.transform;
-                Debug.Log("MainCamera �±׸� ���� ������Ʈ�� playerTransform�� �ڵ� �Ҵ�: " + cameraObject.name);
+                playerTransform = playerObject.transform;
+                Debug.Log("MainCamera �±׸� ���� ������Ʈ�� playerTransform�� �ڵ� �Ҵ�: " + playerObject.name);
             }
             else
             {
@@ -50,22 +52,24 @@ public class GameManager : MonoBehaviour
 
 
     // �÷��̾� ��ġ �� ī�޶� ȸ���� ����
+    // 위치 저장
     public void SavePlayerPosition(string sceneName)
     {
-        GameObject cameraObject = GameObject.FindWithTag("MainCamera");
-        if (cameraObject != null)
+        GameObject playerObject = GameObject.FindWithTag("Player");
+        if (playerObject != null)
         {
-            playerTransform = cameraObject.transform;
-            playerPosition = playerTransform.position; // �÷��̾� ������Ʈ�� ���� ��ġ ����
-            cameraRotation = playerTransform.eulerAngles; // ī�޶��� ȸ���� ����
+            playerTransform = playerObject.transform;
+            playerPosition = playerTransform.position;
+            cameraRotation = playerTransform.eulerAngles; // 필요 시 조정
             originalSceneName = sceneName;
-            Debug.Log($"�÷��̾� ��ġ ����: {playerPosition}, ī�޶� ȸ���� ����: {cameraRotation}, ���� ��: {sceneName}");
+            Debug.Log($"플레이어 위치 저장: {playerPosition}, 회전: {cameraRotation}");
         }
         else
         {
-            Debug.LogWarning("MainCamera �±׸� ���� ������Ʈ�� ã�� �� �����ϴ�. ��ġ �� ȸ������ ������ �� �����ϴ�.");
+            Debug.LogWarning("Player 태그를 가진 오브젝트를 찾을 수 없습니다.");
         }
     }
+
 
     // �÷��̾� ��ġ ��������
     public Vector3 GetPlayerPosition()
@@ -156,19 +160,35 @@ public class GameManager : MonoBehaviour
         Instance.StartCoroutine(RestorePlayerPosition());
     }
 
+    // 위치 복원
     private IEnumerator RestorePlayerPosition()
     {
         yield return new WaitForEndOfFrame();
 
-        if (playerTransform != null)
+        if (playerTransform == null || playerTransform.Equals(null))
         {
-            playerTransform.position = playerPosition;
-            playerTransform.eulerAngles = cameraRotation;
-            Debug.Log($"플레이어 위치 복원 완료: {playerPosition}, 회전: {cameraRotation}");
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+            {
+                playerTransform = playerObj.transform;
+                Debug.Log("playerTransform 재설정 완료: " + playerObj.name);
+            }
+            else
+            {
+                Debug.LogWarning("Player 태그 오브젝트를 찾을 수 없습니다.");
+                yield break;
+            }
         }
-        else
+
+        playerTransform.position = playerPosition;
+        playerTransform.eulerAngles = cameraRotation;
+
+        Debug.Log($"플레이어 위치 복원 완료: {playerPosition}, 회전: {cameraRotation}");
+
+        if (!MouseLook.instance.isLockOn())
         {
-            Debug.LogWarning("playerTransform이 null입니다. 위치 복원 실패.");
+            MouseLook.instance.ToggleLock();
         }
     }
+
 }
