@@ -78,8 +78,6 @@ public class ItemDialogueTrigger : MonoBehaviour
             if (arr == null || arr.Length == 0)
                 dm.logManager.Init_Log();
         }
-
-        
     }
 
     /* ■ 아이템 클릭 */
@@ -114,9 +112,6 @@ public class ItemDialogueTrigger : MonoBehaviour
             p.gameObject.SetActive(true);
         iconManager.On_Panel();
         Dialogue_Manage.Instance.dialoguePanel?.SetActive(true);
-        
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible   = true;
 
         /* 3) UI·매니저 레퍼런스 재바인딩 */
         var dm = Dialogue_Manage.Instance;
