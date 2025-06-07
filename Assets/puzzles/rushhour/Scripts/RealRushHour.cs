@@ -152,7 +152,10 @@ public class RealRushHour : MonoBehaviour
                 GameManager.Instance.AddBoolean(true);
 
             Debug.Log("GameManager booleanList[0]을 true로 설정 완료");
-
+            DeferredDialogue.Request(
+                csvName : "rushhour",
+                flagName: "RushHourClear"
+        );
             // 👉 씬 복귀 요청
             GameManager.Instance.ReturnToOriginalScene();
         }

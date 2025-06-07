@@ -2,20 +2,52 @@ using UnityEngine;
 
 public class iftureshow : MonoBehaviour
 {
-    public int n; // È®ÀÎÇÒ ÀÎµ¦½º
+    public int n; // í™•ì¸í•  ì¸ë±ìŠ¤
+    private bool lastBooleanState = false; // ì´ì „ ìƒíƒœ ì €ìž¥
 
     void Start()
     {
+        CheckAndUpdateVisibility();
+    }
+
+    void Update()
+    {
+        // ë§¤ í”„ë ˆìž„ë§ˆë‹¤ boolean ìƒíƒœ ë³€í™” í™•ì¸
+        if (GameManager.Instance != null && n >= 0 && n < GameManager.Instance.GetBooleanListSize())
+        {
+            bool currentState = GameManager.Instance.GetBoolean(n);
+            
+            // ìƒíƒœê°€ ë³€ê²½ë˜ì—ˆì„ ë•Œë§Œ ì—…ë°ì´íŠ¸
+            if (currentState != lastBooleanState)
+            {
+                lastBooleanState = currentState;
+                CheckAndUpdateVisibility();
+            }
+        }
+    }
+
+    void CheckAndUpdateVisibility()
+    {
         if (GameManager.Instance != null)
         {
-            if (n >= 0 && n < GameManager.Instance.GetBooleanListSize() && GameManager.Instance.GetBoolean(n))
+            if (n >= 0 && n < GameManager.Instance.GetBooleanListSize())
             {
-                Debug.Log($"booleanList[{n}]ÀÌ trueÀÌ¹Ç·Î ¿ÀºêÁ§Æ® »ý¼º À¯Áö: {gameObject.name}");
-                gameObject.SetActive(true);
+                bool currentState = GameManager.Instance.GetBoolean(n);
+                
+                if (currentState)
+                {
+                    Debug.Log($"booleanList[{n}]ì´ trueì´ë¯€ë¡œ ì˜¤ë¸Œì íŠ¸ í™œì„± ìƒíƒœ: {gameObject.name}");
+                    gameObject.SetActive(true);
+                }
+                else
+                {
+                    Debug.Log($"booleanList[{n}]ì´ falseì´ë¯€ë¡œ ì˜¤ë¸Œì íŠ¸ ë¹„í™œì„±: {gameObject.name}");
+                    gameObject.SetActive(false);
+                }
             }
             else
             {
-                Debug.Log($"booleanList[{n}]ÀÌ falseÀÌ°Å³ª ¹üÀ§ ¹ÛÀÌ¹Ç·Î ¿ÀºêÁ§Æ® ÆÄ±«: {gameObject.name}");
+                Debug.Log($"ìž˜ëª»ëœ ì¸ë±ìŠ¤ì´ë¯€ë¡œ ì˜¤ë¸Œì íŠ¸ ë¹„í™œì„±: {gameObject.name}");
                 gameObject.SetActive(false);
             }
         }

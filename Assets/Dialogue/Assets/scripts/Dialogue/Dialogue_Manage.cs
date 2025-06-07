@@ -103,6 +103,7 @@ public class Dialogue_Manage : MonoBehaviour
                 CanvasController.Instance.canToggleByZ = true;
             }
             dialoguePanel.SetActive(false);
+            
             return;
         }
 
