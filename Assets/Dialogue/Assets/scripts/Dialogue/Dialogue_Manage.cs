@@ -50,9 +50,9 @@ public class Dialogue_Manage : MonoBehaviour
     void Start()
     {
         StartDialogue(DatabaseManager.instance.csv_FileName); // Resources 폴더 내 example.csv
-        if(player!= null)
+        if(GameManager.Instance.playerMovement != null)
         {
-            player.SetMovement(false);
+            GameManager.Instance.playerMovement.SetMovement(false);
         }  
     }
 
@@ -104,7 +104,7 @@ public class Dialogue_Manage : MonoBehaviour
                 return;
             }
 
-            if (player != null)
+            if (GameManager.Instance.playerMovement != null)
             {
                 GameManager.Instance.playerMovement.SetMovement(true);
 
@@ -130,7 +130,7 @@ public class Dialogue_Manage : MonoBehaviour
         }
 
         var dialogue = currentDialogue[dialogueIndex];
-        if (player != null)
+        if (GameManager.Instance.playerMovement != null)
         {
             GameManager.Instance.playerMovement.SetMovement(false);
         }
