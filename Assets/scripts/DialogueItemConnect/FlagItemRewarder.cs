@@ -5,7 +5,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class FlagItemRewarder : MonoBehaviour
 {
-    private static FlagItemRewarder instance;
+    public static FlagItemRewarder instance { get; private set; }
     [System.Serializable]
     public class RewardEntry
     {
@@ -21,6 +21,11 @@ public class FlagItemRewarder : MonoBehaviour
 
         [Tooltip("아이템 이름")] public string itemName;
         [Tooltip("아이템 설명")] public string itemDescription;
+
+        [HideInInspector]
+        public bool rewarded = false;  // 보상 완료 여부
+
+    
     }
 
     [Tooltip("이벤트별 보상 항목 목록")] public List<RewardEntry> entries = new List<RewardEntry>();

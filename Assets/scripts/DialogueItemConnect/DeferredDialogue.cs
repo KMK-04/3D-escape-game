@@ -1,5 +1,6 @@
 // Assets/Scripts/Dialogue/DeferredDialogue.cs
 using System.Collections;
+using System.Collections.Generic;
 using SojaExiles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,7 +31,6 @@ public static class DeferredDialogue
         pendingItemPath = itemPath;
         pendingItemName = itemName;
         pendingItemDesc = itemDesc;
-        
         Debug.Log($"[DeferredDialogue] Request 등록: CSV={csvName}, Flag={flagName}");
     }
 
@@ -45,6 +45,17 @@ public static class DeferredDialogue
         if (!hasRequest) return;
         Debug.Log($"[DeferredDialogue] 씬 로드 후 처리 시작: {s.name}");
 
+        // 이미 보상 완료된 이벤트라면 스킵
+        var rewarder = Object.FindObjectOfType<FlagItemRewarder>(true);
+        var entryChk = rewarder?.GetReward(pendingFlag, pendingCSV);
+        if (entryChk != null && entryChk.rewarded)
+        {
+            Debug.Log($"[DeferredDialogue] 이미 처리된 이벤트, 스킵: Flag={pendingFlag}, CSV={pendingCSV}");
+            hasRequest = false;
+            pendingCSV = pendingFlag = pendingItemPath = pendingItemName = pendingItemDesc = null;
+            return;
+        }
+
         // 플래그 기록
         if (!string.IsNullOrEmpty(pendingFlag) && GameManager.Instance != null)
         {
@@ -54,8 +65,7 @@ public static class DeferredDialogue
         }
 
         // Runner 생성
-        var runner = new GameObject("DeferredDialogueRunner")
-            .AddComponent<Runner>();
+        var runner = new GameObject("DeferredDialogueRunner").AddComponent<Runner>();
         Object.DontDestroyOnLoad(runner);
 
         runner.csvName = pendingCSV;
@@ -64,14 +74,12 @@ public static class DeferredDialogue
         runner.itemName = pendingItemName;
         runner.itemDesc = pendingItemDesc;
 
-        // 요청 소모
         hasRequest = false;
     }
 
     private static class FlagCache
     {
-        private static readonly System.Collections.Generic.Dictionary<string, int> map
-            = new System.Collections.Generic.Dictionary<string, int>();
+        private static readonly Dictionary<string, int> map = new Dictionary<string, int>();
 
         public static int GetOrAdd(string name)
         {
@@ -97,22 +105,27 @@ public static class DeferredDialogue
         void Start()
         {
             Debug.Log($"[DeferredDialogue.Runner] 시작: {csvName}");
-            
-            // 약간의 지연 후 대화 시작 (씬 로딩 완료 대기)
+            // 이미 보상된 이벤트이면 대화 스킵
+            var rewarder = Object.FindObjectOfType<FlagItemRewarder>(true);
+            var entryChk = rewarder?.GetReward(flagName, csvName);
+            if (entryChk != null && entryChk.rewarded)
+            {
+                Debug.Log($"[DeferredDialogue.Runner] 이미 보상된 이벤트 - 대화 스킵: {csvName}");
+                Destroy(gameObject);
+                return;
+            }
             StartCoroutine(DelayedStart());
         }
 
         private IEnumerator DelayedStart()
         {
-            // 프레임 대기
             yield return new WaitForEndOfFrame();
             yield return new WaitForSeconds(0.1f);
-            
+
             try
             {
                 DialogueHelper.PrepareAndShowDialogue(csvName);
                 Debug.Log($"[DeferredDialogue.Runner] 대화 시작 완료: {csvName}");
-                
                 StartCoroutine(WaitForEndAndReward());
             }
             catch (System.Exception e)
@@ -124,33 +137,26 @@ public static class DeferredDialogue
 
         private IEnumerator WaitForEndAndReward()
         {
-            // 대화 종료 대기
             yield return new WaitUntil(() =>
                 Dialogue_Manage.Instance != null &&
                 Dialogue_Manage.Instance.isEndLine()
             );
 
             Debug.Log("[DeferredDialogue.Runner] 대화 종료 감지, 보상 처리 시작");
-
-            // 보상 처리
             yield return StartCoroutine(ProcessReward());
-
             Debug.Log("[DeferredDialogue.Runner] 처리 완료, Runner 제거");
-
             Destroy(gameObject);
         }
 
         private IEnumerator ProcessReward()
         {
-            // FlagItemRewarder를 통한 보상
             var rewarder = Object.FindObjectOfType<FlagItemRewarder>(true);
             if (rewarder != null)
             {
                 var entry = rewarder.GetReward(flagName, csvName);
-                if (entry != null && !string.IsNullOrEmpty(entry.itemPath))
+                if (entry != null && !entry.rewarded)
                 {
-                    yield return new WaitForSeconds(0.5f); // 약간의 지연
-                    
+                    yield return new WaitForSeconds(0.5f);
                     try
                     {
                         ItemController.Instance.AddItemToInventory(
@@ -158,25 +164,23 @@ public static class DeferredDialogue
                             entry.itemName,
                             entry.itemDescription
                         );
-                       
-                        Debug.Log($"[DeferredDialogue] FlagItemRewarder 보상 지급: {entry.itemName}");
+                        entry.rewarded = true;
+                        Debug.Log($"[DeferredDialogue] 보상 지급 완료: {entry.itemName}");
                     }
                     catch (System.Exception e)
                     {
                         Debug.LogError($"[DeferredDialogue] 보상 지급 실패: {e.Message}");
                     }
                 }
-                else
+                else if (entry != null && entry.rewarded)
                 {
-                    Debug.Log($"[DeferredDialogue] FlagItemRewarder에서 보상을 찾을 수 없음: Flag={flagName}, CSV={csvName}");
+                    Debug.Log($"[DeferredDialogue] 이미 보상된 항목, 건너뜀: {entry.itemName}");
                 }
             }
 
-            // 직접 전달된 아이템 정보로 보상 (fallback)
             if (!string.IsNullOrEmpty(itemPath))
             {
                 yield return new WaitForSeconds(0.5f);
-                
                 try
                 {
                     ItemController.Instance.AddItemToInventory(itemPath, itemName, itemDesc);
