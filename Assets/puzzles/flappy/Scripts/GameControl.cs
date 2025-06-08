@@ -30,9 +30,9 @@ public class GameControl : MonoBehaviour
         gameOverText.SetActive(true);
         isGameover = true;
         DeferredDialogue.Request(
-csvName: "failf",
-flagName: "failf"
-);
+            csvName: "fail",
+            flagName: "fail"
+        );
         GameManager.Instance.ReturnToOriginalScene();
     }
 
