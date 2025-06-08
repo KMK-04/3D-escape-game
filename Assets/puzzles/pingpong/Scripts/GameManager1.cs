@@ -18,7 +18,7 @@ public class GameManagerpingpong : MonoBehaviour
     private void Start()
     {
         NewGame();
-        goalScore = 3;
+        goalScore = 2;
     }
 
     private void Update()

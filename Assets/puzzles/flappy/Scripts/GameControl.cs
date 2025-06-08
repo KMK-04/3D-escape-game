@@ -42,7 +42,7 @@ public class GameControl : MonoBehaviour
         }
         score++;
         scoreText.text = "Score : " + score.ToString();
-        if (score >= 10)
+        if (score >= 5)
         {
             GameManager.Instance.SetBoolean(6, false);
             DeferredDialogue.Request(
