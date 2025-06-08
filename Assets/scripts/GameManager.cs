@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     public Transform playerTransform; // �÷��̾� ������Ʈ�� Transform (Inspector���� �Ҵ� �Ǵ� �ڵ� ����)
     public List<bool> booleanList; // ������ �����ϱ� ���� boolean ����Ʈ
     public GameObject phone;
+
+    public PlayerMovement playerMovement;
+
+
     void Awake()
     {
         // �̱��� ���� ����: �̹� �ν��Ͻ��� ������ ���� ������Ʈ�� �ı�
@@ -158,6 +162,18 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         Instance.StartCoroutine(RestorePlayerPosition());
+
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+        {
+            playerTransform = playerObj.transform;
+            playerMovement = playerObj.GetComponent<PlayerMovement>();
+            Debug.Log("playerTransform & playerMovement 재설정 완료: " + playerObj.name);
+        }
+        else
+        {
+            Debug.LogWarning("Player 태그 오브젝트를 찾을 수 없습니다.");
+        }
     }
 
     // 위치 복원
@@ -165,19 +181,10 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        if (playerTransform == null || playerTransform.Equals(null))
+        if (playerTransform == null)
         {
-            GameObject playerObj = GameObject.FindWithTag("Player");
-            if (playerObj != null)
-            {
-                playerTransform = playerObj.transform;
-                Debug.Log("playerTransform 재설정 완료: " + playerObj.name);
-            }
-            else
-            {
-                Debug.LogWarning("Player 태그 오브젝트를 찾을 수 없습니다.");
-                yield break;
-            }
+            Debug.LogWarning("playerTransform이 비어있어 위치 복원 불가.");
+            yield break;
         }
 
         playerTransform.position = playerPosition;
@@ -190,5 +197,4 @@ public class GameManager : MonoBehaviour
             MouseLook.instance.ToggleLock();
         }
     }
-
 }

@@ -106,7 +106,8 @@ public class Dialogue_Manage : MonoBehaviour
 
             if (player != null)
             {
-                player.SetMovement(true);
+                GameManager.Instance.playerMovement.SetMovement(true);
+
             }
 
             if (!MouseLook.instance.isLockOn()){
@@ -131,7 +132,7 @@ public class Dialogue_Manage : MonoBehaviour
         var dialogue = currentDialogue[dialogueIndex];
         if (player != null)
         {
-            player.SetMovement(false);
+            GameManager.Instance.playerMovement.SetMovement(false);
         }
 
         //  대화 진행중에는 Z 안되게 설정

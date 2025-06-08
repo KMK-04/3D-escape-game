@@ -1,3 +1,4 @@
+using SojaExiles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,7 +7,7 @@ public class CanvasController : MonoBehaviour
     public static CanvasController Instance;
     public GameObject canvasUI;  // Canvas 내부 UI 루트 패널 (예: Panel, 또는 전체 UI 묶음)
     public bool canToggleByZ = false;
-
+    private bool isCanvasOn = false;
     private void Awake()
     {
         if (Instance == null)
@@ -87,8 +88,19 @@ public class CanvasController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
+                isCanvasOn = !isCanvasOn;
+                if (!isCanvasOn)
+                {
+                    GameManager.Instance.playerMovement.SetMovement(true);
+                }
+                else
+                {
+                    GameManager.Instance.playerMovement.SetMovement(false);
+                }
                 bool currentState = canvasUI.activeSelf;
                 canvasUI.SetActive(!currentState);
+                MouseLook.instance.ToggleLock();
+
             }
         }
     }
