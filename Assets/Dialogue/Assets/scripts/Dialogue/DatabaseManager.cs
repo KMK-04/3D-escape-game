@@ -6,7 +6,7 @@ public class DatabaseManager : MonoBehaviour
 {
     public static DatabaseManager instance;
 
-    [SerializeField] string csv_FileName;
+    [SerializeField] public string csv_FileName;
 
     Dictionary<int, Dialgoue> dialogueDic = new Dictionary<int, Dialgoue>();
     public static bool isFinish = false;

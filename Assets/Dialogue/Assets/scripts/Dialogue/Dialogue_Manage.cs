@@ -2,7 +2,7 @@ using System.Collections;
 using SojaExiles;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class Dialogue_Manage : MonoBehaviour
 {
     public static Dialogue_Manage Instance;
@@ -22,24 +22,34 @@ public class Dialogue_Manage : MonoBehaviour
 
     public DialogueProgress currentProgress = new DialogueProgress();
     public PlayerMovement player;
-
+    public bool ShowImage = false;
+    public RawImage Image_set;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+
+            // 현재 씬 이름 가져오기
+            string sceneName = SceneManager.GetActiveScene().name;
+
+            // Intro 씬이 아닐 때만 DontDestroyOnLoad
+            if (sceneName != "Intro")
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
         else
         {
             Destroy(gameObject);
-        } 
+        }
     }
+
 
     void Start()
     {
-        StartDialogue("example"); // Resources 폴더 내 example.csv
+        StartDialogue(DatabaseManager.instance.csv_FileName); // Resources 폴더 내 example.csv
         if(player!= null)
         {
             player.SetMovement(false);
@@ -87,10 +97,18 @@ public class Dialogue_Manage : MonoBehaviour
     {
         if (isEndLine())
         {
+            if (SceneManager.GetActiveScene().name == "Intro")
+            {
+                DatabaseManager.instance.csv_FileName = "example";
+                SceneManager.LoadScene("Scene_01");
+                return;
+            }
+
             if (player != null)
             {
                 player.SetMovement(true);
             }
+
             MouseLook.instance.ToggleLock();
 
 
@@ -142,7 +160,27 @@ public class Dialogue_Manage : MonoBehaviour
         currentProgress.dialogueIndex = dialogueIndex;
         currentProgress.contextIndex = contextIndex;
 
+        // 이미지 표시 로직 추가
+        if (ShowImage && Image_set != null)
+        {
+            int imageNum;
+            if (int.TryParse(dialogue.number[contextIndex], out imageNum))
+            {
+                Texture img = Resources.Load<Texture>($"Sprites/IntroImage/{imageNum}");
+                if (img != null)
+                {
+                    Image_set.texture = img;
+                    Image_set.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogWarning($"[Dialogue_Manage] 이미지 파일을 찾을 수 없습니다: Sprites/IntroImage/{imageNum}");
+                }
+            }
+
+        }
         contextIndex++;
+     
     }
 
 

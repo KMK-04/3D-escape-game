@@ -4,9 +4,37 @@ using UnityEngine;
 
 public class DialgoueParser : MonoBehaviour
 {
+    public static string[] SplitCSV(string line)
+    {
+        List<string> result = new List<string>();
+        bool inQuotes = false;
+        string value = "";
+
+        foreach (char c in line)
+        {
+            if (c == '\"')
+            {
+                inQuotes = !inQuotes;
+            }
+            else if (c == ',' && !inQuotes)
+            {
+                result.Add(value);
+                value = "";
+            }
+            else
+            {
+                value += c;
+            }
+        }
+
+        result.Add(value); // 마지막 값 추가
+
+        return result.ToArray();
+    }
+
     public Dialgoue[] Parse(string _CSVFilieName)
     {
-        List<Dialgoue> dialgoueList = new List<Dialgoue>();
+        List<Dialgoue> dialogueList = new List<Dialgoue>();
         TextAsset csvData = Resources.Load<TextAsset>(_CSVFilieName);
 
         if (csvData == null)
@@ -17,52 +45,57 @@ public class DialgoueParser : MonoBehaviour
 
         string[] data = csvData.text.Split(new char[] { '\n' });
 
-        for (int i = 1; i < data.Length;)
-        {
-            string[] row = data[i].Split(new char[] { ',' });
+        Dialgoue currentDialogue = null;
+        string currentName = "";
+        List<string> contexts = new List<string>();
+        List<string> numbers = new List<string>();
+        List<string> skips = new List<string>();
 
-            // 빈 줄 또는 길이 부족한 줄 방지
-            if (row.Length < 5 || string.IsNullOrWhiteSpace(row[1]) || string.IsNullOrWhiteSpace(row[2]))
-            {
-                i++;
+        for (int i = 1; i < data.Length; i++)
+        {
+            string[] row = SplitCSV(data[i]);
+
+            if (row.Length < 5 || string.IsNullOrWhiteSpace(row[1]))
                 continue;
+
+            string name = row[1];
+
+            if (currentDialogue == null || currentName != name)
+            {
+                if (currentDialogue != null)
+                {
+                    currentDialogue.contexts = contexts.ToArray();
+                    currentDialogue.number = numbers.ToArray();
+                    currentDialogue.skipnum = skips.ToArray();
+                    dialogueList.Add(currentDialogue);
+                }
+
+                currentDialogue = new Dialgoue();
+                currentDialogue.name = name;
+                currentName = name;
+
+                // 새로운 리스트 초기화
+                contexts = new List<string>();
+                numbers = new List<string>();
+                skips = new List<string>();
             }
 
-            Dialgoue dialgoue = new Dialgoue();
-            dialgoue.name = row[1];
-
-            List<string> contextList = new List<string>();
-            List<string> eventList = new List<string>();
-            List<string> skipList = new List<string>();
-
-            do
-            {
-                if (row.Length < 5)
-                    break;
-
-                contextList.Add(row[2]);
-                eventList.Add(row[3]);
-                skipList.Add(row[4]);
-
-                i++;
-                if (i < data.Length)
-                {
-                    row = data[i].Split(new char[] { ',' });
-                }
-                else
-                {
-                    break;
-                }
-
-            } while (string.IsNullOrWhiteSpace(row[0]));
-
-            dialgoue.contexts = contextList.ToArray();
-            dialgoue.number = eventList.ToArray();
-            dialgoue.skipnum = skipList.ToArray();
-
-            dialgoueList.Add(dialgoue);
+            contexts.Add(row[2]);
+            numbers.Add(row[3]);
+            skips.Add(row[4]);
         }
 
-        return dialgoueList.ToArray();
+        // 마지막 데이터 추가
+        if (currentDialogue != null)
+        {
+            currentDialogue.contexts = contexts.ToArray();
+            currentDialogue.number = numbers.ToArray();
+            currentDialogue.skipnum = skips.ToArray();
+            dialogueList.Add(currentDialogue);
+        }
+
+        return dialogueList.ToArray();
     }
+
+
 }
