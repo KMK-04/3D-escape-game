@@ -50,10 +50,13 @@ public class Dialogue_Manage : MonoBehaviour
     void Start()
     {
         StartDialogue(DatabaseManager.instance.csv_FileName); // Resources 폴더 내 example.csv
-        if(GameManager.Instance.playerMovement != null)
+        if (SceneManager.GetActiveScene().name != "Intro")
         {
-            GameManager.Instance.playerMovement.SetMovement(false);
-        }  
+            if (GameManager.Instance.playerMovement != null)
+            {
+                GameManager.Instance.playerMovement.SetMovement(false);
+            }
+        }
     }
 
     public void StartDialogue(string csvFileName)
@@ -130,9 +133,12 @@ public class Dialogue_Manage : MonoBehaviour
         }
 
         var dialogue = currentDialogue[dialogueIndex];
-        if (GameManager.Instance.playerMovement != null)
+        if (SceneManager.GetActiveScene().name != "Intro")
         {
-            GameManager.Instance.playerMovement.SetMovement(false);
+            if (GameManager.Instance.playerMovement != null)
+            {
+                GameManager.Instance.playerMovement.SetMovement(false);
+            }
         }
 
         //  대화 진행중에는 Z 안되게 설정
