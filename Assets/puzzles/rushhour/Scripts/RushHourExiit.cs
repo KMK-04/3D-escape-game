@@ -19,8 +19,11 @@ public class RushHourExit : MonoBehaviour
     /* --- X 버튼에서 호출 --- */
     public void ExitPuzzle()
     {
-        string originalScene = GameManager.Instance.GetOriginalSceneName();
-        SceneManager.LoadScene(originalScene);
+        DeferredDialogue.Request(
+csvName: "fail",
+flagName: "fail3"
+);
+        GameManager.Instance.ReturnToOriginalScene();
 
     }
 }

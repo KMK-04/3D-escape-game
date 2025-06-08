@@ -144,10 +144,12 @@ public class WeighManager1 : MonoBehaviour
 
         if (selectedBall.id == heavyIndex)
         {
+            DeferredDialogue.Request(
+csvName: "animal",
+flagName: "scale"
+);
+            GameManager.Instance.ReturnToOriginalScene();
             Debug.Log("[콘솔] 정답입니다! 🎉");
-            string originalScene = GameManager.Instance.GetOriginalSceneName();
-            SceneManager.LoadScene(originalScene);
-            StartCoroutine(HandleCorrect(selectedBall));
         }
         else
         {

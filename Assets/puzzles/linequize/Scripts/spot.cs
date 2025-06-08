@@ -12,6 +12,7 @@ public class MatchstickLineDrawer : MonoBehaviour
     private Queue<GameObject> drawnLines = new Queue<GameObject>(); // 최근 두 개의 선만 저장
     private Queue<Vector2Int> linesDrawn = new Queue<Vector2Int>(); // 최근 두 개의 인덱스 저장
     public string targetSceneName = "TargetScene"; // 퍼즐 씬 이름 (임시, 필요 시 사용)
+    public Transform specialObject; // 클릭 시 CheckActivatedCounts() 실행할 오브젝트
 
     void Start()
     {
@@ -32,6 +33,13 @@ public class MatchstickLineDrawer : MonoBehaviour
 
             if (hit.collider != null)
             {
+                // specialObject 클릭 시 처리
+                if (specialObject != null && hit.collider.gameObject == specialObject.gameObject)
+                {
+                    CheckActivatedCounts();
+                    return;
+                }
+
                 foreach (var point in points)
                 {
                     if (hit.collider.gameObject == point.gameObject)
@@ -43,7 +51,14 @@ public class MatchstickLineDrawer : MonoBehaviour
             }
         }
     }
-
+    public void CheckActivatedCounts()
+    {
+        DeferredDialogue.Request(
+csvName: "fail",
+flagName: "fail3"
+);
+        GameManager.Instance.ReturnToOriginalScene();
+    }
     public void OnPointClicked(Transform point)
     {
         Debug.Log($"포인트 클릭됨: {point.name} (위치: {point.position})");
@@ -130,6 +145,10 @@ public class MatchstickLineDrawer : MonoBehaviour
 
             // 원래 씬으로 돌아가기 (GameManager에서 저장된 씬 이름 사용)
             // 👉 씬 복귀 요청
+            DeferredDialogue.Request(
+csvName: "spot",
+flagName: "spot"
+);
             GameManager.Instance.ReturnToOriginalScene();
         }
     }

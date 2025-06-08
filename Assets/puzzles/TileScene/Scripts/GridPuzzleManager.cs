@@ -61,10 +61,9 @@ public void NotifyCellChanged()
             flagName: "tileClear"
         );
 
-        // 원래 씬으로 복귀
-        string origin = GameManager.Instance.GetOriginalSceneName();
-        SceneManager.LoadScene(origin);
-    }
+            // 원래 씬으로 복귀
+            GameManager.Instance.ReturnToOriginalScene();
+        }
 }
 
     /* ── 목표 달성 검사 ── */

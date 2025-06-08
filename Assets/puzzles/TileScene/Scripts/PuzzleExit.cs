@@ -23,7 +23,11 @@ public class PuzzleExit : MonoBehaviour
         string originalScene = GameManager.Instance.GetOriginalSceneName();
         if (!string.IsNullOrEmpty(originalScene))
         {
-            SceneManager.LoadScene(originalScene);
+            DeferredDialogue.Request(
+csvName: "fail",
+flagName: "fail3"
+);
+            GameManager.Instance.ReturnToOriginalScene();
         }
         else
         {

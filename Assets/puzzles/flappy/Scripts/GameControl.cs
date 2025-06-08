@@ -35,15 +35,21 @@ public class GameControl : MonoBehaviour
 
     public void BirdScored() {
         if(isGameover) {
-            return;
+            DeferredDialogue.Request(
+    csvName: "fail",
+    flagName: "fail2"
+);
+            GameManager.Instance.ReturnToOriginalScene();
         }
         score++;
         scoreText.text = "Score : " + score.ToString();
         if (score >= 3)
         {
-            GameManager.Instance.SetBoolean(6, false);
-            string originalScene = GameManager.Instance.GetOriginalSceneName();
-            SceneManager.LoadScene(originalScene);
+            DeferredDialogue.Request(
+    csvName: "animal",
+    flagName: "flappy"
+);
+            GameManager.Instance.ReturnToOriginalScene();
         }
     }
 }

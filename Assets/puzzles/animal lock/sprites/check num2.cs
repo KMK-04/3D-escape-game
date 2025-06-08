@@ -12,7 +12,11 @@ public class ButtonChecknum2 : MonoBehaviour
         string originalScene = GameManager.Instance.GetOriginalSceneName();
         if (!string.IsNullOrEmpty(originalScene))
         {
-            SceneManager.LoadScene(originalScene);
+            DeferredDialogue.Request(
+    csvName: "fail",
+    flagName: "fail"
+);
+            GameManager.Instance.ReturnToOriginalScene();
         }
         else
         {

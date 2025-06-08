@@ -9,7 +9,10 @@ public class ScaleExit : MonoBehaviour
     /// </summary>
     public void OnExitButton()
     {
-        string originalScene = GameManager.Instance.GetOriginalSceneName();
-        SceneManager.LoadScene(originalScene);
+        DeferredDialogue.Request(
+csvName: "fail",
+flagName: "fail3"
+);
+        GameManager.Instance.ReturnToOriginalScene();
     }
 }

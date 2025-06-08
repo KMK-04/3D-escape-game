@@ -30,7 +30,12 @@ public class SequenceChecker1 : MonoBehaviour
 
         Debug.Log("✅ 패턴 일치! (4, 2, 2, 3)");
         GameManager.Instance.SetBoolean(9, false);
-        string originalScene = GameManager.Instance.GetOriginalSceneName();
-        SceneManager.LoadScene(originalScene);
-    }
+        DeferredDialogue.Request(
+    csvName: "animal",
+    flagName: "floor"
+);
+
+        // 원래 씬으로 복귀
+        GameManager.Instance.ReturnToOriginalScene();
+}
 }

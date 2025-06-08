@@ -10,7 +10,10 @@ public class item : MonoBehaviour
     public void OnButtonClick2()
     {
 
-        Debug.Log("클릭됨! " + targetSceneName + " 씬으로 이동합니다.");
-        SceneManager.LoadScene(targetSceneName);
+        DeferredDialogue.Request(
+csvName: "fail3",
+flagName: "fail"
+);
+        GameManager.Instance.ReturnToOriginalScene();
     }
 }

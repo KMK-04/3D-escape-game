@@ -41,7 +41,11 @@ public class check_num1 : MonoBehaviour
                 string originalScene = GameManager.Instance.GetOriginalSceneName();
                 if (!string.IsNullOrEmpty(originalScene))
                 {
-                    SceneManager.LoadScene(originalScene);
+                               DeferredDialogue.Request(
+    csvName: "animal",
+    flagName: "animal"
+);
+            GameManager.Instance.ReturnToOriginalScene();
                 }
                 else
                 {
