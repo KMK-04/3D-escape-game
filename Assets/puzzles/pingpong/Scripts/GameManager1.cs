@@ -102,7 +102,6 @@ flagName: "ping"
         else if (computerScore >= goalScore)
         {
             gameOver = true;
-            GameManager.Instance.SetBoolean(7, false);  // 일단 지든 이기든
             DeferredDialogue.Request(
 csvName: "fail",
 flagName: "fail3"

@@ -42,7 +42,7 @@ flagName: "failf"
         }
         score++;
         scoreText.text = "Score : " + score.ToString();
-        if (score >= 3)
+        if (score >= 10)
         {
             GameManager.Instance.SetBoolean(6, false);
             DeferredDialogue.Request(

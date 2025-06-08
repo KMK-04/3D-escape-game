@@ -43,7 +43,7 @@ public class telpo : MonoBehaviour
         if (targetObject != null)
             targetObject.SetActive(true);
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(15f);
 
         if (moveState == 1)
         {
