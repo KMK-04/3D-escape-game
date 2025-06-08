@@ -3056,6 +3056,14 @@ PrefabInstance:
       propertyPath: OFF_panels.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3279557475934805241, guid: ded7d8ded1644d2469a7ee3dc4f05ca2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 35.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3279557475934805241, guid: ded7d8ded1644d2469a7ee3dc4f05ca2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 4.7
+      objectReference: {fileID: 0}
     - target: {fileID: 5797956167138722121, guid: ded7d8ded1644d2469a7ee3dc4f05ca2, type: 3}
       propertyPath: m_Text
       value: Episode 1.

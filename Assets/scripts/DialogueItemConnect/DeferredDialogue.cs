@@ -114,6 +114,13 @@ public static class DeferredDialogue
                 Destroy(gameObject);
                 return;
             }
+
+            if (GameManager.Instance.playerMovement != null)
+            {
+                GameManager.Instance.playerMovement.SetMovement(false);
+
+            }
+
             StartCoroutine(DelayedStart());
         }
 
@@ -142,6 +149,15 @@ public static class DeferredDialogue
                 Dialogue_Manage.Instance.isEndLine()
             );
 
+            if (!MouseLook.instance.isLockOn())
+            {
+                MouseLook.instance.ToggleLock();
+            }
+            if (GameManager.Instance.playerMovement != null)
+            {
+                GameManager.Instance.playerMovement.SetMovement(true);
+
+            }
             Debug.Log("[DeferredDialogue.Runner] 대화 종료 감지, 보상 처리 시작");
             yield return StartCoroutine(ProcessReward());
             Debug.Log("[DeferredDialogue.Runner] 처리 완료, Runner 제거");
