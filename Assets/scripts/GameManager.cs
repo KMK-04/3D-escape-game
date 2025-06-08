@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
             if (playerObject != null)
             {
                 playerTransform = playerObject.transform;
+                playerMovement = playerObject.GetComponent<PlayerMovement>();
                 Debug.Log("MainCamera �±׸� ���� ������Ʈ�� playerTransform�� �ڵ� �Ҵ�: " + playerObject.name);
             }
             else
