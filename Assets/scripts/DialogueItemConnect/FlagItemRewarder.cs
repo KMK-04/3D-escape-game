@@ -5,6 +5,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class FlagItemRewarder : MonoBehaviour
 {
+    private static FlagItemRewarder instance;
     [System.Serializable]
     public class RewardEntry
     {
@@ -26,6 +27,14 @@ public class FlagItemRewarder : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Debug.Log("[FlagItemRewarder] 중복 인스턴스 발견, 파괴됨");
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
