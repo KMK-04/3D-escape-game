@@ -38,7 +38,7 @@ public class TargetManager : MonoBehaviour
         {
             if (GameManager.Instance.GetBooleanListSize() > 1)
             {
-                GameManager.Instance.SetBoolean(2, true);
+                GameManager.Instance.SetBoolean(11, true);
             }
             else
             {
@@ -47,7 +47,7 @@ public class TargetManager : MonoBehaviour
                 {
                     GameManager.Instance.AddBoolean(false);
                 }
-                GameManager.Instance.SetBoolean(2, true);
+                GameManager.Instance.SetBoolean(11, true);
             }
             Debug.Log("GameManager booleanList[2]을 true로 설정 완료");
         }
@@ -59,7 +59,7 @@ public class TargetManager : MonoBehaviour
         // 원래 씬으로 돌아가기 (GameManager에서 저장된 씬 이름 사용)
         // 👉 씬 복귀 요청
         DeferredDialogue.Request(
-csvName: "animal",
+csvName: "sol",
 flagName: "light"
 );
         GameManager.Instance.ReturnToOriginalScene();

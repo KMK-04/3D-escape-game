@@ -29,17 +29,16 @@ public class GameControl : MonoBehaviour
     public void BirdDied() {
         gameOverText.SetActive(true);
         isGameover = true;
-        string originalScene = GameManager.Instance.GetOriginalSceneName();
-        SceneManager.LoadScene(originalScene);
+        DeferredDialogue.Request(
+csvName: "failf",
+flagName: "failf"
+);
+        GameManager.Instance.ReturnToOriginalScene();
     }
 
     public void BirdScored() {
         if(isGameover) {
-            DeferredDialogue.Request(
-    csvName: "fail2",
-    flagName: "failf"
-);
-            GameManager.Instance.ReturnToOriginalScene();
+            return;
         }
         score++;
         scoreText.text = "Score : " + score.ToString();

@@ -3,12 +3,12 @@ using UnityEngine.UI;
 using JusticeScale.Scripts;
 using TMPro;
 using System.Collections;
-using UnityEngine.SceneManagement;
+
 /// <summary>
 /// Manages the 9-ball weight puzzle: 2 weighs, then submit guess.
 /// Subclasses implement AddInventory to handle successful pickup.
 /// </summary>
-public class WeighManager1 : MonoBehaviour
+public class WeighManager : MonoBehaviour
 {
     [Header("Puzzle Objects")]
     [Tooltip("Scene's 9 ball objects (BallWeight components)")]
@@ -59,6 +59,7 @@ public class WeighManager1 : MonoBehaviour
             submitButton.gameObject.SetActive(false);  // hide initially
         }
     }
+
     void Start()
     {
         SetupPuzzle();
@@ -114,26 +115,20 @@ public class WeighManager1 : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called by BallWeight on click
+    /// </summary>
     public void SelectBall(BallWeight ball)
-{
-    if (usedWeighs < maxWeighs)
     {
-        Debug.Log("[콘솔] 먼저 to Weigh!");
-        return;
+        if (usedWeighs < maxWeighs)
+        {
+            Debug.Log("[콘솔] 먼저 to Weigh!");
+            return;
+        }
+        selectedBall = ball;
+        Debug.Log($"[콘솔] Ball {ball.id} selected");
     }
 
-    // 기존에 선택된 구슬이 있으면 색상/Outline 복원
-    if (selectedBall != null)
-    {
-        selectedBall.Unhighlight();
-    }
-
-    // 새로 클릭된 구슬을 선택
-    selectedBall = ball;
-    selectedBall.Highlight();  // 머티리얼 색 변경 + Outline 켜기
-
-    Debug.Log($"[콘솔] Ball {ball.id} selected");
-}
     void OnSubmitButtonClicked()
     {
         if (selectedBall == null)
@@ -144,12 +139,13 @@ public class WeighManager1 : MonoBehaviour
 
         if (selectedBall.id == heavyIndex)
         {
+            GameManager.Instance.SetBoolean(10, true);
+            Debug.Log("[콘솔] 정답입니다! 🎉");
             DeferredDialogue.Request(
-csvName: "animal",
-flagName: "scale"
+csvName: "scale",
+flagName: "animal"
 );
             GameManager.Instance.ReturnToOriginalScene();
-            Debug.Log("[콘솔] 정답입니다! 🎉");
         }
         else
         {
