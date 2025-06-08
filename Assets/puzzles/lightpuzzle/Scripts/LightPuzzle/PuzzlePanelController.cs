@@ -11,9 +11,9 @@ public class item : MonoBehaviour
     {
 
         DeferredDialogue.Request(
-csvName: "fail3",
-flagName: "fail"
-);
+            csvName: "fail",
+            flagName: "fail"
+        );
         GameManager.Instance.ReturnToOriginalScene();
     }
 }
