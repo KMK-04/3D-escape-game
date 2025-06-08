@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6147949902627345124}
   - component: {fileID: 1509191855941445910}
   - component: {fileID: 2783349105590040914}
+  - component: {fileID: 3229112935684899806}
   m_Layer: 5
   m_Name: Items
   m_TagString: Untagged
@@ -143,6 +144,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AllowSwitchOff: 1
+--- !u!114 &3229112935684899806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52407712550897793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d3d55dc158c41c29f4488da9b43e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myToggleGroup: {fileID: 2783349105590040914}
 --- !u!1 &54793605933033950
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,7 +769,7 @@ RectTransform:
   m_Father: {fileID: 8635211480792990725}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1784,7 +1798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4041457470089537417
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1959,8 +1973,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b49461df2061645f198fab83fd59b2f1, type: 2}
-  m_sharedMaterial: {fileID: 8482171664767338918, guid: b49461df2061645f198fab83fd59b2f1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2296,8 +2310,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC774\uB984"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b49461df2061645f198fab83fd59b2f1, type: 2}
-  m_sharedMaterial: {fileID: 8482171664767338918, guid: b49461df2061645f198fab83fd59b2f1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4309,6 +4323,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1307036402621983670, guid: ad1b62458e90047589e058c14721b3ef, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1652150210061053583, guid: ad1b62458e90047589e058c14721b3ef, type: 3}
+      propertyPath: m_IsOn
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1652150210061053583, guid: ad1b62458e90047589e058c14721b3ef, type: 3}
