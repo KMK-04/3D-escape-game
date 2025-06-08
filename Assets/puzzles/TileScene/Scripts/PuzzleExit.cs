@@ -24,9 +24,9 @@ public class PuzzleExit : MonoBehaviour
         if (!string.IsNullOrEmpty(originalScene))
         {
             DeferredDialogue.Request(
-csvName: "fail",
-flagName: "fail3"
-);
+            csvName: "failf",
+            flagName: "fail3"
+            );
             GameManager.Instance.ReturnToOriginalScene();
         }
         else

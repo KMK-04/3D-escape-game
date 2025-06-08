@@ -172,16 +172,20 @@ public static class DeferredDialogue
                 var entry = rewarder.GetReward(flagName, csvName);
                 if (entry != null && !entry.rewarded)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.5f);   
                     try
                     {
-                        ItemController.Instance.AddItemToInventory(
-                            entry.itemPath,
-                            entry.itemName,
-                            entry.itemDescription
-                        );
-                        entry.rewarded = true;
-                        Debug.Log($"[DeferredDialogue] 보상 지급 완료: {entry.itemName}");
+                        Debug.Log(entry.itemPath);
+                        if (entry.itemPath != "")
+                        {
+                            ItemController.Instance.AddItemToInventory(
+                                entry.itemPath,
+                                entry.itemName,
+                                entry.itemDescription
+                            );
+                            entry.rewarded = true;
+                            Debug.Log($"[DeferredDialogue] 보상 지급 완료: {entry.itemName}");
+                        }
                     }
                     catch (System.Exception e)
                     {
