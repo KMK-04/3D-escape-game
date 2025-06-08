@@ -17,8 +17,8 @@ public class ItemSlot : MonoBehaviour {
             explain = item.explain
         };
     }
-    public void SaySelected() {
-        Debug.Log(isSelected);
+    public void inventorySelect(bool isOn) {
+        isSelected = isOn;
     }
     public void SetSlot() {
         if (icon != null) {
