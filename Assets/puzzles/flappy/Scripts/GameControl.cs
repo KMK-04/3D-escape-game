@@ -36,8 +36,8 @@ public class GameControl : MonoBehaviour
     public void BirdScored() {
         if(isGameover) {
             DeferredDialogue.Request(
-    csvName: "fail",
-    flagName: "fail2"
+    csvName: "fail2",
+    flagName: "failf"
 );
             GameManager.Instance.ReturnToOriginalScene();
         }
@@ -45,6 +45,7 @@ public class GameControl : MonoBehaviour
         scoreText.text = "Score : " + score.ToString();
         if (score >= 3)
         {
+            GameManager.Instance.SetBoolean(6, false);
             DeferredDialogue.Request(
     csvName: "animal",
     flagName: "flappy"
