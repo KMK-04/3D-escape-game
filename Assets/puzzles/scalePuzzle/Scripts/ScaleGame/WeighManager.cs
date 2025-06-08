@@ -62,7 +62,7 @@ public class WeighManager : MonoBehaviour
 
     void Start()
     {
-    SetupPuzzle();
+        SetupPuzzle();
     }
 
     /// <summary>
@@ -129,28 +129,6 @@ public class WeighManager : MonoBehaviour
         Debug.Log($"[콘솔] Ball {ball.id} selected");
     }
 
-<<<<<<< HEAD
-=======
-    // 1) 이전에 선택된 모든 공의 색을 흰색(원래 색)으로 되돌리기
-    foreach (var b in balls)
-    {
-        if (b == null) continue;
-        var rend = b.GetComponent<Renderer>();
-        if (rend != null)
-            rend.material.color = Color.white;
-    }
-
-    // 2) 새로 선택된 공 색을 노란색으로 변경
-    selectedBall = ball;
-    var selectedRend = ball.GetComponent<Renderer>();
-    if (selectedRend != null)
-        selectedRend.material.color = Color.yellow;
-
-    Debug.Log($"[콘솔] Ball {ball.id} selected");
-}
-
-
->>>>>>> 3309f0ad2c76773bc534e04781884e5b5179397c
     void OnSubmitButtonClicked()
     {
         if (selectedBall == null)
@@ -161,10 +139,6 @@ public class WeighManager : MonoBehaviour
 
         if (selectedBall.id == heavyIndex)
         {
-<<<<<<< HEAD
-            GameManager.Instance.SetBoolean(10, true);
-=======
->>>>>>> 3309f0ad2c76773bc534e04781884e5b5179397c
             Debug.Log("[콘솔] 정답입니다! 🎉");
             DeferredDialogue.Request(
 csvName: "scale",
