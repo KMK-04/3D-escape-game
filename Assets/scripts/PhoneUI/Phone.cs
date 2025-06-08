@@ -30,10 +30,11 @@ public class Phone : MonoBehaviour {
     private void Update() {
         if (isOpen) {
             Desty = _openy;
-            player.canMove = false;
+            
         }
         else {
             Desty = _closey;
+            
         }
         float __y = phone.anchoredPosition.y;
         if (Mathf.Abs(__y - Desty) > 1) {

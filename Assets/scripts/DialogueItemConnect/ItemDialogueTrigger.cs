@@ -114,9 +114,11 @@ public class ItemDialogueTrigger : MonoBehaviour
             p.gameObject.SetActive(true);
         iconManager.On_Panel();
         Dialogue_Manage.Instance.dialoguePanel?.SetActive(true);
-        
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible   = true;
+
+        if (MouseLook.instance.isLockOn())
+        {
+            MouseLook.instance.ToggleLock();
+        }
 
         /* 3) UI·매니저 레퍼런스 재바인딩 */
         var dm = Dialogue_Manage.Instance;

@@ -1,5 +1,6 @@
 // Assets/Scripts/Dialogue/DeferredDialogue.cs
 using System.Collections;
+using SojaExiles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -135,6 +136,7 @@ public static class DeferredDialogue
             yield return StartCoroutine(ProcessReward());
 
             Debug.Log("[DeferredDialogue.Runner] 처리 완료, Runner 제거");
+
             Destroy(gameObject);
         }
 
@@ -156,6 +158,7 @@ public static class DeferredDialogue
                             entry.itemName,
                             entry.itemDescription
                         );
+                       
                         Debug.Log($"[DeferredDialogue] FlagItemRewarder 보상 지급: {entry.itemName}");
                     }
                     catch (System.Exception e)

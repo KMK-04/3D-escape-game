@@ -1792,7 +1792,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1410174668124995189, guid: 22687216ffad74628ad272cc1bce240d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -7.4999504
+      value: -7.4999313
       objectReference: {fileID: 0}
     - target: {fileID: 1434748209936378112, guid: 22687216ffad74628ad272cc1bce240d, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2684,7 +2684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7023100267960568092, guid: 22687216ffad74628ad272cc1bce240d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -7.4999504
+      value: -7.4999313
       objectReference: {fileID: 0}
     - target: {fileID: 7164743886279967495, guid: 22687216ffad74628ad272cc1bce240d, type: 3}
       propertyPath: 'uiButtons.Array.data[0]'
