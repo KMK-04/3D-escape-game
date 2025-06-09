@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using SimpleJSON;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class AIChatManager : MonoBehaviour
 {
@@ -129,25 +130,33 @@ public class AIChatManager : MonoBehaviour
             Debug.Log(ChatLog);
             AItext = jsonResponse["choices"][0]["message"]["content"];
             ChatLog += "\n나: " + AItext;
+
             var response = SplitSmart(AItext);
             for (int i = 0; i < response.Count; i++)
             {
+                string aiResponse;
+
                 if (i == 0)
                 {
-                    string aiResponse = "제시된 아이템:" + itemText + "\n" + response[i];
-                    chatManager.ReceiveMessage(aiResponse);
-
-                    int nextLength = (i + 1 < response.Count) ? response[i + 1].Length : 0;
-                    yield return new WaitForSeconds(0.3f + (nextLength / 10f));
+                    aiResponse = "제시된 아이템:" + itemText + "\n" + response[i];
                 }
                 else
                 {
-                    string aiResponse = response[i];
-                    chatManager.ReceiveMessage(aiResponse);
-
-                    int nextLength = (i + 1 < response.Count) ? response[i + 1].Length : 0;
-                    yield return new WaitForSeconds(0.3f + (nextLength / 10f));
+                    aiResponse = response[i];
                 }
+
+                // 💡 "자백도: 10" 포함 시 ending2 씬으로 이동
+                if (aiResponse.Contains("자백도: 10"))
+                {
+                    Debug.Log("자백도 조건 충족! Ending2 씬으로 전환");
+                    SceneManager.LoadScene("ending2");
+                    yield break; // 전환되므로 코루틴 종료
+                }
+
+                chatManager.ReceiveMessage(aiResponse);
+
+                int nextLength = (i + 1 < response.Count) ? response[i + 1].Length : 0;
+                yield return new WaitForSeconds(0.3f + (nextLength / 10f));
             }
         }
     }
