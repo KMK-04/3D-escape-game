@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Text;
 
 public class SaveTextureNameOnToggle : MonoBehaviour
 {
-    public Toggle toggleButton;       // Toggle 버튼 연결
-    public RawImage targetRawImage;   // RawImage 오브젝트 연결
+    public Toggle toggleButton;
+    public RawImage targetRawImage;
 
     private void Start()
     {
@@ -16,10 +17,12 @@ public class SaveTextureNameOnToggle : MonoBehaviour
     {
         if (isOn && targetRawImage != null && targetRawImage.texture != null)
         {
-            string textureName = targetRawImage.texture.name; // Texture 파일 이름
-            string path = Path.Combine(Application.persistentDataPath, "item.txt");
-            File.WriteAllText(path, textureName);
+            string textureName = targetRawImage.texture.name;
+            // 프로젝트 폴더 기준 경로 지정
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "Assets/item.txt");
+            File.WriteAllText(path, textureName, Encoding.UTF8);
             Debug.Log("Texture 이름이 저장되었습니다: " + textureName);
+            Debug.Log("저장 경로: " + path);
         }
     }
 }
