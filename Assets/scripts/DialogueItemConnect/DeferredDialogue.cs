@@ -126,8 +126,11 @@ public static class DeferredDialogue
 
         private IEnumerator DelayedStart()
         {
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForSeconds(0.1f);
+            // 1) Dialogue_Manage 인스턴스가 생성될 때까지 대기
+            yield return new WaitUntil(() => Dialogue_Manage.Instance != null);
+
+            // 2) 이틀 중 한 프레임을 더 확보
+            yield return null;
 
             try
             {
