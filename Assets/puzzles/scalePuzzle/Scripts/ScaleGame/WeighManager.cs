@@ -156,9 +156,10 @@ public class WeighManager : MonoBehaviour
         if (selectedBall.id == heavyIndex)
         {
             Debug.Log("[콘솔] 정답입니다! 🎉");
+            GameManager.Instance.SetBoolean(10, true);
             DeferredDialogue.Request(
-csvName: "scale",
-flagName: "animal"
+csvName: "animal",
+flagName: "scale"
 );
             GameManager.Instance.ReturnToOriginalScene();
         }

@@ -132,11 +132,22 @@ public class AIChatManager : MonoBehaviour
             var response = SplitSmart(AItext);
             for (int i = 0; i < response.Count; i++)
             {
-                string aiResponse = response[i];
-                chatManager.ReceiveMessage(aiResponse);
+                if (i == 0)
+                {
+                    string aiResponse = "제시된 아이템:" + itemText + "\n" + response[i];
+                    chatManager.ReceiveMessage(aiResponse);
 
-                int nextLength = (i + 1 < response.Count) ? response[i + 1].Length : 0;
-                yield return new WaitForSeconds(0.3f + (nextLength / 10f));
+                    int nextLength = (i + 1 < response.Count) ? response[i + 1].Length : 0;
+                    yield return new WaitForSeconds(0.3f + (nextLength / 10f));
+                }
+                else
+                {
+                    string aiResponse = response[i];
+                    chatManager.ReceiveMessage(aiResponse);
+
+                    int nextLength = (i + 1 < response.Count) ? response[i + 1].Length : 0;
+                    yield return new WaitForSeconds(0.3f + (nextLength / 10f));
+                }
             }
         }
     }
