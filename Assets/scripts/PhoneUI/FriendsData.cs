@@ -5,6 +5,6 @@ public class FriendData : ScriptableObject
 {
     public string friendName;
     public Sprite profileImage;
-    [TextArea]
+    [TextArea(15, 80)]
     public string Prompts;
 }

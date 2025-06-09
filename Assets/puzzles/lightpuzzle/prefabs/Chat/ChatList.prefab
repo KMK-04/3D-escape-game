@@ -217,8 +217,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ' '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b336380639020b419a18e8a90e07c7a, type: 2}
+  m_sharedMaterial: {fileID: -352629761691494143, guid: 4b336380639020b419a18e8a90e07c7a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -510,8 +510,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC774\uB984"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b49461df2061645f198fab83fd59b2f1, type: 2}
-  m_sharedMaterial: {fileID: 8482171664767338918, guid: b49461df2061645f198fab83fd59b2f1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b336380639020b419a18e8a90e07c7a, type: 2}
+  m_sharedMaterial: {fileID: -352629761691494143, guid: 4b336380639020b419a18e8a90e07c7a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -11,6 +11,7 @@ public class PhoneInven : MonoBehaviour {
     public float _chatOpeny, _chatClosey, _barOpeny, _barClosey, Openy, Closey;
     public RectTransform chatScroll, chatBar;
     ItemData _item;
+    PhoneInvManager inv;
     public AIChatManager aiChatManager;
     public bool isOpen = false;
     public void ToggleInven() {
@@ -20,10 +21,10 @@ public class PhoneInven : MonoBehaviour {
         isOpen = false;
     }
     public void AttachItem() {
-        aiChatManager.SendMessageToGPT("$"+_item.ITEM_Name+"$");
+        if (_item != null) {
+            aiChatManager.SendMessageToGPT("$" + _item.ITEM_Name + "$");
+        }
     }
-
-
     private void Update() {
         if (isOpen) {
             chatScrollDesty = _chatOpeny;
@@ -35,8 +36,12 @@ public class PhoneInven : MonoBehaviour {
             chatBarDesty = _barClosey;
             Desty = Closey;
         }
+        if (Input.GetKeyDown(KeyCode.Comma)) {
 
-
+        }
+        if (inv != null) {
+            _item = inv.selectedItem;
+        }
         RectTransform rect = GetComponent<RectTransform>();
         float _y = rect.anchoredPosition.y;
         if (Mathf.Abs(_y - Desty) > 1) {

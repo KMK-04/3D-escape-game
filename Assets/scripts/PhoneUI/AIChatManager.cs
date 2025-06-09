@@ -52,26 +52,15 @@ public class AIChatManager : MonoBehaviour {
     }
     public static List<string> SplitSmart(string input) {
         List<string> result = new List<string>();
-        string[] words = input.Split(' ');
-        string buffer = "";
-        List<string> tempChunks = new List<string>();
-        foreach (string word in words) {
-            if ((buffer + " " + word).Trim().Length <= 30) {
-                buffer = (buffer + " " + word).Trim();
-            }
-            else {
-                if (!string.IsNullOrEmpty(buffer)) tempChunks.Add(buffer);
-                buffer = word;
-            }
-        }
-        if (!string.IsNullOrEmpty(buffer)) tempChunks.Add(buffer);
+
+        if (string.IsNullOrEmpty(input))
+            return result;
+        string cleanedInput = Regex.Replace(input, @"\$.*?\$", "");
         string sentencePattern = @"(?<=[.?!])\s+";
-        foreach (string chunk in tempChunks) {
-            string[] sentences = Regex.Split(chunk, sentencePattern);
-            foreach (string s in sentences) {
-                if (!string.IsNullOrWhiteSpace(s))
-                    result.Add(s.Trim());
-            }
+        string[] sentences = Regex.Split(cleanedInput, sentencePattern);
+        foreach (string s in sentences) {
+            if (!string.IsNullOrWhiteSpace(s))
+                result.Add(s.Trim());
         }
         return result;
     }
@@ -82,8 +71,7 @@ public class AIChatManager : MonoBehaviour {
     IEnumerator SendChatRequest(string userMessage) {
         string prompt = chatManager.Prompts;
         string name = chatManager.OtherName;
-        string systemPrompt = "60자 이내로 대답해. 우리가 나눈 전체 대화 내용을 보여줄테니, 이 다음에 맞는 대답을 하도록 해. \"나: \"는 너가 보낸 메세지고 \"너\"는 내가 보낸 메세지야. 메세지를 보낼 때는 참고자료를 최대한 보내지 말고 대화하듯이 자연스러운 말투로 해야해. 보낼때는\"나:\" 이런거 안보내도 괜찮아."
-         + "지금은 " + Context + "이런 상황이야. 너는 " + name + "이라는 사람이야. 이 사람의 특징은" + prompt + "(이)야.";
+        string systemPrompt = Context + " \n 당신은 " + name + "이라는 사람이다. 이 사람의 특징은" + prompt + "(이)다.";
         Debug.Log(systemPrompt);
         Payload payload = new Payload() {
             model = "sonar-pro", // 필요에 따라 "sonar-pro"로 변경 가능
