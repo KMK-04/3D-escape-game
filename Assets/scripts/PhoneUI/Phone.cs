@@ -9,23 +9,16 @@ public class Phone : MonoBehaviour {
     public RectTransform phone;
     public PlayerMovement player;
     public float Desty;
-    public ContextData data;
     public float _openy;
     public float _closey;
     public Button[] uiButtons;
     public bool isOpen = false;
     [HideInInspector]
-    public string context;
-    public void TogglePhone() {
+        public void TogglePhone() {
         isOpen = true;
     }
     public void ClosePhone() {
         isOpen = false;
-    }
-
-    private void Start() {
-        context = data.Context;
-        //Debug.Log(context);
     }
     private void Update() {
         if (isOpen) {

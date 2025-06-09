@@ -12,6 +12,7 @@ public class AIChatManager : MonoBehaviour {
 
     public ChatManager chatManager;
     private string ChatLog;
+    public ContextData data;
 
     [TextArea]
     public string apiKey = "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"; // 여기에 실제 API 키 입력
@@ -35,20 +36,7 @@ public class AIChatManager : MonoBehaviour {
     }
 
     void Awake() {
-        GameObject phoneObj = GameObject.Find("Phone");
-        if (phoneObj != null) {
-            Phone phone = phoneObj.GetComponent<Phone>();
-            if (phone != null) {
-                Context = phone.context;
-                Debug.Log(Context);
-            }
-            else {
-                Debug.LogError("Phone 컴포넌트를 찾을 수 없습니다.");
-            }
-        }
-        else {
-            Debug.LogError("\"Phone\" 오브젝트를 찾을 수 없습니다.");
-        }
+        Context = data.Context;
     }
     public static List<string> SplitSmart(string input) {
         List<string> result = new List<string>();
@@ -65,8 +53,9 @@ public class AIChatManager : MonoBehaviour {
         return result;
     }
     public void SendMessageToGPT(string userInput) {
-        ChatLog += "너: " + userInput;
+        ChatLog += "\n너: " + userInput;
         StartCoroutine(SendChatRequest(ChatLog));
+
     }
     IEnumerator SendChatRequest(string userMessage) {
         string prompt = chatManager.Prompts;
@@ -104,12 +93,16 @@ public class AIChatManager : MonoBehaviour {
         }
         else {
             var jsonResponse = JSON.Parse(request.downloadHandler.text);
+            Debug.Log(ChatLog);
             AItext = jsonResponse["choices"][0]["message"]["content"];
             ChatLog += "\n나: " + AItext;
             var response = SplitSmart(AItext);
-            foreach (string aiResponse in response) {
+            for (int i = 0; i < response.Count; i++) {
+                string aiResponse = response[i];
                 chatManager.ReceiveMessage(aiResponse);
-                yield return new WaitForSeconds(1f);
+
+                int nextLength = (i + 1 < response.Count) ? response[i + 1].Length : 0;
+                yield return new WaitForSeconds(0.3f + (nextLength / 10f));
             }
         }
     }
