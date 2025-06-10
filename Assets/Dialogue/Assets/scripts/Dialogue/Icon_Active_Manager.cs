@@ -9,14 +9,20 @@ public class Icon_Active_Manager : MonoBehaviour
     [SerializeField]
     private GameObject[] OFF_panels;
 
-
     public void On_Panel()
     {
         for (int i = 0; i < ON_panels.Length; i++)
         {
             if (ON_panels[i].name == "Dialogue_Panel")
             {
-                if (Dialogue_Manage.Instance.isEndLine()) //³¡ÁÙÀÌ¸é ¸®ÅÏ
+                // ì¼ë°˜ ëŒ€í™” ë§¤ë‹ˆì € ì²´í¬
+                if (Dialogue_Manage.Instance != null && Dialogue_Manage.Instance.isEndLine())
+                {
+                    return;
+                }
+                
+                // ì—”ë”© ëŒ€í™” ë§¤ë‹ˆì € ì²´í¬
+                if (EndingDialogueManager.Instance != null && EndingDialogueManager.Instance.isEndLine())
                 {
                     return;
                 }
@@ -24,6 +30,7 @@ public class Icon_Active_Manager : MonoBehaviour
             ON_panels[i].SetActive(true);
         }
     }
+    
     public void Off_Panel()
     {
         for(int i = 0; i < OFF_panels.Length; i++)

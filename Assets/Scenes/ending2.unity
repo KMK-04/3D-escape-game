@@ -3145,11 +3145,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueCSVName: ending2
-  initialDialogueCSVName: example
+  initialDialogueCSVName: ending2
   nameText: {fileID: 932522657}
   dialogueText: {fileID: 932522656}
   nextButton: {fileID: 932522655}
   dialoguePanel: {fileID: 932522654}
+  logManager: {fileID: 967083807}
+  phone: {fileID: 0}
   showImage: 1
   imageDisplay: {fileID: 1508814001}
   imageResourceFolder: Sprites/ending2
@@ -3157,6 +3159,11 @@ MonoBehaviour:
   onDialogueEnd:
     m_PersistentCalls:
       m_Calls: []
+  canNext: 1
+  currentProgress:
+    dialogueIndex: 0
+    contextIndex: 0
+    csvFileName: 
 --- !u!114 &1973759879
 MonoBehaviour:
   m_ObjectHideFlags: 0
