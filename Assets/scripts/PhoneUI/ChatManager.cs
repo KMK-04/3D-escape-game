@@ -7,7 +7,8 @@ using TMPro;
 
 
 
-public class ChatManager : MonoBehaviour {
+public class ChatManager : MonoBehaviour
+{
     public GameObject YellowArea, WhiteArea, DateArea;
     public RectTransform ContentRect;
     public Scrollbar scrollBar;
@@ -15,7 +16,7 @@ public class ChatManager : MonoBehaviour {
     AreaScript LastArea;
     public FriendData friendData;
     public ChatListManage noticeCheck;
-    public TimeManager timeManager;
+    public GameManager gameManager;
 
     [HideInInspector]
     public string OtherName;
@@ -23,41 +24,50 @@ public class ChatManager : MonoBehaviour {
     public string Prompts;
 
 
-    public void LoadProfile() {
+    public void LoadProfile()
+    {
         OtherPicture = friendData.profileImage.texture;
         OtherName = friendData.friendName;
         Prompts = friendData.Prompts;
         transform.Find("BackToChat/Name").GetComponent<TextMeshProUGUI>().text = OtherName;
     }
-    public void CallNotice() {
+    public void CallNotice()
+    {
         PopupScale pop = GetComponent<PopupScale>();
-        if (!pop.isOpen) {
-            if (noticeCheck != null) {
+        if (!pop.isOpen)
+        {
+            if (noticeCheck != null)
+            {
                 noticeCheck.Notice = true;
                 noticeCheck.LastChat();
             }
-            else {
+            else
+            {
                 Debug.LogError("noticeCheck가 null입니다!");
             }
         }
     }
 
-    public void ReceiveMessage(string text) {
+    public void ReceiveMessage(string text)
+    {
         if (MineToggle.isOn) Chat(true, text, "나", null);
-        else {
+        else
+        {
             Chat(false, text, OtherName, OtherPicture);
             noticeCheck.LastChat();
         }
     }
 
 
-    public void LayoutVisible(bool b) {
+    public void LayoutVisible(bool b)
+    {
         AndroidJavaClass kotlin = new AndroidJavaClass("com.unity3d.player.SubActivity");
         kotlin.CallStatic("LayoutVisible", b);
     }
 
 
-    public void Chat(bool isSend, string text, string user, Texture2D picture) {
+    public void Chat(bool isSend, string text, string user, Texture2D picture)
+    {
         if (text.Trim() == "") return;
         CallNotice();
         bool isBottom = scrollBar.value <= 0.00001f;
@@ -75,8 +85,10 @@ public class ChatManager : MonoBehaviour {
         // 두 줄 이상이면 크기를 줄여가면서, 한 줄이 아래로 내려가면 바로 전 크기를 대입 
         float X = Area.TextRect.sizeDelta.x + 42;
         float Y = Area.TextRect.sizeDelta.y;
-        if (Y > 49) {
-            for (int i = 0; i < 100; i++) {
+        if (Y > 49)
+        {
+            for (int i = 0; i < 100; i++)
+            {
                 Area.BoxRect.sizeDelta = new Vector2(X - i * 2, Area.BoxRect.sizeDelta.y);
                 Fit(Area.BoxRect);
 
@@ -87,7 +99,7 @@ public class ChatManager : MonoBehaviour {
 
 
         // 현재 것에 분까지 나오는 날짜와 유저이름 대입
-        DateTime t = DateTime.Now;
+        DateTime t = new(2025, 05, 10, 10 + (gameManager.InGameTime / 60), gameManager.InGameTime % 60, 0);
         Area.Time = t.ToString("yyyy-MM-dd-HH-mm");
         Area.User = user;
 
@@ -106,7 +118,8 @@ public class ChatManager : MonoBehaviour {
 
 
         // 타인이 이전 것과 같으면 이미지, 이름 없애기
-        if (!isSend) {
+        if (!isSend)
+        {
             Area.UserImage.gameObject.SetActive(!isSame);
             Area.UserText.gameObject.SetActive(!isSame);
             Area.UserText.text = Area.User;
@@ -115,13 +128,15 @@ public class ChatManager : MonoBehaviour {
 
 
         // 이전 것과 날짜가 다르면 날짜영역 보이기
-        if (LastArea != null && LastArea.Time.Substring(0, 10) != Area.Time.Substring(0, 10)) {
+        if (LastArea != null && LastArea.Time.Substring(0, 10) != Area.Time.Substring(0, 10))
+        {
             Transform CurDateArea = Instantiate(DateArea).transform;
             CurDateArea.SetParent(ContentRect.transform, false);
             CurDateArea.SetSiblingIndex(CurDateArea.GetSiblingIndex() - 1);
 
             string week = "";
-            switch (t.DayOfWeek) {
+            switch (t.DayOfWeek)
+            {
                 case DayOfWeek.Sunday: week = "일"; break;
                 case DayOfWeek.Monday: week = "월"; break;
                 case DayOfWeek.Tuesday: week = "화"; break;
@@ -144,7 +159,8 @@ public class ChatManager : MonoBehaviour {
         if (!isSend && !isBottom) return;
         Invoke("ScrollDelay", 0.03f);
 
-        if (isSend) {
+        if (isSend)
+        {
             //Debug.Log(text);
         }
     }

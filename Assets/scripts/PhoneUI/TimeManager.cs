@@ -7,7 +7,7 @@ public class TimeManager : MonoBehaviour {
     public int InGameTime;
     void Update() {
         InGameTime = gameManager.InGameTime;
-        GetComponent<TextMeshProUGUI>().text = (10 + (InGameTime / 60)).ToString("D2") + ":" + (InGameTime % 60).ToString("D2");
+        GetComponent<TextMeshProUGUI>();
         if (Input.GetKeyDown(KeyCode.RightArrow)) {
             gameManager.InGameTime++;
         }
