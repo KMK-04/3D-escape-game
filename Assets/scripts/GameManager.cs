@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using SojaExiles;
 using Unity.VisualScripting;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
     public Transform playerTransform; // �÷��̾� ������Ʈ�� Transform (Inspector���� �Ҵ� �Ǵ� �ڵ� ����)
     public List<bool> booleanList; // ������ �����ϱ� ���� boolean ����Ʈ
     public GameObject phone;
-
+    public int InGameTime = 0;
     public PlayerMovement playerMovement;
 
 
@@ -53,6 +54,7 @@ public class GameManager : MonoBehaviour
                 Debug.LogWarning("MainCamera �±׸� ���� ������Ʈ�� ã�� �� �����ϴ�. playerTransform�� �Ҵ���� ����.");
             }
         }
+        StartCoroutine(TimeCoroutine());
     }
 
 
@@ -196,6 +198,15 @@ public class GameManager : MonoBehaviour
         if (!MouseLook.instance.isLockOn())
         {
             MouseLook.instance.ToggleLock();
+        }
+    }
+    private IEnumerator TimeCoroutine()
+    {
+        while (true)
+        {
+            Debug.Log(InGameTime);
+            InGameTime++;
+            yield return new WaitForSeconds(10f);
         }
     }
 }

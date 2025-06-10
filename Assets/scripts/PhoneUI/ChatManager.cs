@@ -15,6 +15,7 @@ public class ChatManager : MonoBehaviour {
     AreaScript LastArea;
     public FriendData friendData;
     public ChatListManage noticeCheck;
+    public TimeManager timeManager;
 
     [HideInInspector]
     public string OtherName;

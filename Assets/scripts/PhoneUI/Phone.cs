@@ -13,21 +13,25 @@ public class Phone : MonoBehaviour {
     public float _closey;
     public Button[] uiButtons;
     public bool isOpen = false;
+    public Dialogue_Manage dialogue_Manage;
     [HideInInspector]
-        public void TogglePhone() {
+    public void TogglePhone() {
+
         isOpen = true;
+        dialogue_Manage.CheckNext();
     }
     public void ClosePhone() {
         isOpen = false;
+        dialogue_Manage.CheckNext();
     }
     private void Update() {
         if (isOpen) {
             Desty = _openy;
-            
+
         }
         else {
             Desty = _closey;
-            
+
         }
         float __y = phone.anchoredPosition.y;
         if (Mathf.Abs(__y - Desty) > 1) {
