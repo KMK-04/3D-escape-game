@@ -8,65 +8,76 @@ public class WeightDrag3D : MonoBehaviour
     Vector3 _offset;
     Camera _cam;
 
+    // **추가 변수**
+    [Tooltip("뷰포트 클램핑에 사용할 카메라 (Inspector에서 설정)")]
+    public Camera viewCam;
+    float _initialDepth;
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
     }
 
+    void Start()
+    {
+        // viewCam이 할당되지 않았다면 활성 카메라로 자동 설정
+        if (viewCam == null)
+            viewCam = GetActiveCamera();
+
+        // 최초 위치의 뎁스(z)를 저장
+        _initialDepth = viewCam.WorldToViewportPoint(transform.position).z;
+    }
+
     void OnMouseDown()
     {
-        // 1) 활성화된 카메라 찾기
         _cam = GetActiveCamera();
-
-        // 2) 드래그 평면 정의 (카메라를 향해 수직)
         _dragPlane = new Plane(-_cam.transform.forward, transform.position);
 
-        // 3) 마우스 눌린 지점의 월드 좌표 계산 → offset 저장
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         if (_dragPlane.Raycast(ray, out float enter))
             _offset = transform.position - ray.GetPoint(enter);
 
-        // 4) 드래그 중 충돌 간섭 막기 위해 키네마틱
         _rb.isKinematic = true;
     }
 
     void OnMouseDrag()
-{
-    // 마우스 움직임에 따라 평면 위에서 오브젝트 위치 업데이트
-    Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-    if (_dragPlane.Raycast(ray, out float enter))
     {
-        // 1) 원래 위치 계산
-        Vector3 worldPos = ray.GetPoint(enter) + _offset;
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        if (_dragPlane.Raycast(ray, out float enter))
+        {
+            Vector3 worldPos = ray.GetPoint(enter) + _offset;
 
-        // 2) 뷰포트 좌표로 변환
-        Vector3 vp = _cam.WorldToViewportPoint(worldPos);
-        
-        // 3) x,y를 0~1로 클램프 (화면 밖 나가지 않게)
-        vp.x = Mathf.Clamp01(vp.x);
-        vp.y = Mathf.Clamp01(vp.y);
+            // **기존 클램핑 코드** (드래그 중에만)
+            Vector3 vp = _cam.WorldToViewportPoint(worldPos);
+            vp.x = Mathf.Clamp01(vp.x);
+            vp.y = Mathf.Clamp01(vp.y);
+            worldPos = _cam.ViewportToWorldPoint(new Vector3(vp.x, vp.y, vp.z));
 
-        // 4) 다시 월드 좌표로 변환 (z는 그대로 둡니다)
-        worldPos = _cam.ViewportToWorldPoint(new Vector3(vp.x, vp.y, vp.z));
-
-        // 5) 최종 적용
-        transform.position = worldPos;
+            transform.position = worldPos;
+        }
     }
-}
-
 
     void OnMouseUp()
     {
-        // 드래그 끝나면 다시 물리 시뮬레이션에 맡기기
         _rb.isKinematic = false;
     }
 
-    // 현재 씬에서 활성화된 카메라(첫 번째)를 리턴
     Camera GetActiveCamera()
     {
         foreach (var c in Camera.allCameras)
             if (c.isActiveAndEnabled)
                 return c;
-        return Camera.main; // fallback
+        return Camera.main;
     }
-} 
+
+    // **추가: LateUpdate에서 뷰포트 밖으로 나간 위치 보정**
+    void LateUpdate()
+    {
+        // 물리 시뮬레이션(충돌)으로 날아간 뒤에도 매 프레임 보정
+        Vector3 vp = viewCam.WorldToViewportPoint(transform.position);
+        vp.x = Mathf.Clamp01(vp.x);
+        vp.y = Mathf.Clamp01(vp.y);
+        vp.z = _initialDepth;  // 깊이는 초기값 유지
+        transform.position = viewCam.ViewportToWorldPoint(vp);
+    }
+}

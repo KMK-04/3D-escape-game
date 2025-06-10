@@ -33,8 +33,20 @@ public class BallWeight : MonoBehaviour
         if (outline != null)
             outline.enabled = false; // 하이라이트(Outline) 초기 비활성화
     }
+    
+        public Camera viewCamera; // 퍼즐용 카메라 지정
 
-    public void SetAsHeavy(float mass)  { isHeavy = true;  _rb.mass = mass; }
+    void LateUpdate()
+    {
+        if (viewCamera == null) return;
+
+        Vector3 vp = viewCamera.WorldToViewportPoint(transform.position);
+        vp.x = Mathf.Clamp01(vp.x);
+        vp.y = Mathf.Clamp01(vp.y);
+        transform.position = viewCamera.ViewportToWorldPoint(vp);
+    }
+
+    public void SetAsHeavy(float mass) { isHeavy = true; _rb.mass = mass; }
     public void SetAsNormal(float mass) { isHeavy = false; _rb.mass = mass; }
     public float GetMass()              { return _rb.mass; }
 

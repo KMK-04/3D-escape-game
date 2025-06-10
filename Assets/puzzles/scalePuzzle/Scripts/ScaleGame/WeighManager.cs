@@ -156,6 +156,13 @@ public class WeighManager : MonoBehaviour
         if (selectedBall.id == heavyIndex)
         {
             Debug.Log("[콘솔] 정답입니다! 🎉");
+            // ■ 모든 구슬 색상·아웃라인 원복
+            foreach (var b in balls)
+            {
+                if (b == null) continue;
+                // BallWeight.Unhighlight() 가 outline 비활성화 + 색상 복원까지 해줍니다.
+                b.Unhighlight();
+            }
             GameManager.Instance.SetBoolean(10, true);
             DeferredDialogue.Request(
 csvName: "animal",
