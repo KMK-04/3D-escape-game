@@ -35,7 +35,6 @@ public class StartMenu : MonoBehaviour
     }
 
     #if UNITY_EDITOR
-        // ���� ����Ǹ� �ڵ����� sceneName �ʵ� ������Ʈ
         private void OnValidate()
         {
             if (sceneToLoad != null)
