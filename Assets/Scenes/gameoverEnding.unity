@@ -3153,7 +3153,7 @@ MonoBehaviour:
   showImage: 1
   imageDisplay: {fileID: 1508814001}
   imageResourceFolder: Sprites/gameover
-  gameOverSceneName: Intro
+  gameOverSceneName: Opening
   onDialogueEnd:
     m_PersistentCalls:
       m_Calls: []
