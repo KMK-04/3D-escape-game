@@ -98,6 +98,7 @@ namespace SojaExiles
         }
         public void ToggleLock()
         {
+            Debug.Log("토글락 실행");
             isCursorLocked = !isCursorLocked;
             SetCursorLock(isCursorLocked);
         }

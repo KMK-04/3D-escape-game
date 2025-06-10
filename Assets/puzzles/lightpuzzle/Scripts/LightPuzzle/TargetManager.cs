@@ -59,9 +59,9 @@ public class TargetManager : MonoBehaviour
         // 원래 씬으로 돌아가기 (GameManager에서 저장된 씬 이름 사용)
         // 👉 씬 복귀 요청
         DeferredDialogue.Request(
-csvName: "sol",
-flagName: "light"
-);
+        csvName: "sol",
+        flagName: "light"
+        );
         GameManager.Instance.ReturnToOriginalScene();
         // UI 처리 등
     }

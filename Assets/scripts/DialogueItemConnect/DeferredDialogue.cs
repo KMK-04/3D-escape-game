@@ -154,6 +154,7 @@ public static class DeferredDialogue
 
             if (!MouseLook.instance.isLockOn())
             {
+                Debug.Log("reward에서 실행됌.");
                 MouseLook.instance.ToggleLock();
             }
             if (GameManager.Instance.playerMovement != null)

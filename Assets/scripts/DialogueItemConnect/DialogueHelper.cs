@@ -95,8 +95,10 @@ public static class DialogueHelper
             if (dm.dialoguePanel != null)
                 dm.dialoguePanel.SetActive(true);
 
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible   = true;
+            if (MouseLook.instance.isLockOn())//UI 선택으로 바꾸기
+            { 
+                MouseLook.instance.ToggleLock();
+            }
             // 5) 대사 첫 줄 출력
             dm.ShowNextLine();
             Debug.Log("[DialogueHelper] 첫 번째 대화 라인 표시 완료");

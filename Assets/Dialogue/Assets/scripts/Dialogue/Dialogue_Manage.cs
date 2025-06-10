@@ -113,11 +113,9 @@ public class Dialogue_Manage : MonoBehaviour
 
             }
 
-            if (!MouseLook.instance.isLockOn()){
+            if (!MouseLook.instance.isLockOn()){ //UI선택중이라면 풀기
                 MouseLook.instance.ToggleLock();
             }
-             
-        
 
             dialogueText.text = "[마지막 대화입니다. 메뉴창을 열거나 닫으실려면 Z 키를 눌러주세요!]";
             nameText.text = "System";
