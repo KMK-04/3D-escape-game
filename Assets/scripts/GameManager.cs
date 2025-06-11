@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI Timetext;
     public int InGameTime = 0;
     public PlayerMovement playerMovement;
-
+    public int[] volume;
+    public bool[] mute;
 
     void Awake()
     {
@@ -33,7 +34,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        volume = new int[] { 5, 5, 5 };
+        mute = new bool[] { false, false, false };
         // booleanList �ʱ�ȭ
         if (booleanList == null)
         {
@@ -59,7 +61,42 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TimeCoroutine());
         //InGameTime = 119;
     }
+    //SoundSetting
+    public void MainSoundManage(float _v)
+    {
+        volume[0] = Mathf.RoundToInt(_v);
+        Debug.Log(_v);
+    }
+    public void BGMSoundManage(float _v)
+    {
+        volume[1] = Mathf.RoundToInt(_v);
+    }
+    public void EffectSoundManage(float _v)
+    {
+        volume[2] = Mathf.RoundToInt(_v);
+    }
+    public void MuteMain(bool _b)
+    {
+        mute[0] = _b;
+        Debug.Log(_b);
+    }
+    public void MuteBGM(bool _b)
+    {
+        mute[1] = _b;
+    }
 
+    public void MuteEffect(bool _b)
+    {
+        mute[2] = _b;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            Debug.Log(volume[0] + " : " + mute[0]);
+        }
+    }
 
     // �÷��̾� ��ġ �� ī�޶� ȸ���� ����
     // 위치 저장
