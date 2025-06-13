@@ -14,10 +14,10 @@ namespace SojaExiles
 
         private void Awake()
         {
-            if(instance == null)
+            if (instance == null)
                 instance = this;
             else
-               Destroy(instance);
+                Destroy(instance);
         }
         // Start is called before the first frame update
         void Start()
@@ -50,7 +50,7 @@ namespace SojaExiles
         // Update is called once per frame
         void Update()
         {
-            
+
             // Esc 키로 커서 잠금/해제 토글
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -107,6 +107,10 @@ namespace SojaExiles
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+        }
+        public void SetMouseSensivity(float _f)
+        {
+            mouseXSensitivity = _f;
         }
     }
 }

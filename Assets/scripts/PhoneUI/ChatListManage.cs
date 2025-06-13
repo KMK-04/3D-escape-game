@@ -63,7 +63,6 @@ public class ChatListManage : MonoBehaviour
             Text textComp = textTransform.GetComponent<Text>();
             if (textComp != null)
             {
-                Debug.Log("마지막 메시지 텍스트: " + textComp.text);
                 if (lastText != null)
                 {
                     lastText.text = textComp.text;

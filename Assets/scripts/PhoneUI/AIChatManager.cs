@@ -7,9 +7,9 @@ using UnityEngine.Networking;
 using SimpleJSON;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class AIChatManager : MonoBehaviour
-{
+public class AIChatManager : MonoBehaviour {
     private const string API_URL = "https://api.perplexity.ai/chat/completions";
 
     public ChatManager chatManager;
@@ -20,17 +20,17 @@ public class AIChatManager : MonoBehaviour
     public string apiKey = "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"; // 여기에 실제 API 키 입력
     public string Context;
     public string AItext;
+    public GameObject confessSlider;
+    public float confess;
 
     [System.Serializable]
-    public class Message
-    {
+    public class Message {
         public string role;
         public string content;
     }
 
     [System.Serializable]
-    public class Payload
-    {
+    public class Payload {
         public string model;
         public Message[] messages;
         public int max_tokens;
@@ -38,13 +38,11 @@ public class AIChatManager : MonoBehaviour
         public bool stream = false;
     }
 
-    void Awake()
-    {
+    void Awake() {
         Context = data.Context;
     }
 
-    public static List<string> SplitSmart(string input)
-    {
+    public static List<string> SplitSmart(string input) {
         List<string> result = new List<string>();
 
         if (string.IsNullOrEmpty(input))
@@ -52,8 +50,7 @@ public class AIChatManager : MonoBehaviour
         string cleanedInput = Regex.Replace(input, @"\$.*?\$", "");
         string sentencePattern = @"(?<=[.?!])\s+";
         string[] sentences = Regex.Split(cleanedInput, sentencePattern);
-        foreach (string s in sentences)
-        {
+        foreach (string s in sentences) {
             if (!string.IsNullOrWhiteSpace(s))
                 result.Add(s.Trim());
         }
@@ -61,28 +58,23 @@ public class AIChatManager : MonoBehaviour
     }
 
     // item.txt 파일에서 텍스트 읽기
-    private string ReadItemText()
-    {
+    private string ReadItemText() {
         string path = Path.Combine(Directory.GetCurrentDirectory(), "Assets/item.txt");
-        if (File.Exists(path))
-        {
+        if (File.Exists(path)) {
             return File.ReadAllText(path, Encoding.UTF8).Trim();
         }
-        else
-        {
+        else {
             Debug.LogWarning("item.txt 파일이 존재하지 않습니다.");
             return "";
         }
     }
 
-    public void SendMessageToGPT(string userInput)
-    {
+    public void SendMessageToGPT(string userInput) {
         ChatLog += "\n너: " + userInput;
         StartCoroutine(SendChatRequest(ChatLog, userInput));
     }
 
-    IEnumerator SendChatRequest(string chatLog, string userMessage)
-    {
+    IEnumerator SendChatRequest(string chatLog, string userMessage) {
         string itemText = ReadItemText(); // item.txt 내용 읽기
         string prompt = chatManager.Prompts;
         string name = chatManager.OtherName;
@@ -92,8 +84,7 @@ public class AIChatManager : MonoBehaviour
         string fullUserMessage = $"아이템:{itemText} {userMessage}";
 
         Debug.Log(systemPrompt);
-        Payload payload = new Payload()
-        {
+        Payload payload = new Payload() {
             model = "sonar-pro",
             messages = new Message[]
             {
@@ -108,8 +99,7 @@ public class AIChatManager : MonoBehaviour
         string jsonData = JsonUtility.ToJson(payload);
         byte[] postData = Encoding.UTF8.GetBytes(jsonData);
 
-        using UnityWebRequest request = new UnityWebRequest(API_URL, "POST")
-        {
+        using UnityWebRequest request = new UnityWebRequest(API_URL, "POST") {
             uploadHandler = new UploadHandlerRaw(postData),
             downloadHandler = new DownloadHandlerBuffer()
         };
@@ -119,35 +109,46 @@ public class AIChatManager : MonoBehaviour
 
         yield return request.SendWebRequest();
 
-        if (request.result != UnityWebRequest.Result.Success)
-        {
+        if (request.result != UnityWebRequest.Result.Success) {
             Debug.LogError("API 요청 실패: " + request.error);
             Debug.LogError("응답 내용: " + request.downloadHandler.text);
         }
-        else
-        {
+        else {
             var jsonResponse = JSON.Parse(request.downloadHandler.text);
             Debug.Log(ChatLog);
             AItext = jsonResponse["choices"][0]["message"]["content"];
             ChatLog += "\n나: " + AItext;
 
             var response = SplitSmart(AItext);
-            for (int i = 0; i < response.Count; i++)
-            {
+            for (int i = 0; i < response.Count; i++) {
                 string aiResponse;
 
-                if (i == 0)
-                {
+                if ((i == 0) && (itemText != "")) {
                     aiResponse = "제시된 아이템:" + itemText + "\n" + response[i];
+                    if (aiResponse.Contains("(자백도:")) {
+                        int startIndex = aiResponse.IndexOf("자백도:") + "자백도 :".Length;
+                        int endIndex = aiResponse.IndexOf(")", startIndex);
+                        string numberText = aiResponse[startIndex..endIndex].Trim();
+                        confess = float.Parse(numberText);
+                        Debug.Log("자백도 : " + confess);
+                        confessSlider.GetComponent<Slider>().value = confess;
+                        aiResponse = aiResponse[..aiResponse.IndexOf("(자백도:")];
+                    }
                 }
-                else
-                {
+                else {
                     aiResponse = response[i];
+                    if (aiResponse.Contains("(자백도:")) {
+                        int startIndex = aiResponse.IndexOf("자백도:") + "자백도:".Length;
+                        int endIndex = aiResponse.IndexOf(")", startIndex);
+                        string numberText = aiResponse[startIndex..endIndex].Trim();
+                        confess = float.Parse(numberText);
+                        Debug.Log("자백도 : " + confess);
+                        confessSlider.GetComponent<Slider>().value = confess;
+                        aiResponse = aiResponse[..aiResponse.IndexOf("(자백도:")];
+                    }
                 }
-
                 // 💡 "자백도: 10" 포함 시 ending2 씬으로 이동
-                if (aiResponse.Contains("자백도: 10"))
-                {
+                if (confess >= 10) {
                     Debug.Log("자백도 조건 충족! Ending2 씬으로 전환");
                     SceneManager.LoadScene("ending2");
                     yield break; // 전환되므로 코루틴 종료
@@ -161,8 +162,7 @@ public class AIChatManager : MonoBehaviour
         }
     }
 
-    public void OnSendButtonClicked(string text)
-    {
+    public void OnSendButtonClicked(string text) {
         SendMessageToGPT(text);
     }
 }

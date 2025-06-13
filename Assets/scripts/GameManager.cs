@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TimeCoroutine());
         //InGameTime = 119;
     }
+    #region setting
     //SoundSetting
     public void MainSoundManage(float _v)
     {
@@ -89,7 +90,8 @@ public class GameManager : MonoBehaviour
     {
         mute[2] = _b;
     }
-
+    //other setting
+    #endregion
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Backspace))
