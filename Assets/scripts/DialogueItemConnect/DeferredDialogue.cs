@@ -125,25 +125,95 @@ public static class DeferredDialogue
         }
 
         private IEnumerator DelayedStart()
+{
+    // 1) 기본 매니저들이 준비될 때까지 대기
+    yield return new WaitUntil(() => 
+        Dialogue_Manage.Instance != null && 
+        DatabaseManager.instance != null &&
+        GameManager.Instance != null
+    );
+
+    // 2) UI 관련 컴포넌트들이 준비될 때까지 대기
+    yield return new WaitUntil(() => 
+    {
+        var iconManager = Object.FindFirstObjectByType<Icon_Active_Manager>(FindObjectsInactive.Include);
+        return iconManager != null;
+    });
+
+    // 3) 추가 프레임 대기 (UI 초기화 완료 보장)
+    yield return new WaitForEndOfFrame();
+    yield return new WaitForSeconds(0.1f); // 짧은 대기 시간 추가
+
+    // 4) 재시도 로직 추가
+    bool dialogueStarted = false;
+    int retryCount = 0;
+    int maxRetries = 3;
+
+    while (!dialogueStarted && retryCount < maxRetries)
+    {
+        bool hasError = false;
+        System.Exception lastException = null;
+        
+        // try-catch 블록을 yield 없이 실행
+        try
         {
-            // 1) Dialogue_Manage 인스턴스가 생성될 때까지 대기
-            yield return new WaitUntil(() => Dialogue_Manage.Instance != null);
+            DialogueHelper.PrepareAndShowDialogue(csvName);
+        }
+        catch (System.Exception e)
+        {
+            hasError = true;
+            lastException = e;
+        }
 
-            // 2) 이틀 중 한 프레임을 더 확보
-            yield return null;
-
-            try
+        // yield는 try-catch 밖에서 실행
+        yield return new WaitForSeconds(0.2f);
+        
+        if (hasError)
+        {
+            retryCount++;
+            Debug.LogError($"[DeferredDialogue.Runner] 대화 시작 실패 (시도 {retryCount}): {lastException.Message}");
+            
+            if (retryCount >= maxRetries)
             {
-                DialogueHelper.PrepareAndShowDialogue(csvName);
-                Debug.Log($"[DeferredDialogue.Runner] 대화 시작 완료: {csvName}");
-                StartCoroutine(WaitForEndAndReward());
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"[DeferredDialogue.Runner] 대화 시작 실패: {e.Message}");
+                Debug.LogError($"[DeferredDialogue.Runner] 최대 재시도 횟수 초과, 포기: {csvName}");
                 Destroy(gameObject);
+                yield break;
+            }
+            
+            yield return new WaitForSeconds(1f); // 재시도 전 더 긴 대기
+        }
+        else
+        {
+            // 대화가 실제로 시작되었는지 확인
+            var dm = Dialogue_Manage.Instance;
+            if (dm != null && dm.dialoguePanel != null && dm.dialoguePanel.activeInHierarchy)
+            {
+                dialogueStarted = true;
+                Debug.Log($"[DeferredDialogue.Runner] 대화 시작 성공: {csvName} (시도 {retryCount + 1}회)");
+            }
+            else
+            {
+                retryCount++;
+                Debug.LogWarning($"[DeferredDialogue.Runner] 대화 시작 실패, 재시도 {retryCount}/{maxRetries}: {csvName}");
+                
+                if (retryCount < maxRetries)
+                {
+                    yield return new WaitForSeconds(0.5f); // 재시도 전 대기
+                }
             }
         }
+    }
+
+    if (dialogueStarted)
+    {
+        StartCoroutine(WaitForEndAndReward());
+    }
+    else
+    {
+        Debug.LogError($"[DeferredDialogue.Runner] 대화 시작 최종 실패: {csvName}");
+        Destroy(gameObject);
+    }
+}
 
         private IEnumerator WaitForEndAndReward()
         {
