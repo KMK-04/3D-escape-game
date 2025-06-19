@@ -79,6 +79,8 @@ public class EndingDialogueManager : MonoBehaviour
     {
         if (nextButton != null)
             nextButton.onClick.RemoveListener(OnNextButtonClicked);
+        if (Instance == this)
+            Instance = null;
     }
 
     public void StartDialogue(string csvFileName)
@@ -142,6 +144,8 @@ public class EndingDialogueManager : MonoBehaviour
             {
                 // Intro 씬 CSV 초기화
                 DatabaseManager.instance.csv_FileName = initialDialogueCSVName;
+
+                Instance = null;
 
                 Destroy(gameObject);
                 SceneManager.LoadScene(gameOverSceneName);

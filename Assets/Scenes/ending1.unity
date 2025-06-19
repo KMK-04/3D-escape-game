@@ -3153,7 +3153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueCSVName: ending1
-  initialDialogueCSVName: ending1
+  initialDialogueCSVName: Intro
   nameText: {fileID: 932522657}
   dialogueText: {fileID: 932522656}
   nextButton: {fileID: 932522655}
