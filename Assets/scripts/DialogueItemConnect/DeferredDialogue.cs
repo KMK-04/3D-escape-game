@@ -147,7 +147,7 @@ public static class DeferredDialogue
     // 4) 재시도 로직 추가
     bool dialogueStarted = false;
     int retryCount = 0;
-    int maxRetries = 3;
+    int maxRetries = 5;
 
     while (!dialogueStarted && retryCount < maxRetries)
     {
