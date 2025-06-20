@@ -10,8 +10,10 @@ public class ItemController : MonoBehaviour
     public static ItemController Instance { get; private set; }
 
     public Transform inventoryGrid;
+    public Transform inventoryGrid_second;
     public Transform explainGrid;
     public List<ItemSlot> inventorySlots = new List<ItemSlot>();
+    public List<ItemSlot> inventorySlots_second = new List<ItemSlot>();
     public List<ItemSlot> inventoryexplain = new List<ItemSlot>();
 
     private int currentSlotIndex = 0;
@@ -30,6 +32,7 @@ public class ItemController : MonoBehaviour
     void Start()
     {
         inventorySlots.AddRange(inventoryGrid.GetComponentsInChildren<ItemSlot>());
+        inventorySlots_second.AddRange(inventoryGrid_second.GetComponentsInChildren<ItemSlot>());
         inventoryexplain.AddRange(explainGrid.GetComponentsInChildren<ItemSlot>());
     }
 
@@ -42,6 +45,7 @@ public class ItemController : MonoBehaviour
         }
 
         inventorySlots[currentSlotIndex].SetAll(item);
+        inventorySlots_second[currentSlotIndex].SetAll(item);
         inventoryexplain[currentSlotIndex].SetAll(item);
 
         InventorySaveManager.savedItems.Add(new ItemData()
@@ -77,6 +81,7 @@ public class ItemController : MonoBehaviour
         };
 
         inventorySlots[currentSlotIndex].SetAll(data);
+        inventorySlots_second[currentSlotIndex].SetAll(data);
         inventoryexplain[currentSlotIndex].SetAll(data);
 
         InventorySaveManager.savedItems.Add(data);
@@ -98,6 +103,7 @@ public class ItemController : MonoBehaviour
             }
 
             inventorySlots[index].SetAll(savedItem);
+            inventorySlots_second[index].SetAll(savedItem);
             inventoryexplain[index].SetAll(savedItem);
             index++;
         }
@@ -117,12 +123,14 @@ public class ItemController : MonoBehaviour
             {
                 var item = inventorySlots[i + 1].storedItem;
                 inventorySlots[i].SetAll(item);
+                inventorySlots_second[i].SetAll(item);
                 inventoryexplain[i].SetAll(item);
                 InventorySaveManager.savedItems[i] = item;
             }
             else
             {
                 inventorySlots[i].ClearSlot();
+                inventorySlots_second[i].ClearSlot();
                 inventoryexplain[i].ClearSlot();
                 InventorySaveManager.savedItems.RemoveAt(i);
                 currentSlotIndex = i;
@@ -131,6 +139,7 @@ public class ItemController : MonoBehaviour
         }
 
         inventorySlots[maxCount].ClearSlot();
+        inventorySlots_second[maxCount].ClearSlot();
         inventoryexplain[maxCount].ClearSlot();
 
         if (InventorySaveManager.savedItems.Count > maxCount)
