@@ -82743,7 +82743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetText: {fileID: 1070040068}
-  newText: 'Need: Flappy BIrld 10 point'
+  newText: 'Need: Flappy BIrld 5 point'
 --- !u!114 &1273933101
 MonoBehaviour:
   m_ObjectHideFlags: 0
