@@ -147,8 +147,7 @@ public class EndingDialogueManager : MonoBehaviour
 
                 Instance = null;
 
-                //Destroy(gameObject);
-                DestroyAllDontDestroyOnLoadObjects();
+                Destroy(gameObject);
                 SceneManager.LoadScene(gameOverSceneName);
             }
             else
@@ -231,18 +230,5 @@ public class EndingDialogueManager : MonoBehaviour
             yield return new WaitForSeconds(0.04f);
         }
         isTyping = false;
-    }
-    void DestroyAllDontDestroyOnLoadObjects()
-    {
-        GameObject[] allObjects = FindObjectsOfType<GameObject>(true);
-
-        foreach (GameObject obj in allObjects)
-        {
-            // Don'tDestroyOnLoad로 분리된 Scene에 있는 오브젝트는 자신이 속한 Scene이 null 또는 이름이 ""입니다.
-            if (obj.scene.name == null || obj.scene.name == "")
-            {
-                Destroy(obj);
-            }
-        }
     }
 }

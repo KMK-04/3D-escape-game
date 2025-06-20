@@ -264,6 +264,7 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene("gameoverEnding");
                 isTimerOn = true;
                 InGameTime = 0;
+                yield break; // ⭐ 코루틴 즉시 종료
             }
             yield return new WaitForSeconds(10f);
         }
