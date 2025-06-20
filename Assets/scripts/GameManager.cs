@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public PlayerMovement playerMovement;
     public int[] volume;
     public bool[] mute;
-
+    private bool isTimerOn = true;
     void Awake()
     {
         // �̱��� ���� ����: �̹� �ν��Ͻ��� ������ ���� ������Ʈ�� �ı�
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         volume = new int[] { 5, 5, 5 };
         mute = new bool[] { false, false, false };
         // booleanList �ʱ�ȭ
@@ -58,7 +59,15 @@ public class GameManager : MonoBehaviour
                 Debug.LogWarning("MainCamera �±׸� ���� ������Ʈ�� ã�� �� �����ϴ�. playerTransform�� �Ҵ���� ����.");
             }
         }
-        StartCoroutine(TimeCoroutine());
+        Scene scene = SceneManager.GetActiveScene();
+        Debug.Log(scene.name);
+        if (isTimerOn && scene.name.Equals( "Scene_01")) 
+        {
+            Debug.Log("Timer 실행");
+            StartCoroutine(TimeCoroutine());
+            isTimerOn = false;
+        }
+      
         //InGameTime = 119;
     }
     #region setting
@@ -253,6 +262,8 @@ public class GameManager : MonoBehaviour
             if (InGameTime >= 120)
             {
                 SceneManager.LoadScene("gameoverEnding");
+                isTimerOn = true;
+                InGameTime = 0;
             }
             yield return new WaitForSeconds(10f);
         }
