@@ -136531,6 +136531,10 @@ PrefabInstance:
       value: 130.2
       objectReference: {fileID: 0}
     - target: {fileID: 3608908497228955139, guid: 117d9a65d07af40439b2327be9a6bee4, type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608908497228955139, guid: 117d9a65d07af40439b2327be9a6bee4, type: 3}
       propertyPath: m_GlobalFontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 4b336380639020b419a18e8a90e07c7a, type: 2}
