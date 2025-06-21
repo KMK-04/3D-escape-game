@@ -115,4 +115,16 @@ public class DistancePlay : MonoBehaviour
             Debug.Log("5초 대기 후 거리 밖에 있어 재생하지 않음");
         }
     }
+
+    public void SetVolume(float vol)
+    {
+        if (audioSource != null)
+            audioSource.volume = vol;
+    }
+
+    public void SetMute(bool mute)
+    {
+        if (audioSource != null)
+            audioSource.mute = mute;
+    }
 }

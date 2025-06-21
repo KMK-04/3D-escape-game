@@ -74386,6 +74386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasUI: {fileID: 1833716790}
+  phoneUI: {fileID: 881893693}
   canToggleByZ: 0
 --- !u!4 &1132176387 stripped
 Transform:

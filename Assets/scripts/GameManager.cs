@@ -74,9 +74,15 @@ public class GameManager : MonoBehaviour
     //SoundSetting
     public void MainSoundManage(float _v)
     {
-        volume[0] = Mathf.RoundToInt(_v);
-        
-        Debug.Log(_v);
+        int vol = Mathf.RoundToInt(_v);
+        volume[0] = vol;
+
+        // Main 볼륨을 BGM과 Effect에도 반영
+        volume[1] = vol;
+        volume[2] = vol;
+
+        // 반영된 값을 SoundManager에 동기화
+        SoundManager.instance.SyncWithGameManager();
     }
     public void BGMSoundManage(float _v)
     {
@@ -86,11 +92,17 @@ public class GameManager : MonoBehaviour
     public void EffectSoundManage(float _v)
     {
         volume[2] = Mathf.RoundToInt(_v);
+        SoundManager.instance.SyncWithGameManager();
     }
     public void MuteMain(bool _b)
     {
         mute[0] = _b;
-        Debug.Log(_b);
+
+        // Main 뮤트를 BGM과 Effect에도 적용
+        mute[1] = _b;
+        mute[2] = _b;
+
+        SoundManager.instance.SyncWithGameManager();
     }
     public void MuteBGM(bool _b)
     {
@@ -101,6 +113,7 @@ public class GameManager : MonoBehaviour
     public void MuteEffect(bool _b)
     {
         mute[2] = _b;
+        SoundManager.instance.SyncWithGameManager();
     }
     //other setting
     #endregion

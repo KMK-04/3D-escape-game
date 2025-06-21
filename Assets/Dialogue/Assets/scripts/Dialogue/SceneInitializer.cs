@@ -6,6 +6,7 @@ public class CanvasController : MonoBehaviour
 {
     public static CanvasController Instance;
     public GameObject canvasUI;  // Canvas 내부 UI 루트 패널 (예: Panel, 또는 전체 UI 묶음)
+    public GameObject phoneUI;
     public bool canToggleByZ = false;
     private bool isCanvasOn = false;
     private void Awake()
@@ -99,6 +100,7 @@ public class CanvasController : MonoBehaviour
                 }
                 bool currentState = canvasUI.activeSelf;
                 canvasUI.SetActive(!currentState);
+                phoneUI.SetActive(!currentState);
                 MouseLook.instance.ToggleLock();
 
             }

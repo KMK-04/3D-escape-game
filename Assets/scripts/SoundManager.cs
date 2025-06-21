@@ -117,11 +117,26 @@ public class SoundManager : MonoBehaviour
     public void ApplyVolume(int[] volume)
     {
         bgmSource.volume = volume[1]/ 10f;
+
+        float effectVolume = volume[2] / 10f;
+
+        DistancePlay[] allEffects = FindObjectsOfType<DistancePlay>();
+        foreach (var dp in allEffects)
+        {
+            dp.SetVolume(effectVolume);
+        }
     }
 
     public void ApplyMute(bool[] mute)
     {
         bgmSource.mute = mute[1];
+
+        // 효과음 뮤트 설정
+        DistancePlay[] allEffects = FindObjectsOfType<DistancePlay>();
+        foreach (var dp in allEffects)
+        {
+            dp.SetMute(mute[2]);
+        }
     }
 
     public void UpdateGameManagerVolume() //gamemanger의 값 반영
