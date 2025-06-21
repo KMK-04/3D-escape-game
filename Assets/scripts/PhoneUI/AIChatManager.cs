@@ -58,16 +58,23 @@ public class AIChatManager : MonoBehaviour {
     }
 
     // item.txt 파일에서 텍스트 읽기
-    private string ReadItemText() {
+    private string ReadItemText()
+    {
         string path = Path.Combine(Directory.GetCurrentDirectory(), "Assets/item.txt");
-        if (File.Exists(path)) {
-            return File.ReadAllText(path, Encoding.UTF8).Trim();
+        if (File.Exists(path))
+        {
+            string content = File.ReadAllText(path, Encoding.UTF8).Trim();
+            // 파일 내용 읽은 뒤 파일 비우기
+            File.WriteAllText(path, string.Empty, Encoding.UTF8);
+            return content;
         }
-        else {
+        else
+        {
             Debug.LogWarning("item.txt 파일이 존재하지 않습니다.");
             return "";
         }
     }
+
 
     public void SendMessageToGPT(string userInput) {
         ChatLog += "\n너: " + userInput;
