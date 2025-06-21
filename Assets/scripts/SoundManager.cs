@@ -37,25 +37,25 @@ public class SoundManager : MonoBehaviour
 
         // Main 그룹
         sceneGroups[1] = new List<string> {
-    "Scene_01"
+             "Scene_01"
         };
 
                 // Puzzle 그룹
         sceneGroups[2] = new List<string> {
-    "rushhourScene",
-    "light",
-    "성냥개비",
-    "animal lock",
-    "TileScene",
-    "Pong",
-    "scale",
-    "flappy",
-    "floor lock"
+            "rushhourScene",
+            "light",
+            "성냥개비",
+            "animal lock",
+            "TileScene",
+            "Pong",
+            "scale",
+            "flappy",
+            "floor lock"
         };
 
             // Ending 그룹
-            sceneGroups[3] = new List<string> {
-        "ending1", "ending2", "gameoverEnding"
+        sceneGroups[3] = new List<string> {
+         "ending1", "ending2", "gameoverEnding"
         };
 
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -97,7 +97,7 @@ public class SoundManager : MonoBehaviour
         Debug.LogWarning($"BGM 설정 실패: 해당 씬({sceneName})이 어떤 그룹에도 속하지 않음");
     }
 
-    void SyncWithGameManager()
+    public void SyncWithGameManager()
     {
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm != null)
@@ -114,22 +114,22 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    void ApplyVolume(int[] volume)
+    public void ApplyVolume(int[] volume)
     {
-        bgmSource.volume = volume[1] / 10f;
+        bgmSource.volume = volume[1]/ 10f;
     }
 
-    void ApplyMute(bool[] mute)
+    public void ApplyMute(bool[] mute)
     {
         bgmSource.mute = mute[1];
     }
 
-    public void UpdateGameManagerVolume()
+    public void UpdateGameManagerVolume() //gamemanger의 값 반영
     {
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm != null)
         {
-            gm.volume[1] = Mathf.RoundToInt(bgmSource.volume * 10f);
+            gm.volume[1] = Mathf.RoundToInt(bgmSource.volume);
             gm.mute[1] = bgmSource.mute;
             Debug.Log("GameManager에 사운드 설정 저장");
         }

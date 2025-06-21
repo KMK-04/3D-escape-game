@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SettingSlider : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
@@ -66,7 +67,8 @@ public class SettingSlider : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerUp(PointerEventData eventData)
     {
         targetHeight = hoverHeight;
-        slider.value = Mathf.RoundToInt(slider.value);
+        float slider_value = Mathf.RoundToInt(slider.value);
+        slider.value = slider_value;
         valueText.SetActive(false);
     }
     public void SetInteractable(bool _b)

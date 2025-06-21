@@ -42,7 +42,9 @@ public class SettingToggle : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (interactable) { SetIsOn(!isOn); }  // 여기서 SetIsOn 사용
+        if (interactable) {
+            SetIsOn(!isOn);
+        }  // 여기서 SetIsOn 사용
     }
 
     // 외부에서 값 설정할 수 있게 public 메서드 제공

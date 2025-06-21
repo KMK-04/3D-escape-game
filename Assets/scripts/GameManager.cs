@@ -75,11 +75,13 @@ public class GameManager : MonoBehaviour
     public void MainSoundManage(float _v)
     {
         volume[0] = Mathf.RoundToInt(_v);
+        
         Debug.Log(_v);
     }
     public void BGMSoundManage(float _v)
     {
         volume[1] = Mathf.RoundToInt(_v);
+        SoundManager.instance.SyncWithGameManager();
     }
     public void EffectSoundManage(float _v)
     {
@@ -93,6 +95,7 @@ public class GameManager : MonoBehaviour
     public void MuteBGM(bool _b)
     {
         mute[1] = _b;
+        SoundManager.instance.SyncWithGameManager();
     }
 
     public void MuteEffect(bool _b)
