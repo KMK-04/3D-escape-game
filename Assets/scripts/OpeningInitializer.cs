@@ -17,7 +17,10 @@ public class OpeningInitializer : MonoBehaviour
             Debug.Log(obj.scene.name);
             if (obj.scene.name == "DontDestroyOnLoad")
             {
-                Destroy(obj);
+                if (obj.GetComponent<SoundManager>() == null) // SoundManager 없으면 제거
+                {
+                    Destroy(obj);
+                }
             }
         }
     }
