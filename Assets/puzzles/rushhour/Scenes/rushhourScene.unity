@@ -1378,6 +1378,7 @@ GameObject:
   - component: {fileID: 846417001}
   - component: {fileID: 846417002}
   - component: {fileID: 846417004}
+  - component: {fileID: 846417005}
   m_Layer: 0
   m_Name: RushHourCamera
   m_TagString: Untagged
@@ -1511,6 +1512,14 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!81 &846417005
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846417000}
+  m_Enabled: 1
 --- !u!1 &910717950 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 136754, guid: f3911b212dad12d46922b084e8b82af0, type: 3}
