@@ -470,6 +470,7 @@ MonoBehaviour:
   label: {fileID: 1658871589}
   outline: {fileID: 0}
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  viewCamera: {fileID: 0}
 --- !u!114 &173889315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,6 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cc326abda60d347a5396486f1f1f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewCam: {fileID: 0}
 --- !u!114 &268374814 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6728262204885801235, guid: 7cec5803f83ae9d47ab455651e5b9ba7, type: 3}
@@ -504,6 +506,7 @@ GameObject:
   - component: {fileID: 308927580}
   - component: {fileID: 308927581}
   - component: {fileID: 308927582}
+  - component: {fileID: 308927583}
   m_Layer: 0
   m_Name: ScalePuzzleCamera
   m_TagString: Untagged
@@ -621,6 +624,14 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!81 &308927583
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308927579}
+  m_Enabled: 1
 --- !u!1 &369108954
 GameObject:
   m_ObjectHideFlags: 0
@@ -5874,6 +5885,7 @@ MonoBehaviour:
   label: {fileID: 685641832}
   outline: {fileID: 0}
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  viewCamera: {fileID: 0}
 --- !u!114 &445898052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5886,6 +5898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cc326abda60d347a5396486f1f1f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewCam: {fileID: 0}
 --- !u!1 &533171402
 GameObject:
   m_ObjectHideFlags: 0
@@ -6182,6 +6195,7 @@ MonoBehaviour:
   label: {fileID: 1892819113}
   outline: {fileID: 0}
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  viewCamera: {fileID: 0}
 --- !u!114 &546611465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6194,6 +6208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cc326abda60d347a5396486f1f1f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewCam: {fileID: 0}
 --- !u!1 &675542915
 GameObject:
   m_ObjectHideFlags: 0
@@ -11576,6 +11591,7 @@ MonoBehaviour:
   label: {fileID: 1585512546}
   outline: {fileID: 0}
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  viewCamera: {fileID: 0}
 --- !u!114 &824313087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11588,6 +11604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cc326abda60d347a5396486f1f1f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewCam: {fileID: 0}
 --- !u!1001 &880806151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11779,6 +11796,7 @@ MonoBehaviour:
   label: {fileID: 268374814}
   outline: {fileID: 0}
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  viewCamera: {fileID: 0}
 --- !u!114 &880806162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11791,6 +11809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cc326abda60d347a5396486f1f1f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewCam: {fileID: 0}
 --- !u!1 &887835260
 GameObject:
   m_ObjectHideFlags: 0
@@ -17117,6 +17136,7 @@ MonoBehaviour:
   label: {fileID: 1239992038}
   outline: {fileID: 0}
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  viewCamera: {fileID: 0}
 --- !u!114 &1001876266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17129,6 +17149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cc326abda60d347a5396486f1f1f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewCam: {fileID: 0}
 --- !u!1 &1009945956
 GameObject:
   m_ObjectHideFlags: 0
@@ -22211,6 +22232,7 @@ MonoBehaviour:
   label: {fileID: 1056458198}
   outline: {fileID: 0}
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  viewCamera: {fileID: 0}
 --- !u!114 &1050783600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22223,6 +22245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cc326abda60d347a5396486f1f1f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewCam: {fileID: 0}
 --- !u!114 &1056458198 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6728262204885801235, guid: 7cec5803f83ae9d47ab455651e5b9ba7, type: 3}
@@ -32526,6 +32549,7 @@ MonoBehaviour:
   label: {fileID: 35699711}
   outline: {fileID: 0}
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  viewCamera: {fileID: 0}
 --- !u!114 &1233120863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32538,6 +32562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cc326abda60d347a5396486f1f1f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewCam: {fileID: 0}
 --- !u!1 &1234213879
 GameObject:
   m_ObjectHideFlags: 0
@@ -42800,10 +42825,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1837816283}
-  serializedVersion: 5
+  serializedVersion: 4
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -48049,6 +48074,7 @@ MonoBehaviour:
   label: {fileID: 2123011871}
   outline: {fileID: 0}
   selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  viewCamera: {fileID: 0}
 --- !u!114 &2056699119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48061,6 +48087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cc326abda60d347a5396486f1f1f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewCam: {fileID: 0}
 --- !u!114 &2123011871 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6728262204885801235, guid: 7cec5803f83ae9d47ab455651e5b9ba7, type: 3}
