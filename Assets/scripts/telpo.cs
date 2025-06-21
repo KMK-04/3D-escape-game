@@ -59,12 +59,24 @@ public class telpo : MonoBehaviour
             {
                 player.transform.position = firstPos;
             }
-            hint.SetActive(true);
+            if (hint != null)
+                hint.SetActive(true);
         }
         // 두 번째 이동 후 오브젝트 비활성화
         if (targetObject != null)
             targetObject.SetActive(false);
 
         moveRoutine = null;
+    }
+    public void StopMoveSequence()
+    {
+        if (moveRoutine != null)
+        {
+            targetObject.SetActive(false);
+            StopCoroutine(moveRoutine);
+            moveRoutine = null;
+
+            Debug.Log("이동 코루틴 중지됨");
+        }
     }
 }

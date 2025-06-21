@@ -95,4 +95,13 @@ public class EnhancedObjectActivator : MonoBehaviour
             countdownText.text = ""; // 카운트다운 끝나면 텍스트 제거
         }
     }
+
+    public void StopAllSequences()
+    {
+        Debug.Log("모든 코루틴 종료");
+        StopAllCoroutines();  // 모든 코루틴 중지
+        ResetAllObjects();    // 상태 초기화
+        if (countdownText != null)
+            countdownText.text = "";
+    }
 }

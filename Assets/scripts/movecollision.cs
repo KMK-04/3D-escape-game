@@ -8,7 +8,8 @@ public class PlayerTeleportOnCollision : MonoBehaviour
     public GameObject callt;    // 텔레포트 목적지
     public float teleportThreshold = 0.1f;
     public TextMeshProUGUI countdownText; // TextMeshPro 3D 텍스트 사용
-
+    public EnhancedObjectActivator activator;
+    public minigamehard minigame;
     void OnTriggerEnter(Collider other)
     {
         // 부딪친 오브젝트가 타겟 오브젝트인지 확인
@@ -42,7 +43,18 @@ public class PlayerTeleportOnCollision : MonoBehaviour
         if (telpoScript != null)
         {
             telpoScript.moveState = 0;
+            telpoScript.StopMoveSequence();
             Debug.Log("moveState를 0으로 변경");
+            if(activator != null)
+            {
+                activator.StopAllSequences();
+            }
+
+            if(minigame != null)
+            {
+                minigame.StopAllSequences();
+            }
+
         }
       
     }
