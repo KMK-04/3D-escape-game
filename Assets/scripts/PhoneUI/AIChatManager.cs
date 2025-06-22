@@ -60,7 +60,7 @@ public class AIChatManager : MonoBehaviour {
     // item.txt 파일에서 텍스트 읽기
     private string ReadItemText()
     {
-        string path = Path.Combine(Directory.GetCurrentDirectory(), "Assets/item.txt");
+        string path = Path.Combine(Application.streamingAssetsPath, "item.txt");
         if (File.Exists(path))
         {
             string content = File.ReadAllText(path, Encoding.UTF8).Trim();

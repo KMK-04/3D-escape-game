@@ -19,7 +19,7 @@ public class SaveTextureNameOnToggle : MonoBehaviour
         {
             string textureName = targetRawImage.texture.name;
             // 프로젝트 폴더 기준 경로 지정
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "Assets/item.txt");
+            string path = Path.Combine(Application.streamingAssetsPath, "item.txt");
             File.WriteAllText(path, textureName, Encoding.UTF8);
             Debug.Log("Texture 이름이 저장되었습니다: " + textureName);
             Debug.Log("저장 경로: " + path);
