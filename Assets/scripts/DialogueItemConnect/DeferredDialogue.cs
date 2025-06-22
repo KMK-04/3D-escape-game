@@ -109,6 +109,8 @@ public static class DeferredDialogue
             // 이미 보상된 이벤트이면 대화 스킵
             var rewarder = Object.FindObjectOfType<FlagItemRewarder>(true);
             var entryChk = rewarder?.GetReward(flagName, csvName);
+           
+
             if (entryChk != null && entryChk.rewarded)
             {
                 Debug.Log($"[DeferredDialogue.Runner] 이미 보상된 이벤트 - 대화 스킵: {csvName}");
@@ -142,6 +144,7 @@ public static class DeferredDialogue
             );
 
             // 2) UI 관련 컴포넌트들이 준비될 때까지 대기
+            /*
             yield return new WaitUntil(() =>
             {
                 var iconManager = Object.FindFirstObjectByType<Icon_Active_Manager>(FindObjectsInactive.Include);
@@ -162,20 +165,20 @@ public static class DeferredDialogue
                         dialogueManager.dialoguePanel.SetActive(true);
                         foreach (Transform child in dialogueManager.dialoguePanel.transform)
 {
-    string childName = child.name.ToLower();
+                            string childName = child.name.ToLower();
     
-    // 대화 관련 UI만 선택적으로 활성화 (log, history, inventory 등은 제외)
-    if (childName.Contains("dialogue") || 
-        childName.Contains("text") || 
-        childName.Contains("name") || 
-        childName.Contains("next") ||
-        child == iconManager.transform)
-    {
-        child.gameObject.SetActive(true);
-        Debug.Log($"[DeferredDialogue.Runner] 대화 관련 패널 활성화: {child.name}");
+                            // 대화 관련 UI만 선택적으로 활성화 (log, history, inventory 등은 제외)
+                            if (childName.Contains("dialogue") || 
+                                childName.Contains("text") || 
+                                childName.Contains("name") || 
+                                childName.Contains("next") ||
+                                child == iconManager.transform)
+                            {
+                                child.gameObject.SetActive(true);
+                                Debug.Log($"[DeferredDialogue.Runner] 대화 관련 패널 활성화: {child.name}");
 
-    }
-}
+                            }
+                        }
                     }
 
                     return true;
@@ -183,6 +186,7 @@ public static class DeferredDialogue
                 Debug.LogWarning("[DeferredDialogue.Runner] Icon_Active_Manager not found");
                 return false;
             });
+           */
 
             // 3) 추가 프레임 대기 (UI 초기화 완료 보장)
             yield return new WaitForEndOfFrame();
@@ -208,6 +212,8 @@ public static class DeferredDialogue
                         for (var t = iconManager.transform; t != null; t = t.parent)
                         {
                             t.gameObject.SetActive(true);
+
+                            Debug.Log($"[DeferredDialogue.Runner] UI 활성화: {t.name}");
                         }
                         iconManager.On_Panel();
 
@@ -231,6 +237,9 @@ public static class DeferredDialogue
                     hasError = true;
                     lastException = e;
                 }
+
+                CanvasController.Instance.LogUI.SetActive(false);
+                CanvasController.Instance.InvenUI.SetActive(false);
 
                 yield return new WaitForSeconds(0.3f);
 
@@ -281,6 +290,7 @@ public static class DeferredDialogue
                         {
                             Debug.Log($"[DeferredDialogue.Runner] 대화 시작 후 MouseLook 상태 - isLockOn: {MouseLook.instance.isLockOn()}");
                         }
+                        
                     }
                     else
                     {

@@ -115,6 +115,9 @@ public class ItemDialogueTrigger : MonoBehaviour
         iconManager.On_Panel();
         Dialogue_Manage.Instance.dialoguePanel?.SetActive(true);
 
+        CanvasController.Instance.LogUI.SetActive(false);
+        CanvasController.Instance.InvenUI.SetActive(false);
+
         if (MouseLook.instance.isLockOn())
         {
             MouseLook.instance.ToggleLock();
