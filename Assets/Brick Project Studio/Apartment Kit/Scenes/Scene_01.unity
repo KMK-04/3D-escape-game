@@ -136571,7 +136571,7 @@ PrefabInstance:
     - target: {fileID: 3608908497228955139, guid: 117d9a65d07af40439b2327be9a6bee4, type: 3}
       propertyPath: m_GlobalFontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 4b336380639020b419a18e8a90e07c7a, type: 2}
+      objectReference: {fileID: 11400000, guid: 514e272fe4bb0024b881afa735b7ddae, type: 2}
     - target: {fileID: 3717100589462286053, guid: 117d9a65d07af40439b2327be9a6bee4, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 127.9
@@ -139999,6 +139999,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 3608908497228955139, guid: 117d9a65d07af40439b2327be9a6bee4, type: 3}
+      propertyPath: m_GlobalFontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 514e272fe4bb0024b881afa735b7ddae, type: 2}
     - target: {fileID: 3768981025977290401, guid: 117d9a65d07af40439b2327be9a6bee4, type: 3}
       propertyPath: icon
       value: 
