@@ -305,6 +305,12 @@ public static class DeferredDialogue
 
             if (dialogueStarted)
             {
+                //  보상중에는 Z 안되게 설정
+                if (CanvasController.Instance != null)
+                {
+                    CanvasController.Instance.canToggleByZ = false;
+                    CanvasController.Instance.isCanvasOn = false;
+                }
                 StartCoroutine(WaitForEndAndReward());
             }
             else
@@ -339,7 +345,7 @@ public static class DeferredDialogue
             if (MouseLook.instance != null)
             {
                 // 대화 종료 시에는 플레이어 이동 모드로 강제 설정
-                if (MouseLook.instance.isLockOn())
+                if (!MouseLook.instance.isLockOn())
                 {
                     MouseLook.instance.ToggleLock();
                 }
@@ -355,6 +361,14 @@ public static class DeferredDialogue
 
             Debug.Log("[DeferredDialogue.Runner] 대화 종료 감지, 보상 처리 시작");
             yield return StartCoroutine(ProcessReward());
+
+            //  보상후에는 Z 되게 설정
+            if (CanvasController.Instance != null)
+            {
+                CanvasController.Instance.canToggleByZ = true;
+           
+            }
+           
             Debug.Log("[DeferredDialogue.Runner] 처리 완료, Runner 제거");
             Destroy(gameObject);
         }

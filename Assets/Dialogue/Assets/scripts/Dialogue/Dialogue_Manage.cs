@@ -10,8 +10,9 @@ public class Dialogue_Manage : MonoBehaviour {
     public Button nextButton;
     public LogManager logManager;
     public GameObject dialoguePanel;
+    public GameObject CanvasSet;
     public Phone phone;
-    public bool canNext;    //현재 대화를 넘길 수 있는 상태인지
+    public bool canNext=true;    //현재 대화를 넘길 수 있는 상태인지
 
     private Dialgoue[] currentDialogue;
     private int dialogueIndex = 0;
@@ -71,6 +72,7 @@ public class Dialogue_Manage : MonoBehaviour {
 
     public void OnNextButtonClicked() {
         if (canNext) {
+            //dialoguePanel.SetActive(true);
             if (isTyping) {
                 StopCoroutine(typingCoroutine);
                 dialogueText.text = fullText;
@@ -112,6 +114,7 @@ public class Dialogue_Manage : MonoBehaviour {
                 CanvasController.Instance.canToggleByZ = true;
             }
             dialoguePanel.SetActive(false);
+            CanvasSet.SetActive(false);
 
             return;
         }
@@ -169,7 +172,7 @@ public class Dialogue_Manage : MonoBehaviour {
 
     }
     public bool CheckNext() {
-        canNext = (!phone.isOpen);
+        //canNext = (!phone.isOpen);
         return canNext;
     }
 

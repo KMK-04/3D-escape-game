@@ -7,8 +7,14 @@ public class CanvasController : MonoBehaviour
     public static CanvasController Instance;
     public GameObject canvasUI;  // Canvas 내부 UI 루트 패널 (예: Panel, 또는 전체 UI 묶음)
     public GameObject phoneUI;
+    public GameObject DialogueUI;
+    public GameObject InvenUI;
+    public GameObject LogUI;
+
+    public Icon_Active_Manager iconActiveManager;
+
     public bool canToggleByZ = false;
-    private bool isCanvasOn = false;
+    public bool isCanvasOn = false;
     private void Awake()
     {
         if (Instance == null)
@@ -65,7 +71,10 @@ public class CanvasController : MonoBehaviour
         }
         else
         {
-            canvasUI.SetActive(false); // UI 숨기기
+            LogUI.SetActive(false);
+            InvenUI.SetActive(false);
+            canvasUI.SetActive(false); // UI 숨기기    
+            phoneUI.SetActive(false);
         }
     }
 
@@ -82,26 +91,36 @@ public class CanvasController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Dialogue_Manage.Instance.OnNextButtonClicked();
+                if(phoneUI.activeSelf== false && LogUI.activeSelf== false && InvenUI.activeSelf== false) //모두 active가 해제되어있어야 사용가능
+                {
+                    Dialogue_Manage.Instance.OnNextButtonClicked();
+                }
+               
             }
         }
-        else //대화가아닌상태
+        else //대화가아닌상태 
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
+              
                 isCanvasOn = !isCanvasOn;
-                if (!isCanvasOn)
+
+                bool currentState = canvasUI.activeSelf;
+                canvasUI.SetActive(!currentState);
+
+                iconActiveManager.On_Panel();
+                iconActiveManager.Off_Panel();
+
+                MouseLook.instance.ToggleLock();
+
+                if (!isCanvasOn) // 끌때
                 {
-                    GameManager.Instance.playerMovement.SetMovement(true);
+                    GameManager.Instance.playerMovement.SetMovement(true);                  
                 }
-                else
+                else //킬때
                 {
                     GameManager.Instance.playerMovement.SetMovement(false);
                 }
-                bool currentState = canvasUI.activeSelf;
-                canvasUI.SetActive(!currentState);
-                phoneUI.SetActive(!currentState);
-                MouseLook.instance.ToggleLock();
 
             }
         }
